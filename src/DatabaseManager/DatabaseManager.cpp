@@ -15,9 +15,10 @@ void DatabaseManager::init() {
 	if (!db.open()) {
 		qDebug() << db.lastError();
 	}
+	QSqlQuery query;
+	query.exec("PRAGMA foreign_keys = ON;");
 
 	//Works table.
-	QSqlQuery query;
 	query.prepare(QStringLiteral("CREATE TABLE IF NOT EXISTS works ("
 								 "    name			TEXT PRIMARY KEY NOT NULL,"
 								 "    status		TEXT CHECK (status IN ('Reading', 'Completed')) NOT NULL,"
@@ -25,7 +26,7 @@ void DatabaseManager::init() {
 								 "    grouping		TEXT,"
 								 "    chapter		TEXT,"
 								 "    updated		TEXT"
-								 ");"));
+								 ")"));
 	if (!query.exec()) {
 		qDebug() << query.lastError();
 	}
@@ -34,8 +35,11 @@ void DatabaseManager::init() {
 	query.prepare(QStringLiteral("CREATE TABLE IF NOT EXISTS creators ("
 								 "    name	TEXT NOT NULL,"
 								 "    work	TEXT NOT NULL,"
-								 "    FOREIGN KEY (work) REFERENCES works (name)"
-								 ");"));
+								 "    CONSTRAINT fk_works"
+								 "        FOREIGN KEY (work)"
+								 "        REFERENCES works (name)"
+								 "        ON DELETE CASCADE"
+								 ")"));
 	if (!query.exec()) {
 		qDebug() << query.lastError();
 	}
@@ -53,7 +57,7 @@ void DatabaseManager::deinit() {
 void DatabaseManager::add_work(const QString name, const QString status, const QString type, const QString grouping, const QString chapter, const QString updated) {
 	QSqlQuery query;
 	query.prepare(QStringLiteral("INSERT INTO works (name, status, type, grouping, chapter, updated)"
-								 "VALUES (:name, :status, :type, :grouping, :chapter, :updated);"));
+								 "VALUES (:name, :status, :type, :grouping, :chapter, :updated)"));
 	query.bindValue(":name", name);
 	query.bindValue(":status", status);
 	query.bindValue(":type", type);
@@ -71,9 +75,21 @@ void DatabaseManager::add_work(const QString name, const QString status, const Q
 void DatabaseManager::add_creator(const QString name, const QString work) {
 	QSqlQuery query;
 	query.prepare(QStringLiteral("INSERT INTO creators (name, work)"
-								 "VALUES (:name, :work);"));
+								 "VALUES (:name, :work)"));
 	query.bindValue(":name", name);
 	query.bindValue(":work", work);
+
+	if (!query.exec()) {
+		qDebug() << query.lastError();
+	}
+}
+
+//==================================================================================================================================
+
+void DatabaseManager::remove_work(const QString name) {
+	QSqlQuery query;
+	query.prepare(QStringLiteral("DELETE FROM works WHERE name = (:name)"));
+	query.bindValue(":name", name);
 
 	if (!query.exec()) {
 		qDebug() << query.lastError();

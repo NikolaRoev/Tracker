@@ -12,6 +12,8 @@ public:
 						 const QString grouping, const QString chapter, const QString updated);
 
 	static void add_creator(const QString name, const QString work);
+
+	static void remove_work(const QString name);
 };
 
 //==================================================================================================================================
