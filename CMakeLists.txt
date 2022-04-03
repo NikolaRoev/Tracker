@@ -30,3 +30,8 @@ target_link_libraries(Tracker
 	Qt6::Widgets
 	Qt6::Sql
 )
+
+target_include_directories(Tracker
+	PRIVATE
+	"${CMAKE_SOURCE_DIR}/src/"
+)
