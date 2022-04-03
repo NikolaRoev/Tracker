@@ -10,6 +10,10 @@ int main(int argc, char *argv[]) {
 
 
 	DatabaseManager::init();
+
+	//DatabaseManager::add_reading("Test1");
+	//DatabaseManager::add_reading("Test2");
+
 	DatabaseManager::deinit();
 
 	return a.exec();
