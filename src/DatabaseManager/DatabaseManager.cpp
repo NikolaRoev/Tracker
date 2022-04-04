@@ -54,16 +54,15 @@ void DatabaseManager::deinit() {
 //==================================================================================================================================
 //==================================================================================================================================
 
-void DatabaseManager::add_work(const QString name, const QString status, const QString type, const QString grouping, const QString chapter, const QString updated) {
+void DatabaseManager::add_work(const QString name, const QString status, const QString type, const QString grouping, const QString chapter) {
 	QSqlQuery query;
 	query.prepare(QStringLiteral("INSERT INTO works (name, status, type, grouping, chapter, updated)"
-								 "VALUES (:name, :status, :type, :grouping, :chapter, :updated)"));
+								 "VALUES (:name, :status, :type, :grouping, :chapter, date('now'))"));
 	query.bindValue(":name", name);
 	query.bindValue(":status", status);
 	query.bindValue(":type", type);
 	query.bindValue(":grouping", grouping);
 	query.bindValue(":chapter", chapter);
-	query.bindValue(":updated", updated);
 
 	if (!query.exec()) {
 		qDebug() << query.lastError();

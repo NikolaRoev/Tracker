@@ -19,8 +19,8 @@ int main(int argc, char *argv[]) {
 
 	DatabaseManager::init();
 
-	DatabaseManager::add_work("work0", "Reading", "Series", NULL, NULL, NULL);
-	DatabaseManager::add_work("work1", "Reading", "Series", NULL, NULL, NULL);
+	DatabaseManager::add_work("work0", "Reading", "Series", NULL, NULL);
+	DatabaseManager::add_work("work1", "Reading", "Series", NULL, NULL);
 	DatabaseManager::add_creator("author0", "work0");
 	DatabaseManager::add_creator("author1", "work0");
 	DatabaseManager::add_creator("author0", "work1");
