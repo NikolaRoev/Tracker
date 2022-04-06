@@ -1,5 +1,8 @@
 #pragma once
+#include "Work.h"
+
 #include <QString>
+#include <QVector>
 
 //==================================================================================================================================
 
@@ -14,6 +17,9 @@ public:
 	static void add_creator(const QString name, const QString work);
 
 	static void remove_work(const QString name);
+
+	static QVector<Work> get_works(const QString name);
+	static QVector<QString> get_creators(const QString work);
 };
 
 //==================================================================================================================================

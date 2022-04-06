@@ -23,6 +23,7 @@ qt_add_executable(Tracker
 
 	"src/DatabaseManager/DatabaseManager.h"
 	"src/DatabaseManager/DatabaseManager.cpp"
+	"src/DatabaseManager/Work.h"
 )
 
 target_link_libraries(Tracker

@@ -35,6 +35,7 @@ void DatabaseManager::init() {
 	query.prepare(QStringLiteral("CREATE TABLE IF NOT EXISTS creators ("
 								 "    name	TEXT NOT NULL,"
 								 "    work	TEXT NOT NULL,"
+								 "    PRIMARY KEY (name, work)"
 								 "    CONSTRAINT fk_works"
 								 "        FOREIGN KEY (work)"
 								 "        REFERENCES works (name)"
@@ -93,6 +94,52 @@ void DatabaseManager::remove_work(const QString name) {
 	if (!query.exec()) {
 		qDebug() << query.lastError();
 	}
+}
+
+//==================================================================================================================================
+
+QVector<Work> DatabaseManager::get_works(const QString name) {
+	QSqlQuery query;
+	query.prepare(QStringLiteral("SELECT * FROM works WHERE name LIKE (:name)"));
+	query.bindValue(":name", '%' + name + '%');
+
+	if (!query.exec()) {
+		qDebug() << query.lastError();
+	}
+
+	//Get works.
+	QVector<Work> out;
+	while (query.next()) {
+		auto& temp = out.emplace_back(query.value(0).toString(),
+									  query.value(1).toString(),
+									  query.value(2).toString(),
+									  query.value(3).toString(),
+									  query.value(4).toString(),
+									  query.value(5).toString());
+
+		temp.creators = DatabaseManager::get_creators(temp.name);
+	}
+
+	return out;
+}
+
+//==================================================================================================================================
+
+QVector<QString> DatabaseManager::get_creators(const QString work) {
+	QSqlQuery query;
+	query.prepare(QStringLiteral("SELECT name FROM creators WHERE work = (:work)"));
+	query.bindValue(":work", work);
+
+	if (!query.exec()) {
+		qDebug() << query.lastError();
+	}
+
+	QVector<QString> out;
+	while (query.next()) {
+		out.emplace_back(query.value(0).toString());
+	}
+
+	return out;
 }
 
 //==================================================================================================================================

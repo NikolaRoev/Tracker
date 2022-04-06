@@ -26,6 +26,12 @@ int main(int argc, char *argv[]) {
 	DatabaseManager::add_creator("author0", "work1");
 	DatabaseManager::add_creator("author1", "work1");
 
+	auto temp = DatabaseManager::get_works("work");
+
+	for (auto& each : temp) {
+		qDebug() << each.name << each.creators.size();
+	}
+
 	DatabaseManager::remove_work("work0");
 
 	DatabaseManager::deinit();
