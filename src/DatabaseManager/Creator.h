@@ -1,19 +1,11 @@
 #pragma once
-#include "Creator.h"
-
 #include <QString>
-#include <QVector>
 
 //==================================================================================================================================
 
-struct Work {
+struct Creator {
 	QString name;
-	QString status;
 	QString type;
-	QString grouping;
-	QString chapter;
-	QString updated;
-	QVector<Creator> creators;
 };
 
 //==================================================================================================================================
