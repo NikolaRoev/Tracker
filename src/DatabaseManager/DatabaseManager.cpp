@@ -64,6 +64,13 @@ void DatabaseManager::open(const QString& name) {
 }
 
 //==================================================================================================================================
+
+void DatabaseManager::close() {
+	QSqlDatabase db = QSqlDatabase::database();
+	db.close();
+}
+
+//==================================================================================================================================
 //==================================================================================================================================
 
 void DatabaseManager::add_work(const QString& name, const QString& status, const QString& type, const QString& grouping, const QString& chapter, const QVector<Creator>& creators) {

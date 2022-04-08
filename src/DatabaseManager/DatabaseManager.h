@@ -7,11 +7,12 @@
 
 //==================================================================================================================================
 
-class DatabaseManager{
+class DatabaseManager {
 public:
 	static void init();
 	static void deinit();
 	static void open(const QString& name);
+	static void close();
 
 	static void add_work(const QString& name, const QString& status, const QString& type, const QString& grouping, const QString& chapter, const QVector<Creator>& creators);
 	static void remove_work(const QString& name);

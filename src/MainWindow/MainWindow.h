@@ -22,6 +22,11 @@ public:
 
 private slots:
 	void on_searchLineEdit_textChanged(const QString& text);
+
+	void on_actionNew_triggered();
+	void on_actionOpen_triggered();
+	void on_actionClose_triggered();
+	void on_actionExit_triggered();
 };
 
 //==================================================================================================================================
