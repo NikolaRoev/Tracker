@@ -1,32 +1,24 @@
 #pragma once
-#include <QMainWindow>
+#include <QFrame>
 
 //==================================================================================================================================
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
-	class MainWindow;
+	class UpdateEntry;
 }
 QT_END_NAMESPACE
 
 //==================================================================================================================================
 
-class MainWindow : public QMainWindow {
+class UpdateEntry : public QFrame {
 	Q_OBJECT
 private:
-	Ui::MainWindow *ui{ nullptr };
+	Ui::UpdateEntry *ui{ nullptr };
 
 public:
-	MainWindow(QWidget* parent = nullptr);
-	~MainWindow();
-
-private slots:
-	void on_searchLineEdit_textChanged(const QString& text);
-
-	void on_actionNew_triggered();
-	void on_actionOpen_triggered();
-	void on_actionClose_triggered();
-	void on_actionExit_triggered();
+	UpdateEntry(QWidget *parent = nullptr);
+	~UpdateEntry();
 };
 
 //==================================================================================================================================

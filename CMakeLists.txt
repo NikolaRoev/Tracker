@@ -25,12 +25,17 @@ qt_add_executable(Tracker
 	"src/DatabaseManager/DatabaseManager.cpp"
 	"src/DatabaseManager/Work.h"
 	"src/DatabaseManager/Creator.h"
+
+	"src/UpdateEntry/UpdateEntry.h"
+	"src/UpdateEntry/UpdateEntry.cpp"
+	"src/UpdateEntry/UpdateEntry.ui"
 )
 
 target_link_libraries(Tracker
 	PRIVATE
 	Qt6::Widgets
 	Qt6::Sql
+	Qt6::Gui
 )
 
 target_include_directories(Tracker

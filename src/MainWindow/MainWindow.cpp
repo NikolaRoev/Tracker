@@ -1,17 +1,25 @@
 #include "MainWindow.h"
 #include "./ui_MainWindow.h"
 #include "DatabaseManager/DatabaseManager.h"
+#include "UpdateEntry/UpdateEntry.h"
 
 #include <QMainWindow>
 #include <QSettings>
+#include <QShortcut>
 
 //==================================================================================================================================
 //==================================================================================================================================
 //==================================================================================================================================
 
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
+MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
 	ui->setupUi(this);
+
+	//Set default focus to the search bar.
 	ui->tabWidget->setFocusProxy(ui->searchLineEdit);
+	//Add a shortcut that selects and focuses the search bar.
+	QShortcut* shortcut = new QShortcut(QKeySequence(Qt::CTRL | Qt::Key_F), this);
+	connect(shortcut, &QShortcut::activated, ui->searchLineEdit, [&](){ ui->searchLineEdit->selectAll(); ui->searchLineEdit->setFocus(); });
+
 
 	QSettings settings("settings.ini", QSettings::IniFormat, this);
 	settings.beginGroup("window");
@@ -20,6 +28,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 	settings.endGroup();
 
 	DatabaseManager::init();
+
+
+
+	for (int i = 0; i < 100; i++) {
+		ui->updateVBoxLayout->addWidget(new UpdateEntry(this));
+	}
 }
 
 //==================================================================================================================================
