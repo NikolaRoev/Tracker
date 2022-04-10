@@ -17,6 +17,9 @@ public:
 	static void add_work(const QString& name, const QString& status, const QString& type, const QString& grouping, const QString& chapter, const QVector<Creator>& creators);
 	static void remove_work(const QString& name);
 
+	static void update_work_name(const QString& name, const QString& new_name);
+	static void update_work_chapter(const QString& name, const QString& new_chapter);
+
 	static QVector<Work> search_works(const QString& maybe_partial_name);
 	static QVector<QString> search_authors(const QString& maybe_partial_name);
 };

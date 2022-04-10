@@ -14,9 +14,21 @@
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
 	ui->setupUi(this);
 
+	DatabaseManager::init();
+	DatabaseManager::open("tracker");
+
+
+	//Align the update layout to top so the populated entries look nice.
+	ui->updateVBoxLayout->setAlignment(Qt::AlignTop);
+
 	//Set default focus to the search bar.
+	//As 'tabWidget' is first in the tab order it gets focused when the application starts..
 	ui->tabWidget->setFocusProxy(ui->searchLineEdit);
-	//Add a shortcut that selects and focuses the search bar.
+
+	//Populate the update layout with all entries.
+	emit ui->searchLineEdit->textChanged("");
+
+	//Add a shortcut that selects all text in the search bar and focuses it.
 	QShortcut* shortcut = new QShortcut(QKeySequence(Qt::CTRL | Qt::Key_F), this);
 	connect(shortcut, &QShortcut::activated, ui->searchLineEdit, [&](){ ui->searchLineEdit->selectAll(); ui->searchLineEdit->setFocus(); });
 
@@ -27,13 +39,17 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
 	restoreState(settings.value("state").toByteArray());
 	settings.endGroup();
 
-	DatabaseManager::init();
 
 
-
-	for (int i = 0; i < 100; i++) {
-		ui->updateVBoxLayout->addWidget(new UpdateEntry(this));
-	}
+	//Creator creator;
+	//creator.name = "C";
+	//creator.type = "Author";
+	//DatabaseManager::add_work("work1", "Reading", "Series", NULL, "10", { creator });
+	//DatabaseManager::add_work("work2", "Reading", "Series", NULL, "10", { creator });
+	//DatabaseManager::add_work("work3", "Reading", "Series", NULL, "10", { creator });
+	//DatabaseManager::add_work("work4", "Reading", "Series", NULL, "10", { creator });
+	//DatabaseManager::add_work("work5", "Reading", "Series", NULL, "10", { creator });
+	//DatabaseManager::add_work("One Piece", "Reading", "Series", NULL, "10", { creator });
 }
 
 //==================================================================================================================================
@@ -54,7 +70,17 @@ MainWindow::~MainWindow() {
 //==================================================================================================================================
 
 void MainWindow::on_searchLineEdit_textChanged(const QString& text) {
-	qDebug() << text;
+	//Clear widgets from layout.
+	QLayoutItem* child{ nullptr };
+	while ((child = ui->updateVBoxLayout->takeAt(0)) != nullptr) {
+		delete child->widget();
+		delete child;
+	}
+
+	const auto found_works = DatabaseManager::search_works(text);
+	for (const auto& found_work : found_works) {
+		ui->updateVBoxLayout->addWidget(new UpdateEntry(found_work.name, found_work.chapter, ui->updateScrollAreaWidgetContents));
+	}
 }
 
 //==================================================================================================================================

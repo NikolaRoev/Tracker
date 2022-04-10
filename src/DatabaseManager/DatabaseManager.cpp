@@ -120,6 +120,33 @@ void DatabaseManager::remove_work(const QString& name) {
 //==================================================================================================================================
 //==================================================================================================================================
 
+void DatabaseManager::update_work_name(const QString& name, const QString& new_name) {
+	QSqlQuery query;
+	query.prepare(QStringLiteral("UPDATE works SET name = (:new_name) WHERE name = (:name)"));
+	query.bindValue(":new_name", new_name);
+	query.bindValue(":name", name);
+
+	if (!query.exec()) {
+		qDebug() << query.lastError();
+	}
+}
+
+//==================================================================================================================================
+
+void DatabaseManager::update_work_chapter(const QString& name, const QString& new_chapter) {
+	QSqlQuery query;
+	query.prepare(QStringLiteral("UPDATE works SET chapter = (:new_chapter), updated = date('now') WHERE name = (:name)"));
+	query.bindValue(":new_chapter", new_chapter);
+	query.bindValue(":name", name);
+
+	if (!query.exec()) {
+		qDebug() << query.lastError();
+	}
+}
+
+//==================================================================================================================================
+//==================================================================================================================================
+
 QVector<Work> DatabaseManager::search_works(const QString& maybe_partial_name) {
 	QSqlQuery query;
 	//Works select.

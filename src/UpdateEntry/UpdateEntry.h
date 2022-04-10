@@ -1,5 +1,6 @@
 #pragma once
 #include <QFrame>
+#include <QString>
 
 //==================================================================================================================================
 
@@ -15,10 +16,15 @@ class UpdateEntry : public QFrame {
 	Q_OBJECT
 private:
 	Ui::UpdateEntry *ui{ nullptr };
+	QString name;
 
 public:
-	UpdateEntry(QWidget *parent = nullptr);
+	UpdateEntry(const QString& name, const QString& chapter, QWidget *parent = nullptr);
 	~UpdateEntry();
+
+private slots:
+	void on_nameLineEdit_textChanged(const QString& text);
+	void on_chapterLineEdit_textChanged(const QString& text);
 };
 
 //==================================================================================================================================
