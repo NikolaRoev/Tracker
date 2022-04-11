@@ -19,7 +19,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
 
 
 	//Align the update layout to top so the populated entries look nice.
-	ui->updateVBoxLayout->setAlignment(Qt::AlignTop);
+	ui->updateContentsWidget->layout()->setAlignment(Qt::AlignTop);
 
 	//Set default focus to the search bar.
 	//As 'tabWidget' is first in the tab order it gets focused when the application starts..
@@ -72,15 +72,17 @@ MainWindow::~MainWindow() {
 void MainWindow::on_searchLineEdit_textChanged(const QString& text) {
 	//Clear widgets from layout.
 	QLayoutItem* child{ nullptr };
-	while ((child = ui->updateVBoxLayout->takeAt(0)) != nullptr) {
+	while ((child = ui->updateContentsWidget->layout()->takeAt(0)) != nullptr) {
 		delete child->widget();
 		delete child;
 	}
 
 	const auto found_works = DatabaseManager::search_works(text);
 	for (const auto& found_work : found_works) {
-		ui->updateVBoxLayout->addWidget(new UpdateEntry(found_work.name, found_work.chapter, ui->updateScrollAreaWidgetContents));
+		ui->updateContentsWidget->layout()->addWidget(new UpdateEntry(found_work.name, found_work.chapter, ui->updateScrollArea));
 	}
+
+	ui->statusBar->showMessage(QString("Found %1 entries.").arg(found_works.size()));
 }
 
 //==================================================================================================================================

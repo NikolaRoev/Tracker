@@ -16,6 +16,7 @@ class UpdateEntry : public QWidget {
 	Q_OBJECT
 private:
 	Ui::UpdateEntry* ui{ nullptr };
+	int id{};
 	QString name;
 
 public:
