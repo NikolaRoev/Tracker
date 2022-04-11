@@ -1,5 +1,5 @@
 #pragma once
-#include <QFrame>
+#include <QWidget>
 #include <QString>
 
 //==================================================================================================================================
@@ -12,10 +12,10 @@ QT_END_NAMESPACE
 
 //==================================================================================================================================
 
-class UpdateEntry : public QFrame {
+class UpdateEntry : public QWidget {
 	Q_OBJECT
 private:
-	Ui::UpdateEntry *ui{ nullptr };
+	Ui::UpdateEntry* ui{ nullptr };
 	QString name;
 
 public:

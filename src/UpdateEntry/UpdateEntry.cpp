@@ -2,14 +2,14 @@
 #include "./ui_UpdateEntry.h"
 #include "DatabaseManager/DatabaseManager.h"
 
-#include <QFrame>
+#include <QWidget>
 #include <QString>
 
 //==================================================================================================================================
 //==================================================================================================================================
 
 UpdateEntry::UpdateEntry(const QString& name, const QString& chapter, QWidget* parent)
-	: name(name), QFrame(parent), ui(new Ui::UpdateEntry) {
+	: name(name), QWidget(parent), ui(new Ui::UpdateEntry) {
 
 	ui->setupUi(this);
 	ui->nameLineEdit->setText(name);
