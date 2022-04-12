@@ -24,8 +24,8 @@ public:
 	~UpdateEntry();
 
 private slots:
-	void on_nameLineEdit_textChanged(const QString& text);
-	void on_chapterLineEdit_textChanged(const QString& text);
+	void on_nameLineEdit_textEdited(const QString& text);
+	void on_chapterLineEdit_textEdited(const QString& text);
 };
 
 //==================================================================================================================================

@@ -32,32 +32,36 @@ void DatabaseManager::open(const QString& name) {
 		qDebug() << db.lastError();
 	}
 	QSqlQuery query;
-	query.exec("PRAGMA foreign_keys = ON;");
+	query.exec("PRAGMA foreign_keys = ON");
 
 	//Works table.
-	query.prepare(QStringLiteral("CREATE TABLE IF NOT EXISTS works ("
-								 "    name			TEXT PRIMARY KEY NOT NULL,"
-								 "    status		TEXT CHECK (status IN ('Reading', 'Completed')) NOT NULL,"
-								 "    type			TEXT CHECK (type IN ('Series', 'One Shot')) NOT NULL,"
-								 "    grouping		TEXT,"
-								 "    chapter		TEXT,"
-								 "    updated		TEXT"
-								 ")"));
+	query.prepare(
+		"CREATE TABLE IF NOT EXISTS works ("
+		"	name		TEXT PRIMARY KEY NOT NULL, "
+		"   status		TEXT CHECK (status IN ('Reading', 'Completed')) NOT NULL, "
+		"   type		TEXT CHECK (type IN ('Series', 'One Shot')) NOT NULL, "
+		"   grouping	TEXT, "
+		"   chapter		TEXT, "
+		"   updated		TEXT"
+		")"
+	);
 	if (!query.exec()) {
 		qDebug() << query.lastError();
 	}
 
 	//Creators table.
-	query.prepare(QStringLiteral("CREATE TABLE IF NOT EXISTS creators ("
-								 "    name	TEXT NOT NULL,"
-								 "    work	TEXT NOT NULL,"
-								 "    type	TEXT CHECK (type IN ('Author', 'Artist')) NOT NULL,"
-								 "    PRIMARY KEY (name, work, type)"
-								 "    CONSTRAINT fk_works"
-								 "        FOREIGN KEY (work)"
-								 "        REFERENCES works (name)"
-								 "        ON DELETE CASCADE"
-								 ")"));
+	query.prepare(
+		"CREATE TABLE IF NOT EXISTS creators ("
+		"	name	TEXT NOT NULL, "
+		"	work	TEXT NOT NULL, "
+		"	type	TEXT CHECK (type IN ('Author', 'Artist')) NOT NULL, "
+		"	PRIMARY KEY (name, work, type) "
+		"	CONSTRAINT fk_works "
+		"		FOREIGN KEY (work) "
+		"		REFERENCES works (name) "
+		"		ON DELETE CASCADE"
+		")"
+	);
 	if (!query.exec()) {
 		qDebug() << query.lastError();
 	}
@@ -77,8 +81,10 @@ void DatabaseManager::add_work(const QString& name, const QString& status, const
 	QSqlQuery query;
 
 	//Insert the work.
-	query.prepare(QStringLiteral("INSERT INTO works (name, status, type, grouping, chapter, updated)"
-								 "VALUES (:name, :status, :type, :grouping, :chapter, date('now'))"));
+	query.prepare(
+		"INSERT INTO works (name, status, type, grouping, chapter, updated) "
+		"VALUES (:name, :status, :type, :grouping, :chapter, datetime('now'))"
+	);
 	query.bindValue(":name", name);
 	query.bindValue(":status", status);
 	query.bindValue(":type", type);
@@ -89,8 +95,10 @@ void DatabaseManager::add_work(const QString& name, const QString& status, const
 		//Insert the creators.
 		for (const auto& creator : creators) {
 			QSqlQuery query;
-			query.prepare(QStringLiteral("INSERT INTO creators (name, work, type)"
-										 "VALUES (:name, :work, :type)"));
+			query.prepare(
+				"INSERT INTO creators (name, work, type) "
+				"VALUES (:name, :work, :type)"
+			);
 			query.bindValue(":name", creator.name);
 			query.bindValue(":work", name);
 			query.bindValue(":type", creator.type);
@@ -109,7 +117,10 @@ void DatabaseManager::add_work(const QString& name, const QString& status, const
 
 void DatabaseManager::remove_work(const QString& name) {
 	QSqlQuery query;
-	query.prepare(QStringLiteral("DELETE FROM works WHERE name = (:name)"));
+	query.prepare(
+		"DELETE FROM works "
+		"WHERE name = (:name)"
+	);
 	query.bindValue(":name", name);
 
 	if (!query.exec()) {
@@ -122,7 +133,11 @@ void DatabaseManager::remove_work(const QString& name) {
 
 void DatabaseManager::update_work_name(const QString& name, const QString& new_name) {
 	QSqlQuery query;
-	query.prepare(QStringLiteral("UPDATE works SET name = (:new_name) WHERE name = (:name)"));
+	query.prepare(
+		"UPDATE works "
+		"SET name = (:new_name) "
+		"WHERE name = (:name)"
+	);
 	query.bindValue(":new_name", new_name);
 	query.bindValue(":name", name);
 
@@ -135,7 +150,11 @@ void DatabaseManager::update_work_name(const QString& name, const QString& new_n
 
 void DatabaseManager::update_work_chapter(const QString& name, const QString& new_chapter) {
 	QSqlQuery query;
-	query.prepare(QStringLiteral("UPDATE works SET chapter = (:new_chapter), updated = date('now') WHERE name = (:name)"));
+	query.prepare(
+		"UPDATE works "
+		"SET chapter = (:new_chapter), updated = datetime('now') "
+		"WHERE name = (:name)"
+	);
 	query.bindValue(":new_chapter", new_chapter);
 	query.bindValue(":name", name);
 
@@ -149,9 +168,13 @@ void DatabaseManager::update_work_chapter(const QString& name, const QString& ne
 
 QVector<Work> DatabaseManager::search_works(const QString& maybe_partial_name) {
 	QSqlQuery query;
-	//Works select.
-	query.prepare(QStringLiteral("SELECT * FROM works WHERE name LIKE (:name)"));
+	query.prepare(
+		"SELECT * "
+		"FROM works "
+		"WHERE name LIKE (:name) AND status = 'Reading'"
+	);
 	query.bindValue(":name", '%' + maybe_partial_name + '%');
+
 
 	QVector<Work> out;
 
@@ -162,7 +185,11 @@ QVector<Work> DatabaseManager::search_works(const QString& maybe_partial_name) {
 										  query.value(4).toString(), query.value(5).toString());
 			//Creators select.
 			QSqlQuery creators_query;
-			creators_query.prepare(QStringLiteral("SELECT name, type FROM creators WHERE work = (:work)"));
+			creators_query.prepare(
+				"SELECT name, type "
+				"FROM creators "
+				"WHERE work = (:work)"
+			);
 			creators_query.bindValue(":work", temp.name);
 
 			if (creators_query.exec()) {
@@ -186,7 +213,11 @@ QVector<Work> DatabaseManager::search_works(const QString& maybe_partial_name) {
 
 QVector<QString> DatabaseManager::search_authors(const QString& maybe_partial_name) {
 	QSqlQuery query;
-	query.prepare(QStringLiteral("SELECT DISTINCT name FROM creators WHERE name LIKE (:name)"));
+	query.prepare(
+		"SELECT DISTINCT name "
+		"FROM creators "
+		"WHERE name LIKE (:name)"
+	);
 	query.bindValue(":name", '%' + maybe_partial_name + '%');
 
 	QVector<QString> out;

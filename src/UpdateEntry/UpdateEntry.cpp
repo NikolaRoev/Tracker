@@ -25,7 +25,7 @@ UpdateEntry::~UpdateEntry() {
 //==================================================================================================================================
 //==================================================================================================================================
 
-void UpdateEntry::on_nameLineEdit_textChanged(const QString& text) {
+void UpdateEntry::on_nameLineEdit_textEdited(const QString& text) {
 	DatabaseManager::update_work_name(name, text);
 	name = text;
 
@@ -35,7 +35,7 @@ void UpdateEntry::on_nameLineEdit_textChanged(const QString& text) {
 
 //==================================================================================================================================
 
-void UpdateEntry::on_chapterLineEdit_textChanged(const QString& text) {
+void UpdateEntry::on_chapterLineEdit_textEdited(const QString& text) {
 	DatabaseManager::update_work_chapter(name, text);
 }
 
