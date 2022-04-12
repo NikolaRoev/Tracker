@@ -41,15 +41,12 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
 
 
 
-	//Creator creator;
-	//creator.name = "C";
-	//creator.type = "Author";
-	//DatabaseManager::add_work("work1", "Reading", "Series", NULL, "10", { creator });
-	//DatabaseManager::add_work("work2", "Reading", "Series", NULL, "10", { creator });
-	//DatabaseManager::add_work("work3", "Reading", "Series", NULL, "10", { creator });
-	//DatabaseManager::add_work("work4", "Reading", "Series", NULL, "10", { creator });
-	//DatabaseManager::add_work("work5", "Reading", "Series", NULL, "10", { creator });
-	//DatabaseManager::add_work("One Piece", "Reading", "Series", NULL, "10", { creator });
+	DatabaseManager::add_work("work1", "Reading", "Series", NULL);
+	DatabaseManager::add_work("work2", "Reading", "Series", NULL);
+	DatabaseManager::add_work("work3", "Reading", "Series", NULL);
+	DatabaseManager::add_work("work4", "Reading", "Series", NULL);
+	DatabaseManager::add_work("work5", "Reading", "Series", NULL);
+	DatabaseManager::add_work("One Piece", "Reading", "Series", NULL);
 }
 
 //==================================================================================================================================
@@ -79,7 +76,7 @@ void MainWindow::on_searchLineEdit_textChanged(const QString& text) {
 
 	const auto found_works = DatabaseManager::search_works(text);
 	for (const auto& found_work : found_works) {
-		ui->updateContentsWidget->layout()->addWidget(new UpdateEntry(found_work.name, found_work.chapter, ui->updateScrollArea));
+		ui->updateContentsWidget->layout()->addWidget(new UpdateEntry(found_work.id, found_work.name, found_work.chapter, ui->updateScrollArea));
 	}
 
 	ui->statusBar->showMessage(QString("Found %1 entries.").arg(found_works.size()));

@@ -17,10 +17,9 @@ class UpdateEntry : public QWidget {
 private:
 	Ui::UpdateEntry* ui{ nullptr };
 	int id{};
-	QString name;
 
 public:
-	UpdateEntry(const QString& name, const QString& chapter, QWidget *parent = nullptr);
+	UpdateEntry(const int id, const QString& name, const QString& chapter, QWidget *parent = nullptr);
 	~UpdateEntry();
 
 private slots:
