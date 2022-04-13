@@ -1,6 +1,6 @@
 #include "DatabaseManager.h"
 #include "Creator.h"
-#include "Work.h"
+#include "UpdateWork.h"
 
 #include <QDebug>
 #include <QString>
@@ -167,41 +167,21 @@ void DatabaseManager::update_work_chapter(const int id, const QString& new_chapt
 //==================================================================================================================================
 //==================================================================================================================================
 
-QVector<Work> DatabaseManager::search_works(const QString& maybe_partial_name) {
+QVector<UpdateWork> DatabaseManager::search_update_works(const QString& maybe_partial_name) {
 	QSqlQuery query;
 	query.prepare(
-		"SELECT * "
+		"SELECT id, name, chapter "
 		"FROM works "
 		"WHERE name LIKE (:name) AND status = 'Reading'"
 	);
 	query.bindValue(":name", '%' + maybe_partial_name + '%');
 
 
-	QVector<Work> out;
+	QVector<UpdateWork> out;
 
 	if (query.exec()) {
 		while (query.next()) {
-			auto& temp = out.emplace_back(query.value(0).toInt(),	 query.value(1).toString(),
-										  query.value(2).toString(), query.value(3).toString(),
-										  query.value(4).toString(), query.value(5).toString(),
-										  query.value(6).toString(), query.value(7).toString());
-			//Creators select.
-			QSqlQuery creators_query;
-			creators_query.prepare(
-				"SELECT creator, type "
-				"FROM work_creator "
-				"WHERE work = (:work)"
-			);
-			creators_query.bindValue(":work", temp.name);
-
-			if (creators_query.exec()) {
-				while (creators_query.next()) {
-					temp.creators.emplace_back(creators_query.value(0).toString(), creators_query.value(1).toString());
-				}
-			}
-			else {
-				qDebug() << creators_query.lastError();
-			}
+			out.emplace_back(query.value(0).toInt(), query.value(1).toString(), query.value(2).toString());
 		}
 	}
 	else {

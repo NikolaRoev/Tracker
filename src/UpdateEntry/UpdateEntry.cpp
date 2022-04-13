@@ -1,6 +1,7 @@
 #include "UpdateEntry.h"
 #include "./ui_UpdateEntry.h"
 #include "DatabaseManager/DatabaseManager.h"
+#include "DatabaseManager/UpdateWork.h"
 
 #include <QWidget>
 #include <QString>
@@ -8,12 +9,12 @@
 //==================================================================================================================================
 //==================================================================================================================================
 
-UpdateEntry::UpdateEntry(const int id, const QString& name, const QString& chapter, QWidget* parent)
-	: id(id), QWidget(parent), ui(new Ui::UpdateEntry) {
+UpdateEntry::UpdateEntry(const UpdateWork& update_work, QWidget* parent)
+	: id(update_work.id), QWidget(parent), ui(new Ui::UpdateEntry) {
 
 	ui->setupUi(this);
-	ui->nameLineEdit->setText(name);
-	ui->chapterLineEdit->setText(chapter);
+	ui->nameLineEdit->setText(update_work.name);
+	ui->chapterLineEdit->setText(update_work.chapter);
 }
 
 //==================================================================================================================================

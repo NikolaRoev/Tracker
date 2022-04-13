@@ -1,6 +1,6 @@
 #pragma once
 #include "Creator.h"
-#include "Work.h"
+#include "UpdateWork.h"
 
 #include <QString>
 #include <QVector>
@@ -21,7 +21,7 @@ public:
 	static void update_work_name(const int id, const QString& new_name);
 	static void update_work_chapter(const int id, const QString& new_chapter);
 
-	static QVector<Work> search_works(const QString& maybe_partial_name);
+	static QVector<UpdateWork> search_update_works(const QString& maybe_partial_name);
 	static QVector<QString> search_authors(const QString& maybe_partial_name);
 };
 

@@ -62,7 +62,7 @@
          <number>5</number>
         </property>
         <item>
-         <widget class="QLineEdit" name="searchLineEdit">
+         <widget class="QLineEdit" name="updateSearchLineEdit">
           <property name="minimumSize">
            <size>
             <width>0</width>
@@ -236,7 +236,7 @@
  </widget>
  <tabstops>
   <tabstop>tabWidget</tabstop>
-  <tabstop>searchLineEdit</tabstop>
+  <tabstop>updateSearchLineEdit</tabstop>
  </tabstops>
  <resources/>
  <connections/>

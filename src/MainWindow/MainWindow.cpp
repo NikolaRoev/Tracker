@@ -22,14 +22,16 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
 
 	//Set default focus to the search bar.
 	//As 'tabWidget' is first in the tab order it gets focused when the application starts.
-	ui->tabWidget->setFocusProxy(ui->searchLineEdit);
+	ui->tabWidget->setFocusProxy(ui->updateSearchLineEdit);
 
 
 	//Add a shortcut that selects all text in the search bar and focuses it.
 	QShortcut* shortcut = new QShortcut(QKeySequence(Qt::CTRL | Qt::Key_F), this);
-	connect(shortcut, &QShortcut::activated, ui->searchLineEdit, [&](){ ui->searchLineEdit->selectAll(); ui->searchLineEdit->setFocus(); });
+	connect(shortcut, &QShortcut::activated, ui->updateSearchLineEdit,
+			[&](){ ui->updateSearchLineEdit->selectAll(); ui->updateSearchLineEdit->setFocus(); });
 
 
+	//Load settings.
 	QSettings settings("settings.ini", QSettings::IniFormat, this);
 	settings.beginGroup("window");
 	restoreGeometry(settings.value("geometry").toByteArray());
@@ -42,12 +44,13 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
 
 
 	//Populate the update layout with all entries.
-	emit ui->searchLineEdit->textChanged("");
+	emit ui->updateSearchLineEdit->textChanged("");
 }
 
 //==================================================================================================================================
 
 MainWindow::~MainWindow() {
+	//Save settings.
 	QSettings settings("settings.ini", QSettings::IniFormat, this);
 	settings.beginGroup("window");
 	settings.setValue("geometry", saveGeometry());
@@ -66,7 +69,7 @@ MainWindow::~MainWindow() {
 //==================================================================================================================================
 //==================================================================================================================================
 
-void MainWindow::on_searchLineEdit_textChanged(const QString& text) {
+void MainWindow::on_updateSearchLineEdit_textChanged(const QString& text) {
 	//Clear widgets from layout.
 	QLayoutItem* child{ nullptr };
 	while ((child = ui->updateContentsWidget->layout()->takeAt(0)) != nullptr) {
@@ -74,11 +77,15 @@ void MainWindow::on_searchLineEdit_textChanged(const QString& text) {
 		delete child;
 	}
 
-	const auto found_works = DatabaseManager::search_works(text);
+	//Find works and populate the update list.
+	const auto found_works = DatabaseManager::search_update_works(text);
 	for (const auto& found_work : found_works) {
-		ui->updateContentsWidget->layout()->addWidget(new UpdateEntry(found_work.id, found_work.name, found_work.chapter, ui->updateScrollArea));
+		ui->updateContentsWidget->layout()->addWidget(
+			new UpdateEntry(found_work, ui->updateScrollArea)
+		);
 	}
 
+	//Update status bar.
 	ui->statusBar->showMessage(QString("Found %1 entries.").arg(found_works.size()));
 }
 
@@ -90,7 +97,7 @@ void MainWindow::on_actionNew_triggered() {
 	DatabaseManager::open(file);
 
 	//Populate the update layout with all entries.
-	emit ui->searchLineEdit->textChanged("");
+	emit ui->updateSearchLineEdit->textChanged("");
 }
 
 //==================================================================================================================================
@@ -100,7 +107,7 @@ void MainWindow::on_actionOpen_triggered() {
 	DatabaseManager::open(file);
 
 	//Populate the update layout with all entries.
-	emit ui->searchLineEdit->textChanged("");
+	emit ui->updateSearchLineEdit->textChanged("");
 }
 
 //==================================================================================================================================

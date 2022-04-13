@@ -25,7 +25,7 @@ qt_add_executable(Tracker
 
 	"src/DatabaseManager/DatabaseManager.h"
 	"src/DatabaseManager/DatabaseManager.cpp"
-	"src/DatabaseManager/Work.h"
+	"src/DatabaseManager/UpdateWork.h"
 	"src/DatabaseManager/Creator.h"
 
 	"src/UpdateEntry/UpdateEntry.h"
