@@ -27,7 +27,7 @@ void DatabaseManager::deinit() {
 
 void DatabaseManager::open(const QString& name) {
 	QSqlDatabase db = QSqlDatabase::database();
-	db.setDatabaseName(name + ".db");
+	db.setDatabaseName(name);
 	if (!db.open()) {
 		qDebug() << db.lastError();
 	}
@@ -68,15 +68,9 @@ void DatabaseManager::open(const QString& name) {
 		"	work_id		INTEGER NOT NULL, "
 		"	creator_id	INTEGER NOT NULL, "
 		"	type		TEXT CHECK (type IN ('Author', 'Artist')) NOT NULL, "
-		"	PRIMARY KEY (work_id, creator_id, type) "
-		"	CONSTRAINT fk_works "
-		"		FOREIGN KEY (work_id) "
-		"		REFERENCES works (id) "
-		"		ON DELETE CASCADE "
-		"	CONSTRAINT fk_creators "
-		"		FOREIGN KEY (creator_id) "
-		"		REFERENCES creators (id) "
-		"		ON DELETE CASCADE"
+		"	PRIMARY KEY (work_id, creator_id, type), "
+		"	FOREIGN KEY (work_id) REFERENCES works (id) ON DELETE CASCADE, "
+		"	FOREIGN KEY (creator_id) REFERENCES creators (id) ON DELETE CASCADE"
 		")"
 	);
 	if (!query.exec()) {
@@ -89,6 +83,13 @@ void DatabaseManager::open(const QString& name) {
 void DatabaseManager::close() {
 	QSqlDatabase db = QSqlDatabase::database();
 	db.close();
+}
+
+//==================================================================================================================================
+
+const QString DatabaseManager::get() {
+	QSqlDatabase db = QSqlDatabase::database();
+	return db.databaseName();
 }
 
 //==================================================================================================================================

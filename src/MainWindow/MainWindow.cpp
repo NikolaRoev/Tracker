@@ -6,6 +6,7 @@
 #include <QMainWindow>
 #include <QSettings>
 #include <QShortcut>
+#include <QFileDialog>
 
 //==================================================================================================================================
 //==================================================================================================================================
@@ -13,20 +14,16 @@
 
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
 	ui->setupUi(this);
-
 	DatabaseManager::init();
-	DatabaseManager::open("tracker");
 
 
 	//Align the update layout to top so the populated entries look nice.
 	ui->updateContentsWidget->layout()->setAlignment(Qt::AlignTop);
 
 	//Set default focus to the search bar.
-	//As 'tabWidget' is first in the tab order it gets focused when the application starts..
+	//As 'tabWidget' is first in the tab order it gets focused when the application starts.
 	ui->tabWidget->setFocusProxy(ui->searchLineEdit);
 
-	//Populate the update layout with all entries.
-	emit ui->searchLineEdit->textChanged("");
 
 	//Add a shortcut that selects all text in the search bar and focuses it.
 	QShortcut* shortcut = new QShortcut(QKeySequence(Qt::CTRL | Qt::Key_F), this);
@@ -39,27 +36,30 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
 	restoreState(settings.value("state").toByteArray());
 	settings.endGroup();
 
+	settings.beginGroup("user");
+	DatabaseManager::open(settings.value("default_database").toString());
+	settings.endGroup();
 
 
-	DatabaseManager::add_work("work1", "Reading", "Series", NULL);
-	DatabaseManager::add_work("work2", "Reading", "Series", NULL);
-	DatabaseManager::add_work("work3", "Reading", "Series", NULL);
-	DatabaseManager::add_work("work4", "Reading", "Series", NULL);
-	DatabaseManager::add_work("work5", "Reading", "Series", NULL);
-	DatabaseManager::add_work("One Piece", "Reading", "Series", NULL);
+	//Populate the update layout with all entries.
+	emit ui->searchLineEdit->textChanged("");
 }
 
 //==================================================================================================================================
 
 MainWindow::~MainWindow() {
-	DatabaseManager::deinit();
-
 	QSettings settings("settings.ini", QSettings::IniFormat, this);
 	settings.beginGroup("window");
 	settings.setValue("geometry", saveGeometry());
 	settings.setValue("state", saveState());
 	settings.endGroup();
 
+	settings.beginGroup("user");
+	settings.setValue("default_database", DatabaseManager::get());
+	settings.endGroup();
+
+
+	DatabaseManager::deinit();
 	delete ui;
 }
 
@@ -86,14 +86,21 @@ void MainWindow::on_searchLineEdit_textChanged(const QString& text) {
 //==================================================================================================================================
 
 void MainWindow::on_actionNew_triggered() {
+	QString file = QFileDialog::getSaveFileName(this, "New Database", "", "Databases (*.db)");
+	DatabaseManager::open(file);
 
+	//Populate the update layout with all entries.
+	emit ui->searchLineEdit->textChanged("");
 }
 
 //==================================================================================================================================
 
 void MainWindow::on_actionOpen_triggered() {
-	//TO DO: temp.
-	DatabaseManager::open("tracker");
+	QString file = QFileDialog::getOpenFileName(this, "Open Database", "", "Databases (*.db)");
+	DatabaseManager::open(file);
+
+	//Populate the update layout with all entries.
+	emit ui->searchLineEdit->textChanged("");
 }
 
 //==================================================================================================================================

@@ -13,6 +13,7 @@ public:
 	static void deinit();
 	static void open(const QString& name);
 	static void close();
+	static const QString get();
 
 	static void add_work(const QString& name, const QString& status, const QString& type, const QString& grouping);
 	static void remove_work(const QString& name);

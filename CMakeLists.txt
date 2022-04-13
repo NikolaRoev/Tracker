@@ -10,7 +10,9 @@ set(CMAKE_AUTORCC ON)
 
 find_package(Qt6
 	REQUIRED COMPONENTS
+	Core
 	Widgets
+	Gui
 	Sql
 )
 
@@ -33,9 +35,10 @@ qt_add_executable(Tracker
 
 target_link_libraries(Tracker
 	PRIVATE
+	Qt6::Core
 	Qt6::Widgets
-	Qt6::Sql
 	Qt6::Gui
+	Qt6::Sql
 )
 
 target_include_directories(Tracker
