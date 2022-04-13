@@ -17,6 +17,8 @@ find_package(Qt6
 )
 
 qt_add_executable(Tracker
+	"resources/resources.qrc"
+	"resources/resources.rc"
 	"src/main.cpp"
 
 	"src/MainWindow/MainWindow.h"

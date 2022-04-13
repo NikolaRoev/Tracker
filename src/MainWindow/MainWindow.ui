@@ -19,6 +19,10 @@
   <property name="windowTitle">
    <string>Tracker</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="../../resources/resources.qrc">
+    <normaloff>:/general/icon.ico</normaloff>:/general/icon.ico</iconset>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_4">
     <property name="spacing">
@@ -238,6 +242,8 @@
   <tabstop>tabWidget</tabstop>
   <tabstop>updateSearchLineEdit</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="../../resources/resources.qrc"/>
+ </resources>
  <connections/>
 </ui>
