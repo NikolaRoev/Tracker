@@ -159,7 +159,18 @@
              </widget>
             </item>
             <item>
-             <widget class="QComboBox" name="statusListsComboBox"/>
+             <widget class="QComboBox" name="statusListsComboBox">
+              <item>
+               <property name="text">
+                <string>Reading</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Completed</string>
+               </property>
+              </item>
+             </widget>
             </item>
            </layout>
           </item>
@@ -245,7 +256,18 @@
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="1,2">
               <item>
-               <widget class="QComboBox" name="comboBox"/>
+               <widget class="QComboBox" name="comboBox">
+                <item>
+                 <property name="text">
+                  <string>Reading</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Completed</string>
+                 </property>
+                </item>
+               </widget>
               </item>
               <item>
                <spacer name="horizontalSpacer">
@@ -282,7 +304,23 @@
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_12" stretch="1,2">
               <item>
-               <widget class="QComboBox" name="comboBox_2"/>
+               <widget class="QComboBox" name="comboBox_2">
+                <item>
+                 <property name="text">
+                  <string>Series</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>One Shot</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Anthology</string>
+                 </property>
+                </item>
+               </widget>
               </item>
               <item>
                <spacer name="horizontalSpacer_2">

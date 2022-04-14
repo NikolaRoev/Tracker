@@ -1,5 +1,8 @@
 #pragma once
 #include <QMainWindow>
+#include <QWidget>
+#include <QString>
+#include <QListWidgetItem>
 
 //==================================================================================================================================
 
@@ -21,12 +24,14 @@ public:
 	~MainWindow();
 
 private slots:
-	void on_updateSearchLineEdit_textChanged(const QString& text);
-
 	void on_actionNew_triggered();
 	void on_actionOpen_triggered();
 	void on_actionClose_triggered();
 	void on_actionExit_triggered();
+
+	void on_updateSearchLineEdit_textChanged(const QString& text);
+	void on_listsListWidget_itemSelectionChanged();
+	void on_listsListWidget_itemDoubleClicked(QListWidgetItem* item);
 };
 
 //==================================================================================================================================

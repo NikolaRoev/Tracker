@@ -7,6 +7,9 @@
 #include <QSettings>
 #include <QShortcut>
 #include <QFileDialog>
+#include <QString>
+#include <QListWidgetItem>
+#include <QMessageBox>
 
 //==================================================================================================================================
 //==================================================================================================================================
@@ -65,29 +68,6 @@ MainWindow::~MainWindow() {
 //==================================================================================================================================
 //==================================================================================================================================
 
-void MainWindow::on_updateSearchLineEdit_textChanged(const QString& text) {
-	//Clear widgets from layout.
-	QLayoutItem* child{ nullptr };
-	while ((child = ui->updateContentsWidget->layout()->takeAt(0)) != nullptr) {
-		delete child->widget();
-		delete child;
-	}
-
-	//Find works and populate the update list.
-	const auto found_works = DatabaseManager::search_update_works(text);
-	for (const auto& found_work : found_works) {
-		ui->updateContentsWidget->layout()->addWidget(
-			new UpdateEntry(found_work, ui->updateScrollArea)
-		);
-	}
-
-	//Update status bar.
-	ui->statusBar->showMessage(QString("Found %1 entries.").arg(found_works.size()));
-}
-
-//==================================================================================================================================
-//==================================================================================================================================
-
 void MainWindow::on_actionNew_triggered() {
 	QString file = QFileDialog::getSaveFileName(this, "New Database", "", "Databases (*.db)");
 	DatabaseManager::open(file);
@@ -113,6 +93,50 @@ void MainWindow::on_actionClose_triggered() {
 
 void MainWindow::on_actionExit_triggered() {
 	QApplication::exit();
+}
+
+//==================================================================================================================================
+//==================================================================================================================================
+
+void MainWindow::on_updateSearchLineEdit_textChanged(const QString& text) {
+	//Clear widgets from layout.
+	QLayoutItem* child{ nullptr };
+	while ((child = ui->updateContentsWidget->layout()->takeAt(0)) != nullptr) {
+		delete child->widget();
+		delete child;
+	}
+
+	//Find works and populate the update list.
+	const auto found_works = DatabaseManager::search_update_works(text);
+	for (const auto& found_work : found_works) {
+		ui->updateContentsWidget->layout()->addWidget(
+			new UpdateEntry(found_work, ui->updateScrollArea)
+		);
+	}
+
+	//Update status bar.
+	ui->statusBar->showMessage(QString("Found %1 entries.").arg(found_works.size()));
+}
+
+//==================================================================================================================================
+//==================================================================================================================================
+
+void MainWindow::on_listsListWidget_itemSelectionChanged() {
+	qDebug("me");
+}
+
+//==================================================================================================================================
+
+void MainWindow::on_listsListWidget_itemDoubleClicked(QListWidgetItem* item) {
+	int result = QMessageBox::warning(this,
+									  "Deleting Entry.",
+									  QString("Are you sure you want to delete \"%1\"?").arg(item->text()),
+									  QMessageBox::Yes,
+									  QMessageBox::No);
+
+	if (result == QMessageBox::Yes) {
+		delete item;
+	}
 }
 
 //==================================================================================================================================
