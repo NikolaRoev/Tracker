@@ -34,6 +34,18 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
 			[&](){ ui->updateSearchLineEdit->selectAll(); ui->updateSearchLineEdit->setFocus(); });
 
 
+	//Set the various Combo Box Items data.
+	ui->statusListsComboBox->setItemData(0, "Reading");
+	ui->statusListsComboBox->setItemData(1, "Completed");
+
+	ui->statusSelectListsComboBox->setItemData(0, "Reading");
+	ui->statusSelectListsComboBox->setItemData(1, "Completed");
+
+	ui->typeSelectListsComboBox->setItemData(0, "Series");
+	ui->typeSelectListsComboBox->setItemData(1, "One Shot");
+	ui->typeSelectListsComboBox->setItemData(2, "Anthology");
+
+
 	//Load settings.
 	QSettings settings("settings.ini", QSettings::IniFormat, this);
 	settings.beginGroup("window");
@@ -44,6 +56,10 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
 	settings.beginGroup("user");
 	DatabaseManager::open(settings.value("default_database").toString());
 	settings.endGroup();
+
+
+	//Populate the update entries.
+	emit ui->updateSearchLineEdit->textChanged("");
 }
 
 //==================================================================================================================================
@@ -142,3 +158,21 @@ void MainWindow::on_listsListWidget_itemDoubleClicked(QListWidgetItem* item) {
 //==================================================================================================================================
 //==================================================================================================================================
 //==================================================================================================================================
+
+void MainWindow::on_statusListsComboBox_currentIndexChanged(int index) {
+	QString status = ui->statusListsComboBox->itemData(index).toString();
+	qDebug() << status;
+}
+
+
+void MainWindow::on_statusSelectListsComboBox_currentIndexChanged(int index) {
+	QString status = ui->statusSelectListsComboBox->itemData(index).toString();
+	qDebug() << status;
+}
+
+
+void MainWindow::on_typeSelectListsComboBox_currentIndexChanged(int index) {
+	QString status = ui->typeSelectListsComboBox->itemData(index).toString();
+	qDebug() << status;
+}
+

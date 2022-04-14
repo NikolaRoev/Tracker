@@ -160,6 +160,9 @@
             </item>
             <item>
              <widget class="QComboBox" name="statusListsComboBox">
+              <property name="currentIndex">
+               <number>0</number>
+              </property>
               <item>
                <property name="text">
                 <string>Reading</string>
@@ -256,7 +259,10 @@
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="1,2">
               <item>
-               <widget class="QComboBox" name="comboBox">
+               <widget class="QComboBox" name="statusSelectListsComboBox">
+                <property name="currentIndex">
+                 <number>0</number>
+                </property>
                 <item>
                  <property name="text">
                   <string>Reading</string>
@@ -304,7 +310,10 @@
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_12" stretch="1,2">
               <item>
-               <widget class="QComboBox" name="comboBox_2">
+               <widget class="QComboBox" name="typeSelectListsComboBox">
+                <property name="currentIndex">
+                 <number>0</number>
+                </property>
                 <item>
                  <property name="text">
                   <string>Series</string>

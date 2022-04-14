@@ -32,6 +32,9 @@ private slots:
 	void on_updateSearchLineEdit_textChanged(const QString& text);
 	void on_listsListWidget_itemSelectionChanged();
 	void on_listsListWidget_itemDoubleClicked(QListWidgetItem* item);
+	void on_statusListsComboBox_currentIndexChanged(int index);
+	void on_statusSelectListsComboBox_currentIndexChanged(int index);
+	void on_typeSelectListsComboBox_currentIndexChanged(int index);
 };
 
 //==================================================================================================================================

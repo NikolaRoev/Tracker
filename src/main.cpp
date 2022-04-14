@@ -11,7 +11,7 @@ int main(int argc, char *argv[]) {
 					   "%{if-warning}Warning%{endif}"
 					   "%{if-critical}Critical%{endif}"
 					   "%{if-fatal}Fatal%{endif}]"
-					   "[%{time hh:mm:ss.zzz}][%{file}:%{line}][%{function}]: %{message}");
+					   "[%{time hh:mm:ss.zzz}][%{file}:%{line}][%{function}]:\n%{message}");
 
 
 	QApplication app(argc, argv);
