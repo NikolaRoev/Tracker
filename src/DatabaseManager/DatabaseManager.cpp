@@ -1,6 +1,6 @@
 #include "DatabaseManager.h"
-#include "Creator.h"
 #include "UpdateWork.h"
+#include "Work.h"
 
 #include <QDebug>
 #include <QString>
@@ -116,13 +116,13 @@ void DatabaseManager::add_work(const QString& name, const QString& status, const
 
 //==================================================================================================================================
 
-void DatabaseManager::remove_work(const QString& name) {
+void DatabaseManager::remove_work(const int id) {
 	QSqlQuery query;
 	query.prepare(
 		"DELETE FROM works "
-		"WHERE name = (:name)"
+		"WHERE id = (:id)"
 	);
-	query.bindValue(":name", name);
+	query.bindValue(":id", id);
 
 	if (!query.exec()) {
 		qDebug() << query.lastError();
@@ -140,6 +140,57 @@ void DatabaseManager::update_work_name(const int id, const QString& new_name) {
 		"WHERE id = (:id)"
 	);
 	query.bindValue(":new_name", new_name);
+	query.bindValue(":id", id);
+
+	if (!query.exec()) {
+		qDebug() << query.lastError();
+	}
+}
+
+//==================================================================================================================================
+
+void DatabaseManager::update_work_status(const int id, const QString& new_status) {
+	QSqlQuery query;
+	query.prepare(
+		"UPDATE works "
+		"SET status = (:new_status) "
+		"WHERE id = (:id)"
+	);
+	query.bindValue(":new_status", new_status);
+	query.bindValue(":id", id);
+
+	if (!query.exec()) {
+		qDebug() << query.lastError();
+	}
+}
+
+//==================================================================================================================================
+
+void DatabaseManager::update_work_type(const int id, const QString& new_type) {
+	QSqlQuery query;
+	query.prepare(
+		"UPDATE works "
+		"SET type = (:new_type) "
+		"WHERE id = (:id)"
+	);
+	query.bindValue(":new_type", new_type);
+	query.bindValue(":id", id);
+
+	if (!query.exec()) {
+		qDebug() << query.lastError();
+	}
+}
+
+//==================================================================================================================================
+
+void DatabaseManager::update_work_grouping(const int id, const QString& new_grouping) {
+	QSqlQuery query;
+	query.prepare(
+		"UPDATE works "
+		"SET grouping = (:new_grouping) "
+		"WHERE id = (:id)"
+	);
+	query.bindValue(":new_grouping", new_grouping);
 	query.bindValue(":id", id);
 
 	if (!query.exec()) {
@@ -193,27 +244,21 @@ QVector<UpdateWork> DatabaseManager::search_update_works(const QString& maybe_pa
 
 //==================================================================================================================================
 
-QVector<QString> DatabaseManager::search_authors(const QString& maybe_partial_name) {
-	QSqlQuery query;
-	query.prepare(
-		"SELECT DISTINCT name "
-		"FROM creators "
-		"WHERE name LIKE (:name)"
-	);
-	query.bindValue(":name", '%' + maybe_partial_name + '%');
+QVector<Work> DatabaseManager::search_works(const QString& maybe_partial_name) {
+	return {};
+}
 
-	QVector<QString> out;
+//==================================================================================================================================
+//==================================================================================================================================
 
-	if (query.exec()) {
-		while (query.next()) {
-			out.emplace_back(query.value(0).toString());
-		}
-	}
-	else {
-		qDebug() << query.lastError();
-	}
+void DatabaseManager::add_creator(const QString& name) {
 
-	return out;
+}
+
+//==================================================================================================================================
+
+void DatabaseManager::remove_creator(const int id) {
+
 }
 
 //==================================================================================================================================
