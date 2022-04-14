@@ -244,8 +244,56 @@ QVector<UpdateWork> DatabaseManager::search_update_works(const QString& maybe_pa
 
 //==================================================================================================================================
 
-QVector<Work> DatabaseManager::search_works(const QString& maybe_partial_name) {
-	return {};
+QVector<Work> DatabaseManager::search_works(const QString& maybe_partial_name, const QString& status) {
+	QSqlQuery query;
+	query.prepare(
+		"SELECT * "
+		"FROM works "
+		"WHERE name LIKE (:name) AND status = (:status)"
+	);
+	query.bindValue(":name", '%' + maybe_partial_name + '%');
+	query.bindValue(":status", status);
+
+
+	QVector<Work> out;
+
+	if (query.exec()) {
+		while (query.next()) {
+			auto& temp = out.emplace_back(query.value(0).toInt(), query.value(1).toString(), query.value(2).toString(),
+										  query.value(3).toString(), query.value(4).toString(), query.value(5).toString(),
+										  query.value(6).toString(), query.value(7).toString());
+
+			QSqlQuery creator_query;
+			creator_query.prepare(
+				"WITH current_creators AS ("
+				"	SELECT creator_id AS id, type "
+				"	FROM work_creator "
+				"	WHERE work_id = (:work_id)"
+				") "
+				"SELECT current_creators.id, creators.name, current_creators.type "
+				"FROM creators "
+				"INNER JOIN current_creators "
+				"ON creators.id = current_creators.id"
+			);
+			creator_query.bindValue(":work_id", temp.id);
+
+			if (creator_query.exec()) {
+				while (creator_query.next()) {
+					temp.creators.emplace_back(creator_query.value(0).toInt(),
+											   creator_query.value(1).toString(),
+											   creator_query.value(2).toString());
+				}
+			}
+			else {
+				qDebug() << creator_query.lastError();
+			}
+		}
+	}
+	else {
+		qDebug() << query.lastError();
+	}
+
+	return out;
 }
 
 //==================================================================================================================================

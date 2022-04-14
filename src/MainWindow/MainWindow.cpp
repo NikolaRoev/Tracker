@@ -41,10 +41,6 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
 	settings.beginGroup("user");
 	DatabaseManager::open(settings.value("default_database").toString());
 	settings.endGroup();
-
-
-	//Populate the update layout with all entries.
-	emit ui->updateSearchLineEdit->textChanged("");
 }
 
 //==================================================================================================================================
@@ -95,8 +91,6 @@ void MainWindow::on_updateSearchLineEdit_textChanged(const QString& text) {
 void MainWindow::on_actionNew_triggered() {
 	QString file = QFileDialog::getSaveFileName(this, "New Database", "", "Databases (*.db)");
 	DatabaseManager::open(file);
-
-	//Populate the update layout with all entries.
 	emit ui->updateSearchLineEdit->textChanged("");
 }
 
@@ -105,8 +99,6 @@ void MainWindow::on_actionNew_triggered() {
 void MainWindow::on_actionOpen_triggered() {
 	QString file = QFileDialog::getOpenFileName(this, "Open Database", "", "Databases (*.db)");
 	DatabaseManager::open(file);
-
-	//Populate the update layout with all entries.
 	emit ui->updateSearchLineEdit->textChanged("");
 }
 
@@ -114,6 +106,7 @@ void MainWindow::on_actionOpen_triggered() {
 
 void MainWindow::on_actionClose_triggered() {
 	DatabaseManager::close();
+	emit ui->updateSearchLineEdit->textChanged("");
 }
 
 //==================================================================================================================================

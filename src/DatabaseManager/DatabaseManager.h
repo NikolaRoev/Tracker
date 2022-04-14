@@ -26,7 +26,7 @@ public:
 	static void update_work_chapter(const int id, const QString& new_chapter);
 
 	static QVector<UpdateWork> search_update_works(const QString& maybe_partial_name);
-	static QVector<Work> search_works(const QString& maybe_partial_name);
+	static QVector<Work> search_works(const QString& maybe_partial_name, const QString& status);
 
 
 	static void add_creator(const QString& name);
