@@ -45,6 +45,14 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
 	ui->typeSelectListsComboBox->setItemData(1, "One Shot");
 	ui->typeSelectListsComboBox->setItemData(2, "Anthology");
 
+	ui->filterByComboBox->setItemData(0, "Title");
+	ui->filterByComboBox->setItemData(1, "Creator");
+	ui->filterByComboBox->setItemData(2, "Grouping");
+
+	ui->filterTypeComboBox->setItemData(0, "Series");
+	ui->filterTypeComboBox->setItemData(1, "One Shot");
+	ui->filterTypeComboBox->setItemData(2, "Anthology");
+
 
 	//Load settings.
 	QSettings settings("settings.ini", QSettings::IniFormat, this);
@@ -164,6 +172,16 @@ void MainWindow::on_statusListsComboBox_currentIndexChanged(int index) {
 	qDebug() << status;
 }
 
+void MainWindow::on_filterByComboBox_currentIndexChanged(int index) {
+	QString by = ui->filterByComboBox->itemData(index).toString();
+	qDebug() << by;
+}
+
+void MainWindow::on_filterTypeComboBox_currentIndexChanged(int index) {
+	QString type = ui->filterTypeComboBox->itemData(index).toString();
+	qDebug() << type;
+}
+
 
 void MainWindow::on_statusSelectListsComboBox_currentIndexChanged(int index) {
 	QString status = ui->statusSelectListsComboBox->itemData(index).toString();
@@ -172,7 +190,13 @@ void MainWindow::on_statusSelectListsComboBox_currentIndexChanged(int index) {
 
 
 void MainWindow::on_typeSelectListsComboBox_currentIndexChanged(int index) {
-	QString status = ui->typeSelectListsComboBox->itemData(index).toString();
-	qDebug() << status;
+	QString type = ui->typeSelectListsComboBox->itemData(index).toString();
+	qDebug() << type;
 }
+
+
+
+
+
+
 

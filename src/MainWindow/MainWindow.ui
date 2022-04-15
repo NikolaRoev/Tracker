@@ -150,9 +150,12 @@
         <item>
          <layout class="QVBoxLayout" name="verticalLayout_3">
           <item>
-           <layout class="QHBoxLayout" name="horizontalLayout" stretch="80,20">
+           <layout class="QHBoxLayout" name="horizontalLayout" stretch="3,1,1,1">
             <item>
              <widget class="QLineEdit" name="filterListsLineEdit">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
               <property name="placeholderText">
                <string>Filter</string>
               </property>
@@ -171,6 +174,47 @@
               <item>
                <property name="text">
                 <string>Completed</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+            <item>
+             <widget class="QComboBox" name="filterTypeComboBox">
+              <item>
+               <property name="text">
+                <string>Series</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>One Shot</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Anthology</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+            <item>
+             <widget class="QComboBox" name="filterByComboBox">
+              <property name="currentIndex">
+               <number>0</number>
+              </property>
+              <item>
+               <property name="text">
+                <string>Title</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Creator</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Grouping</string>
                </property>
               </item>
              </widget>
@@ -488,7 +532,7 @@
                    </sizepolicy>
                   </property>
                   <property name="text">
-                   <string>Add</string>
+                   <string>Edit</string>
                   </property>
                  </widget>
                 </item>
@@ -572,7 +616,7 @@
                 <item>
                  <widget class="QPushButton" name="pushButton_2">
                   <property name="text">
-                   <string>Add</string>
+                   <string>Edit</string>
                   </property>
                  </widget>
                 </item>
@@ -629,6 +673,11 @@
          </layout>
         </item>
        </layout>
+      </widget>
+      <widget class="QWidget" name="tab">
+       <attribute name="title">
+        <string>Add</string>
+       </attribute>
       </widget>
      </widget>
     </item>
