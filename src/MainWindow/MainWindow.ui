@@ -144,7 +144,7 @@
       </widget>
       <widget class="QWidget" name="listsTab">
        <attribute name="title">
-        <string>Lists</string>
+        <string>Works</string>
        </attribute>
        <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,1">
         <item>
@@ -244,17 +244,34 @@
              </widget>
             </item>
             <item>
-             <widget class="QLabel" name="label_12">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text">
-               <string>ID</string>
-              </property>
-             </widget>
+             <layout class="QHBoxLayout" name="horizontalLayout_16" stretch="10,1">
+              <item>
+               <widget class="QLabel" name="label_12">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="text">
+                 <string>ID</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="pushButton_3">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="text">
+                 <string>Add</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </item>
            </layout>
           </item>
@@ -676,7 +693,7 @@
       </widget>
       <widget class="QWidget" name="tab">
        <attribute name="title">
-        <string>Add</string>
+        <string>Creators</string>
        </attribute>
       </widget>
      </widget>
