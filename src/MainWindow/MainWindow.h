@@ -38,8 +38,8 @@ private slots:
 	void on_filterTypeComboBox_currentIndexChanged(int index);
 	void on_filterByComboBox_currentIndexChanged(int index);
 
-	void on_statusSelectListsComboBox_currentIndexChanged(int index);
-	void on_typeSelectListsComboBox_currentIndexChanged(int index);
+	void on_statusComboBox_currentIndexChanged(int index);
+	void on_typeComboBox_currentIndexChanged(int index);
 };
 
 //==================================================================================================================================

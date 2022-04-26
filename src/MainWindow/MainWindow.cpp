@@ -38,12 +38,12 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
 	ui->statusListsComboBox->setItemData(0, "Reading");
 	ui->statusListsComboBox->setItemData(1, "Completed");
 
-	ui->statusSelectListsComboBox->setItemData(0, "Reading");
-	ui->statusSelectListsComboBox->setItemData(1, "Completed");
+	ui->statusComboBox->setItemData(0, "Reading");
+	ui->statusComboBox->setItemData(1, "Completed");
 
-	ui->typeSelectListsComboBox->setItemData(0, "Series");
-	ui->typeSelectListsComboBox->setItemData(1, "One Shot");
-	ui->typeSelectListsComboBox->setItemData(2, "Anthology");
+	ui->typeComboBox->setItemData(0, "Series");
+	ui->typeComboBox->setItemData(1, "One Shot");
+	ui->typeComboBox->setItemData(2, "Anthology");
 
 	ui->filterByComboBox->setItemData(0, "Title");
 	ui->filterByComboBox->setItemData(1, "Creator");
@@ -183,14 +183,14 @@ void MainWindow::on_filterTypeComboBox_currentIndexChanged(int index) {
 }
 
 
-void MainWindow::on_statusSelectListsComboBox_currentIndexChanged(int index) {
-	QString status = ui->statusSelectListsComboBox->itemData(index).toString();
+void MainWindow::on_statusComboBox_currentIndexChanged(int index) {
+	QString status = ui->statusComboBox->itemData(index).toString();
 	qDebug() << status;
 }
 
 
-void MainWindow::on_typeSelectListsComboBox_currentIndexChanged(int index) {
-	QString type = ui->typeSelectListsComboBox->itemData(index).toString();
+void MainWindow::on_typeComboBox_currentIndexChanged(int index) {
+	QString type = ui->typeComboBox->itemData(index).toString();
 	qDebug() << type;
 }
 
