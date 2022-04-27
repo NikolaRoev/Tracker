@@ -1,5 +1,6 @@
 #include "DatabaseManager.h"
 #include "UpdateWork.h"
+#include "FilterWork.h"
 #include "Work.h"
 
 #include <QDebug>
@@ -244,24 +245,75 @@ QVector<UpdateWork> DatabaseManager::search_update_works(const QString& maybe_pa
 
 //==================================================================================================================================
 
-QVector<Work> DatabaseManager::search_works(const QString& maybe_partial_name, const QString& status) {
+QVector<FilterWork> DatabaseManager::search_works_by_name(const QString& maybe_partial_name, const QString& status, const QString& type) {
+	//Query text construction.
+	QString query_text =
+			"SELECT id, name "
+			"FROM works "
+			"WHERE name LIKE (:name)";
+
+	if (!status.isEmpty()) {
+		query_text.append(" AND status = (:status)");
+	}
+
+	if (!type.isEmpty()) {
+		query_text.append(" AND type = (:type)");
+	}
+
+
+	//Query preparation.
+	QSqlQuery query;
+	query.prepare(query_text);
+	query.bindValue(":name", '%' + maybe_partial_name + '%');
+
+	if (!status.isNull()) {
+		query.bindValue(":status", status);
+	}
+
+	if (!type.isNull()) {
+		query.bindValue(":type", type);
+	}
+
+
+	//Query execution.
+	QVector<FilterWork> out;
+
+	if (query.exec()) {
+		while (query.next()) {
+			out.emplace_back(query.value(0).toInt(), query.value(1).toString());
+		}
+	}
+	else {
+		qDebug() << query.lastError();
+	}
+
+	return out;
+}
+
+//==================================================================================================================================
+
+Work DatabaseManager::search_work(const int id) {
 	QSqlQuery query;
 	query.prepare(
 		"SELECT * "
 		"FROM works "
-		"WHERE name LIKE (:name) AND status = (:status)"
+		"WHERE id = (:id)"
 	);
-	query.bindValue(":name", '%' + maybe_partial_name + '%');
-	query.bindValue(":status", status);
+	query.bindValue(":id", id);
 
 
-	QVector<Work> out;
+	Work out;
 
 	if (query.exec()) {
-		while (query.next()) {
-			auto& temp = out.emplace_back(query.value(0).toInt(), query.value(1).toString(), query.value(2).toString(),
-										  query.value(3).toString(), query.value(4).toString(), query.value(5).toString(),
-										  query.value(6).toString(), query.value(7).toString());
+		if (query.next()) {
+			out.id = query.value(0).toInt();
+			out.name = query.value(1).toString();
+			out.status = query.value(2).toString();
+			out.type = query.value(3).toString();
+			out.grouping = query.value(4).toString();
+			out.chapter = query.value(5).toString();
+			out.updated = query.value(6).toString();
+			out.added = query.value(7).toString();
 
 			QSqlQuery creator_query;
 			creator_query.prepare(
@@ -275,11 +327,11 @@ QVector<Work> DatabaseManager::search_works(const QString& maybe_partial_name, c
 				"INNER JOIN current_creators "
 				"ON creators.id = current_creators.id"
 			);
-			creator_query.bindValue(":work_id", temp.id);
+			creator_query.bindValue(":work_id", out.id);
 
 			if (creator_query.exec()) {
 				while (creator_query.next()) {
-					temp.creators.emplace_back(creator_query.value(0).toInt(),
+					out.creators.emplace_back(creator_query.value(0).toInt(),
 											   creator_query.value(1).toString(),
 											   creator_query.value(2).toString());
 				}

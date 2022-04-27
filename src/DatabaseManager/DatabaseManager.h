@@ -1,5 +1,6 @@
 #pragma once
 #include "UpdateWork.h"
+#include "FilterWork.h"
 #include "Work.h"
 
 #include <QString>
@@ -16,6 +17,7 @@ public:
 	static const QString get();
 
 
+	//Work.
 	static void add_work(const QString& name, const QString& status, const QString& type, const QString& grouping);
 	static void remove_work(const int id);
 
@@ -26,9 +28,11 @@ public:
 	static void update_work_chapter(const int id, const QString& new_chapter);
 
 	static QVector<UpdateWork> search_update_works(const QString& maybe_partial_name);
-	static QVector<Work> search_works(const QString& maybe_partial_name, const QString& status);
+	static QVector<FilterWork> search_works_by_name(const QString& maybe_partial_name, const QString& status, const QString& type);
+	static Work search_work(const int id);
 
 
+	//Creator.
 	static void add_creator(const QString& name);
 	static void remove_creator(const int id);
 };

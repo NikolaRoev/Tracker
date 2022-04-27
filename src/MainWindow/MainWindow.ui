@@ -43,7 +43,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>2</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="updateTab">
        <attribute name="title">
@@ -214,7 +214,7 @@
               </property>
               <item>
                <property name="text">
-                <string>Title</string>
+                <string>Name</string>
                </property>
               </item>
               <item>
@@ -237,7 +237,14 @@
            </layout>
           </item>
           <item>
-           <widget class="QListWidget" name="worksListWidget"/>
+           <widget class="QListWidget" name="worksListWidget">
+            <property name="frameShadow">
+             <enum>QFrame::Plain</enum>
+            </property>
+            <property name="lineWidth">
+             <number>2</number>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
@@ -291,6 +298,9 @@
             </item>
             <item row="1" column="1">
              <widget class="QLineEdit" name="worksNameLineEdit">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                 <horstretch>0</horstretch>
@@ -307,7 +317,10 @@
              </widget>
             </item>
             <item row="2" column="1">
-             <widget class="QComboBox" name="statusComboBox">
+             <widget class="QComboBox" name="worksStatusComboBox">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
               <property name="sizePolicy">
                <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                 <horstretch>0</horstretch>
@@ -334,7 +347,10 @@
              </widget>
             </item>
             <item row="3" column="1">
-             <widget class="QComboBox" name="typeComboBox">
+             <widget class="QComboBox" name="worksTypeComboBox">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
               <property name="sizePolicy">
                <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                 <horstretch>0</horstretch>
@@ -366,7 +382,11 @@
              </widget>
             </item>
             <item row="4" column="1">
-             <widget class="QLineEdit" name="worksGroupingLineEdit"/>
+             <widget class="QLineEdit" name="worksGroupingLineEdit">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+             </widget>
             </item>
             <item row="5" column="0">
              <widget class="QLabel" name="label_21">
@@ -376,7 +396,11 @@
              </widget>
             </item>
             <item row="5" column="1">
-             <widget class="QLineEdit" name="worksChapterLineEdit"/>
+             <widget class="QLineEdit" name="worksChapterLineEdit">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+             </widget>
             </item>
             <item row="6" column="0">
              <widget class="QLabel" name="label_22">
@@ -475,6 +499,9 @@
                 </item>
                 <item>
                  <widget class="QPushButton" name="worksAuthorEditButton">
+                  <property name="enabled">
+                   <bool>false</bool>
+                  </property>
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                     <horstretch>0</horstretch>
@@ -490,17 +517,20 @@
               </item>
               <item>
                <widget class="QListWidget" name="worksAuthorListWidget">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
-                <property name="frameShape">
-                 <enum>QFrame::Box</enum>
-                </property>
                 <property name="frameShadow">
                  <enum>QFrame::Plain</enum>
+                </property>
+                <property name="lineWidth">
+                 <number>2</number>
                 </property>
                 <property name="editTriggers">
                  <set>QAbstractItemView::DoubleClicked</set>
@@ -565,6 +595,9 @@
                 </item>
                 <item>
                  <widget class="QPushButton" name="worksArtistEditButton">
+                  <property name="enabled">
+                   <bool>false</bool>
+                  </property>
                   <property name="text">
                    <string>Edit</string>
                   </property>
@@ -574,17 +607,20 @@
               </item>
               <item>
                <widget class="QListWidget" name="worksArtistListWidget">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
-                <property name="frameShape">
-                 <enum>QFrame::Box</enum>
-                </property>
                 <property name="frameShadow">
                  <enum>QFrame::Plain</enum>
+                </property>
+                <property name="lineWidth">
+                 <number>2</number>
                 </property>
                 <property name="editTriggers">
                  <set>QAbstractItemView::DoubleClicked</set>
@@ -639,7 +675,14 @@
            </widget>
           </item>
           <item>
-           <widget class="QListWidget" name="creatorsListWidget"/>
+           <widget class="QListWidget" name="creatorsListWidget">
+            <property name="frameShadow">
+             <enum>QFrame::Plain</enum>
+            </property>
+            <property name="lineWidth">
+             <number>2</number>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
@@ -711,7 +754,14 @@
            </widget>
           </item>
           <item>
-           <widget class="QListWidget" name="creatorsWorksListWidget"/>
+           <widget class="QListWidget" name="creatorsWorksListWidget">
+            <property name="frameShadow">
+             <enum>QFrame::Plain</enum>
+            </property>
+            <property name="lineWidth">
+             <number>2</number>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>

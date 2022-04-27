@@ -34,7 +34,7 @@ private slots:
 	void on_updateSearchLineEdit_textChanged(const QString& text);
 
 	//Works tab.
-	void on_worksFilterLineEdit_textEdited(const QString& text);
+	void on_worksFilterLineEdit_textChanged(const QString& text);
 	void on_worksFilterStatusComboBox_currentIndexChanged(int index);
 	void on_worksFilterTypeComboBox_currentIndexChanged(int index);
 	void on_worksFilterByComboBox_currentIndexChanged(int index);
@@ -44,8 +44,8 @@ private slots:
 
 	void on_worksAddButton_clicked();
 	void on_worksNameLineEdit_textEdited(const QString& text);
-	void on_statusComboBox_currentIndexChanged(int index);
-	void on_typeComboBox_currentIndexChanged(int index);
+	void on_worksStatusComboBox_currentIndexChanged(int index);
+	void on_worksTypeComboBox_currentIndexChanged(int index);
 	void on_worksGroupingLineEdit_textEdited(const QString& text);
 	void on_worksChapterLineEdit_textEdited(const QString& text);
 	void on_worksAuthorEditButton_clicked();
@@ -54,7 +54,7 @@ private slots:
 	void on_worksArtistListWidget_itemClicked(QListWidgetItem* item);
 
 	//Creator tab.
-	void on_creatorsFilterLineEdit_textEdited(const QString& text);
+	void on_creatorsFilterLineEdit_textChanged(const QString& text);
 	void on_creatorsListWidget_itemSelectionChanged();
 	void on_creatorsListWidget_itemDoubleClicked(QListWidgetItem* item);
 	void on_creatorsAddButton_clicked();
