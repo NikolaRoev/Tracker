@@ -30,6 +30,8 @@ private slots:
 	void on_actionClose_triggered();
 	void on_actionExit_triggered();
 
+	void on_tabWidget_currentChanged(int index);
+
 	//Update tab.
 	void on_updateSearchLineEdit_textChanged(const QString& text);
 

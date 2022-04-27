@@ -102,7 +102,7 @@ void DatabaseManager::add_work(const QString& name, const QString& status, const
 	//Insert the work.
 	query.prepare(
 		"INSERT INTO works (name, status, type, grouping, chapter, updated, added) "
-		"VALUES (:name, :status, :type, :grouping, NULL, NULL, datetime('now'))"
+		"VALUES (:name, :status, :type, :grouping, NULL, NULL, datetime('now', 'localtime'))"
 	);
 
 	query.bindValue(":name", name);
@@ -205,7 +205,7 @@ void DatabaseManager::update_work_chapter(const int id, const QString& new_chapt
 	QSqlQuery query;
 	query.prepare(
 		"UPDATE works "
-		"SET chapter = (:new_chapter), updated = datetime('now') "
+		"SET chapter = (:new_chapter), updated = datetime('now', 'localtime') "
 		"WHERE id = (:id)"
 	);
 	query.bindValue(":new_chapter", new_chapter);

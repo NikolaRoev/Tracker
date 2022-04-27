@@ -136,6 +136,17 @@ void MainWindow::on_actionExit_triggered() {
 //==================================================================================================================================
 //==================================================================================================================================
 
+void MainWindow::on_tabWidget_currentChanged(int index) {
+	switch (index) {
+		case 0: emit ui->updateSearchLineEdit->textChanged(ui->updateSearchLineEdit->text()); break;
+		case 1: emit ui->worksFilterLineEdit->textChanged(ui->worksFilterLineEdit->text()); break;
+		case 2: emit ui->creatorsFilterLineEdit->textChanged(ui->creatorsFilterLineEdit->text()); break;
+	}
+}
+
+//==================================================================================================================================
+//==================================================================================================================================
+
 void MainWindow::on_updateSearchLineEdit_textChanged(const QString& text) {
 	//Clear widgets from layout.
 	QLayoutItem* child{ nullptr };
@@ -280,6 +291,7 @@ void MainWindow::on_worksListWidget_itemDoubleClicked(QListWidgetItem* item) {
 									  QMessageBox::No);
 
 	if (result == QMessageBox::Yes) {
+		DatabaseManager::remove_work(item->data(Qt::UserRole).toInt());
 		delete item;
 	}
 }
