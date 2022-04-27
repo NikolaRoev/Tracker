@@ -43,7 +43,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="updateTab">
        <attribute name="title">
@@ -152,7 +152,7 @@
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout" stretch="3,1,1,1">
             <item>
-             <widget class="QLineEdit" name="filterListsLineEdit">
+             <widget class="QLineEdit" name="worksFilterLineEdit">
               <property name="enabled">
                <bool>true</bool>
               </property>
@@ -162,10 +162,15 @@
              </widget>
             </item>
             <item>
-             <widget class="QComboBox" name="statusListsComboBox">
+             <widget class="QComboBox" name="worksFilterStatusComboBox">
               <property name="currentIndex">
                <number>0</number>
               </property>
+              <item>
+               <property name="text">
+                <string>Any Status</string>
+               </property>
+              </item>
               <item>
                <property name="text">
                 <string>Reading</string>
@@ -179,7 +184,12 @@
              </widget>
             </item>
             <item>
-             <widget class="QComboBox" name="filterTypeComboBox">
+             <widget class="QComboBox" name="worksFilterTypeComboBox">
+              <item>
+               <property name="text">
+                <string>Any Type</string>
+               </property>
+              </item>
               <item>
                <property name="text">
                 <string>Series</string>
@@ -198,13 +208,18 @@
              </widget>
             </item>
             <item>
-             <widget class="QComboBox" name="filterByComboBox">
+             <widget class="QComboBox" name="worksFilterByComboBox">
               <property name="currentIndex">
                <number>0</number>
               </property>
               <item>
                <property name="text">
                 <string>Title</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Chapter</string>
                </property>
               </item>
               <item>
@@ -222,7 +237,7 @@
            </layout>
           </item>
           <item>
-           <widget class="QListWidget" name="listsListWidget"/>
+           <widget class="QListWidget" name="worksListWidget"/>
           </item>
          </layout>
         </item>
@@ -244,7 +259,7 @@
              </spacer>
             </item>
             <item>
-             <widget class="QPushButton" name="addWorksButton">
+             <widget class="QPushButton" name="worksAddButton">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                 <horstretch>0</horstretch>
@@ -275,7 +290,7 @@
              </widget>
             </item>
             <item row="1" column="1">
-             <widget class="QLineEdit" name="lineEdit_4">
+             <widget class="QLineEdit" name="worksNameLineEdit">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
                 <horstretch>0</horstretch>
@@ -351,7 +366,7 @@
              </widget>
             </item>
             <item row="4" column="1">
-             <widget class="QLineEdit" name="lineEdit_5"/>
+             <widget class="QLineEdit" name="worksGroupingLineEdit"/>
             </item>
             <item row="5" column="0">
              <widget class="QLabel" name="label_21">
@@ -361,7 +376,7 @@
              </widget>
             </item>
             <item row="5" column="1">
-             <widget class="QLineEdit" name="lineEdit_6"/>
+             <widget class="QLineEdit" name="worksChapterLineEdit"/>
             </item>
             <item row="6" column="0">
              <widget class="QLabel" name="label_22">
@@ -371,7 +386,7 @@
              </widget>
             </item>
             <item row="6" column="1">
-             <widget class="QLabel" name="label_23">
+             <widget class="QLabel" name="worksUpdatedLabel">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                 <horstretch>0</horstretch>
@@ -394,7 +409,7 @@
              </widget>
             </item>
             <item row="7" column="1">
-             <widget class="QLabel" name="label_25">
+             <widget class="QLabel" name="worksAddedLabel">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                 <horstretch>0</horstretch>
@@ -410,7 +425,7 @@
              </widget>
             </item>
             <item row="0" column="1">
-             <widget class="QLabel" name="label_16">
+             <widget class="QLabel" name="worksIdLabel">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                 <horstretch>0</horstretch>
@@ -459,7 +474,7 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QPushButton" name="pushButton">
+                 <widget class="QPushButton" name="worksAuthorEditButton">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
                     <horstretch>0</horstretch>
@@ -474,7 +489,7 @@
                </layout>
               </item>
               <item>
-               <widget class="QListWidget" name="listWidget_2">
+               <widget class="QListWidget" name="worksAuthorListWidget">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                   <horstretch>0</horstretch>
@@ -549,7 +564,7 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QPushButton" name="pushButton_2">
+                 <widget class="QPushButton" name="worksArtistEditButton">
                   <property name="text">
                    <string>Edit</string>
                   </property>
@@ -558,7 +573,7 @@
                </layout>
               </item>
               <item>
-               <widget class="QListWidget" name="listWidget">
+               <widget class="QListWidget" name="worksArtistListWidget">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                   <horstretch>0</horstretch>
@@ -617,14 +632,14 @@
         <item>
          <layout class="QVBoxLayout" name="verticalLayout_5">
           <item>
-           <widget class="QLineEdit" name="lineEdit">
+           <widget class="QLineEdit" name="creatorsFilterLineEdit">
             <property name="placeholderText">
              <string>Filter</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QListWidget" name="listWidget_3"/>
+           <widget class="QListWidget" name="creatorsListWidget"/>
           </item>
          </layout>
         </item>
@@ -646,7 +661,7 @@
              </spacer>
             </item>
             <item>
-             <widget class="QPushButton" name="pushButton_3">
+             <widget class="QPushButton" name="creatorsAddButton">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
                 <horstretch>0</horstretch>
@@ -670,7 +685,7 @@
              </widget>
             </item>
             <item row="0" column="1">
-             <widget class="QLabel" name="label_2">
+             <widget class="QLabel" name="creatorsIdLabel">
               <property name="text">
                <string>ID</string>
               </property>
@@ -684,7 +699,7 @@
              </widget>
             </item>
             <item row="1" column="1">
-             <widget class="QLineEdit" name="lineEdit_2"/>
+             <widget class="QLineEdit" name="creatorsNameLineEdit"/>
             </item>
            </layout>
           </item>
@@ -696,7 +711,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QListWidget" name="listWidget_4"/>
+           <widget class="QListWidget" name="creatorsWorksListWidget"/>
           </item>
          </layout>
         </item>
