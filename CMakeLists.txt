@@ -33,6 +33,10 @@ qt_add_executable(Tracker
 	"src/UpdateEntry/UpdateEntry.h"
 	"src/UpdateEntry/UpdateEntry.cpp"
 	"src/UpdateEntry/UpdateEntry.ui"
+
+	"src/AddWorkDialog/AddWorkDialog.h"
+	"src/AddWorkDialog/AddWorkDialog.cpp"
+	"src/AddWorkDialog/AddWorkDialog.ui"
 )
 
 target_link_libraries(Tracker

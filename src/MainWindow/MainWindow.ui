@@ -244,6 +244,9 @@
             <property name="lineWidth">
              <number>2</number>
             </property>
+            <property name="alternatingRowColors">
+             <bool>true</bool>
+            </property>
            </widget>
           </item>
          </layout>
@@ -541,9 +544,6 @@
                 <property name="alternatingRowColors">
                  <bool>true</bool>
                 </property>
-                <property name="selectionMode">
-                 <enum>QAbstractItemView::SingleSelection</enum>
-                </property>
                </widget>
               </item>
               <item>
@@ -630,9 +630,6 @@
                 </property>
                 <property name="alternatingRowColors">
                  <bool>true</bool>
-                </property>
-                <property name="selectionMode">
-                 <enum>QAbstractItemView::SingleSelection</enum>
                 </property>
                </widget>
               </item>

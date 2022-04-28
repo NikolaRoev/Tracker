@@ -95,19 +95,20 @@ const QString DatabaseManager::get() {
 //==================================================================================================================================
 //==================================================================================================================================
 
-void DatabaseManager::add_work(const QString& name, const QString& status, const QString& type, const QString& grouping) {
+void DatabaseManager::add_work(const QString& name, const QString& status, const QString& type, const QString& grouping, const QString& chapter) {
 	QSqlQuery query;
 
 	//Insert the work.
 	query.prepare(
 		"INSERT INTO works (name, status, type, grouping, chapter, updated, added) "
-		"VALUES (:name, :status, :type, :grouping, NULL, NULL, datetime('now', 'localtime'))"
+		"VALUES (:name, :status, :type, :grouping, :chapter, NULL, datetime('now', 'localtime'))"
 	);
 
 	query.bindValue(":name", name);
 	query.bindValue(":status", status);
 	query.bindValue(":type", type);
 	query.bindValue(":grouping", grouping);
+	query.bindValue(":chapter", chapter);
 
 	if (!query.exec()) {
 		qDebug() << query.lastError();

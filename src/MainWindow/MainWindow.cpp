@@ -4,6 +4,7 @@
 #include "DatabaseManager/Work.h"
 #include "DatabaseManager/Creator.h"
 #include "UpdateEntry/UpdateEntry.h"
+#include "AddWorkDialog/AddWorkDialog.h"
 
 #include <QMainWindow>
 #include <QSettings>
@@ -186,6 +187,9 @@ void MainWindow::on_worksFilterLineEdit_textChanged(const QString& text) {
 		item->setData(Qt::UserRole, work.id);
 		ui->worksListWidget->addItem(item);
 	}
+
+	//Update status bar.
+	ui->statusBar->showMessage(QString("Found %1 entries.").arg(found_works.size()));
 }
 
 //==================================================================================================================================
@@ -297,7 +301,10 @@ void MainWindow::on_worksListWidget_itemDoubleClicked(QListWidgetItem* item) {
 //==================================================================================================================================
 
 void MainWindow::on_worksAddButton_clicked() {
-	//TO DO: Add.
+	AddWorkDialog dialog(this);
+	if (dialog.exec() == QDialog::Accepted) {
+		emit ui->worksFilterLineEdit->textChanged(ui->worksFilterLineEdit->text());
+	}
 }
 
 //==================================================================================================================================
@@ -331,6 +338,9 @@ void MainWindow::on_worksGroupingLineEdit_textEdited(const QString& text) {
 
 void MainWindow::on_worksChapterLineEdit_textEdited(const QString& text) {
 	DatabaseManager::update_work("chapter", ui->worksIdLabel->text().toInt(), text);
+
+	//Update the Updated datetime label when we change the chapter.
+	emit ui->worksListWidget->itemSelectionChanged();
 }
 
 //==================================================================================================================================
