@@ -297,63 +297,64 @@ void MainWindow::on_worksListWidget_itemDoubleClicked(QListWidgetItem* item) {
 //==================================================================================================================================
 
 void MainWindow::on_worksAddButton_clicked() {
-
+	//TO DO: Add.
 }
 
 //==================================================================================================================================
 
 void MainWindow::on_worksNameLineEdit_textEdited(const QString& text) {
+	DatabaseManager::update_work("name", ui->worksIdLabel->text().toInt(), text);
 
+	//Update the name of the selected work.
+	ui->worksListWidget->selectedItems().first()->setText(text);
 }
 
 //==================================================================================================================================
 
 void MainWindow::on_worksStatusComboBox_currentIndexChanged(int index) {
-	QString status = ui->worksStatusComboBox->itemData(index).toString();
-	qDebug() << status;
+	DatabaseManager::update_work("status", ui->worksIdLabel->text().toInt(), ui->worksStatusComboBox->itemData(index).toString());
 }
 
 //==================================================================================================================================
 
 void MainWindow::on_worksTypeComboBox_currentIndexChanged(int index) {
-	QString type = ui->worksTypeComboBox->itemData(index).toString();
-	qDebug() << type;
+	DatabaseManager::update_work("type", ui->worksIdLabel->text().toInt(), ui->worksTypeComboBox->itemData(index).toString());
 }
 
 //==================================================================================================================================
 
 void MainWindow::on_worksGroupingLineEdit_textEdited(const QString& text) {
-
+	DatabaseManager::update_work("grouping", ui->worksIdLabel->text().toInt(), text);
 }
 
 //==================================================================================================================================
 
 void MainWindow::on_worksChapterLineEdit_textEdited(const QString& text) {
-
+	DatabaseManager::update_work("chapter", ui->worksIdLabel->text().toInt(), text);
 }
 
 //==================================================================================================================================
 
 void MainWindow::on_worksAuthorEditButton_clicked() {
-
+	//TO DO: Add.
 }
 
 //==================================================================================================================================
 
 void MainWindow::on_worksArtistEditButton_clicked() {
-
+	//TO DO: Add.
 }
 
 //==================================================================================================================================
 
 void MainWindow::on_worksAuthorListWidget_itemClicked(QListWidgetItem* item) {
-
+	//TO DO: Add.
 }
 
 //==================================================================================================================================
 
 void MainWindow::on_worksArtistListWidget_itemClicked(QListWidgetItem* item) {
-
+	//TO DO: Add.
 }
 
 //==================================================================================================================================
