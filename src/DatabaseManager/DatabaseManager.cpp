@@ -1,7 +1,6 @@
 #include "DatabaseManager.h"
-#include "UpdateWork.h"
-#include "FilterWork.h"
 #include "Work.h"
+#include "Creator.h"
 
 #include <QDebug>
 #include <QString>
@@ -131,84 +130,25 @@ void DatabaseManager::remove_work(const int id) {
 }
 
 //==================================================================================================================================
-//==================================================================================================================================
 
-void DatabaseManager::update_work_name(const int id, const QString& new_name) {
-	QSqlQuery query;
-	query.prepare(
-		"UPDATE works "
-		"SET name = (:new_name) "
-		"WHERE id = (:id)"
-	);
-	query.bindValue(":new_name", new_name);
-	query.bindValue(":id", id);
-
-	if (!query.exec()) {
-		qDebug() << query.lastError();
+void DatabaseManager::update_work(const QString& column, const int id, const QString& value) {
+	//If we are updating the chapter, set a new update datetime.
+	QString datetime_arg;
+	if (column == "chapter") {
+		datetime_arg = ", updated = datetime('now', 'localtime') ";
 	}
-}
 
-//==================================================================================================================================
-
-void DatabaseManager::update_work_status(const int id, const QString& new_status) {
-	QSqlQuery query;
-	query.prepare(
+	//Query construction.
+	QString query_text = QString(
 		"UPDATE works "
-		"SET status = (:new_status) "
+		"SET %1 = (:value) %2"
 		"WHERE id = (:id)"
-	);
-	query.bindValue(":new_status", new_status);
-	query.bindValue(":id", id);
+	).arg(column, datetime_arg);
 
-	if (!query.exec()) {
-		qDebug() << query.lastError();
-	}
-}
-
-//==================================================================================================================================
-
-void DatabaseManager::update_work_type(const int id, const QString& new_type) {
+	//Query execution.
 	QSqlQuery query;
-	query.prepare(
-		"UPDATE works "
-		"SET type = (:new_type) "
-		"WHERE id = (:id)"
-	);
-	query.bindValue(":new_type", new_type);
-	query.bindValue(":id", id);
-
-	if (!query.exec()) {
-		qDebug() << query.lastError();
-	}
-}
-
-//==================================================================================================================================
-
-void DatabaseManager::update_work_grouping(const int id, const QString& new_grouping) {
-	QSqlQuery query;
-	query.prepare(
-		"UPDATE works "
-		"SET grouping = (:new_grouping) "
-		"WHERE id = (:id)"
-	);
-	query.bindValue(":new_grouping", new_grouping);
-	query.bindValue(":id", id);
-
-	if (!query.exec()) {
-		qDebug() << query.lastError();
-	}
-}
-
-//==================================================================================================================================
-
-void DatabaseManager::update_work_chapter(const int id, const QString& new_chapter) {
-	QSqlQuery query;
-	query.prepare(
-		"UPDATE works "
-		"SET chapter = (:new_chapter), updated = datetime('now', 'localtime') "
-		"WHERE id = (:id)"
-	);
-	query.bindValue(":new_chapter", new_chapter);
+	query.prepare(query_text);
+	query.bindValue(":value", value);
 	query.bindValue(":id", id);
 
 	if (!query.exec()) {
@@ -219,7 +159,7 @@ void DatabaseManager::update_work_chapter(const int id, const QString& new_chapt
 //==================================================================================================================================
 //==================================================================================================================================
 
-QVector<UpdateWork> DatabaseManager::search_update_works(const QString& maybe_partial_name) {
+QVector<Work> DatabaseManager::search_update_works(const QString& maybe_partial_name) {
 	QSqlQuery query;
 	query.prepare(
 		"SELECT id, name, chapter "
@@ -229,11 +169,13 @@ QVector<UpdateWork> DatabaseManager::search_update_works(const QString& maybe_pa
 	query.bindValue(":name", '%' + maybe_partial_name + '%');
 
 
-	QVector<UpdateWork> out;
+	QVector<Work> out;
 
 	if (query.exec()) {
 		while (query.next()) {
-			out.emplace_back(query.value(0).toInt(), query.value(1).toString(), query.value(2).toString());
+			out.emplace_back(Work{ .id = query.value(0).toInt(),
+								   .name = query.value(1).toString(),
+								   .chapter = query.value(2).toString() });
 		}
 	}
 	else {
@@ -245,7 +187,7 @@ QVector<UpdateWork> DatabaseManager::search_update_works(const QString& maybe_pa
 
 //==================================================================================================================================
 
-QVector<FilterWork> DatabaseManager::search_works_by_name(const QString& maybe_partial_name, const QString& status, const QString& type) {
+QVector<Work> DatabaseManager::search_works_by_name(const QString& maybe_partial_name, const QString& status, const QString& type) {
 	//Query text construction.
 	QString query_text =
 			"SELECT id, name "
@@ -276,11 +218,12 @@ QVector<FilterWork> DatabaseManager::search_works_by_name(const QString& maybe_p
 
 
 	//Query execution.
-	QVector<FilterWork> out;
+	QVector<Work> out;
 
 	if (query.exec()) {
 		while (query.next()) {
-			out.emplace_back(query.value(0).toInt(), query.value(1).toString());
+			out.emplace_back(Work{ .id = query.value(0).toInt(),
+								   .name = query.value(1).toString() });
 		}
 	}
 	else {

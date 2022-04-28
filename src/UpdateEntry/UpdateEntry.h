@@ -1,5 +1,5 @@
 #pragma once
-#include "DatabaseManager/UpdateWork.h"
+#include "DatabaseManager/Work.h"
 
 #include <QWidget>
 #include <QString>
@@ -21,7 +21,7 @@ private:
 	int id{};
 
 public:
-	UpdateEntry(const UpdateWork& update_work, QWidget *parent = nullptr);
+	UpdateEntry(const Work& work, QWidget *parent = nullptr);
 	~UpdateEntry();
 
 private slots:

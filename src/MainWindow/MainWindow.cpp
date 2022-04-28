@@ -1,6 +1,8 @@
 #include "MainWindow.h"
 #include "./ui_MainWindow.h"
 #include "DatabaseManager/DatabaseManager.h"
+#include "DatabaseManager/Work.h"
+#include "DatabaseManager/Creator.h"
 #include "UpdateEntry/UpdateEntry.h"
 
 #include <QMainWindow>
@@ -72,10 +74,8 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
 	settings.endGroup();
 
 
-	//Populate the update entries.
-	emit ui->updateSearchLineEdit->textChanged("");
-	//Populate the works filter list entries.
-	emit ui->worksFilterLineEdit->textChanged("");
+	//Populate the update entries when the program starts initially.
+	emit ui->tabWidget->currentChanged(ui->tabWidget->currentIndex());
 }
 
 //==================================================================================================================================
@@ -104,8 +104,7 @@ void MainWindow::on_actionNew_triggered() {
 	QString file = QFileDialog::getSaveFileName(this, "New Database", "", "Databases (*.db)");
 	DatabaseManager::open(file);
 
-	emit ui->updateSearchLineEdit->textChanged("");
-	emit ui->worksFilterLineEdit->textChanged("");
+	emit ui->tabWidget->currentChanged(ui->tabWidget->currentIndex());
 }
 
 //==================================================================================================================================
@@ -114,8 +113,7 @@ void MainWindow::on_actionOpen_triggered() {
 	QString file = QFileDialog::getOpenFileName(this, "Open Database", "", "Databases (*.db)");
 	DatabaseManager::open(file);
 
-	emit ui->updateSearchLineEdit->textChanged("");
-	emit ui->worksFilterLineEdit->textChanged("");
+	emit ui->tabWidget->currentChanged(ui->tabWidget->currentIndex());
 }
 
 //==================================================================================================================================
@@ -123,8 +121,7 @@ void MainWindow::on_actionOpen_triggered() {
 void MainWindow::on_actionClose_triggered() {
 	DatabaseManager::close();
 
-	emit ui->updateSearchLineEdit->textChanged("");
-	emit ui->worksFilterLineEdit->textChanged("");
+	emit ui->tabWidget->currentChanged(ui->tabWidget->currentIndex());
 }
 
 //==================================================================================================================================
@@ -176,10 +173,10 @@ void MainWindow::on_worksFilterLineEdit_textChanged(const QString& text) {
 
 	//Find works and populate the list using the selected 'by' search criteria.
 	QString by = ui->worksFilterByComboBox->currentData().toString();
-	QVector<FilterWork> found_works;
+	QVector<Work> found_works;
 
 	if (by == "Name") {
-		found_works = DatabaseManager::search_works_by_name(ui->worksFilterLineEdit->text(),
+		found_works = DatabaseManager::search_works_by_name(text,
 															ui->worksFilterStatusComboBox->currentData().toString(),
 															ui->worksFilterTypeComboBox->currentData().toString());
 	}
