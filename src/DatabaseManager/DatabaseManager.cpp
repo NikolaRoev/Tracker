@@ -191,7 +191,7 @@ QVector<Work> DatabaseManager::search_update_works(const QString& maybe_partial_
 QVector<Work> DatabaseManager::search_works_by_name(const QString& maybe_partial_name, const QString& status, const QString& type) {
 	//Query text construction.
 	QString query_text =
-			"SELECT id, name "
+			"SELECT id, name, chapter "
 			"FROM works "
 			"WHERE name LIKE (:name)";
 
@@ -224,7 +224,8 @@ QVector<Work> DatabaseManager::search_works_by_name(const QString& maybe_partial
 	if (query.exec()) {
 		while (query.next()) {
 			out.emplace_back(Work{ .id = query.value(0).toInt(),
-								   .name = query.value(1).toString() });
+								   .name = query.value(1).toString(),
+								   .chapter = query.value(2).toString()});
 		}
 	}
 	else {
@@ -302,6 +303,12 @@ void DatabaseManager::add_creator(const QString& name) {
 //==================================================================================================================================
 
 void DatabaseManager::remove_creator(const int id) {
+
+}
+
+//==================================================================================================================================
+
+void DatabaseManager::update_creator(const QString& column, const int id, const QString& value) {
 
 }
 

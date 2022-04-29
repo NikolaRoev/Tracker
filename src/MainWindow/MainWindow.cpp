@@ -62,6 +62,8 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
 	ui->worksTypeComboBox->setItemData(2, "Anthology");
 
 
+	//Set resize mode for the Works table widget.
+	ui->worksTableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
 	//Load settings.
 	QSettings settings("settings.ini", QSettings::IniFormat, this);
@@ -170,7 +172,7 @@ void MainWindow::on_updateSearchLineEdit_textChanged(const QString& text) {
 
 void MainWindow::on_worksFilterLineEdit_textChanged(const QString& text) {
 	//Clear list items.
-	ui->worksListWidget->clear();
+	ui->worksTableWidget->setRowCount(0);
 
 	//Find works and populate the list using the selected 'by' search criteria.
 	QString by = ui->worksFilterByComboBox->currentData().toString();
@@ -183,9 +185,17 @@ void MainWindow::on_worksFilterLineEdit_textChanged(const QString& text) {
 	}
 
 	for (const auto& work : found_works) {
-		QListWidgetItem* item = new QListWidgetItem(work.name);
-		item->setData(Qt::UserRole, work.id);
-		ui->worksListWidget->addItem(item);
+		QTableWidgetItem* name_item = new QTableWidgetItem(work.name);
+		name_item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+		name_item->setData(Qt::UserRole, work.id);
+
+		QTableWidgetItem* chapter_item = new QTableWidgetItem(work.chapter);
+		chapter_item->setFlags(Qt::NoItemFlags);
+
+
+		ui->worksTableWidget->insertRow(ui->worksTableWidget->rowCount());
+		ui->worksTableWidget->setItem(ui->worksTableWidget->rowCount() - 1, 0, name_item);
+		ui->worksTableWidget->setItem(ui->worksTableWidget->rowCount() - 1, 1, chapter_item);
 	}
 
 	//Update status bar.
@@ -213,13 +223,13 @@ void MainWindow::on_worksFilterByComboBox_currentIndexChanged(int index) {
 //==================================================================================================================================
 //==================================================================================================================================
 
-void MainWindow::on_worksListWidget_itemSelectionChanged() {
+void MainWindow::on_worksTableWidget_itemSelectionChanged() {
 	//Clear list items.
 	ui->worksAuthorListWidget->clear();
 	ui->worksArtistListWidget->clear();
 
 
-	auto selected_items = ui->worksListWidget->selectedItems();
+	auto selected_items = ui->worksTableWidget->selectedItems();
 
 	if (!selected_items.isEmpty()) {
 		//Enable input widgets when an item is selected.
@@ -284,7 +294,10 @@ void MainWindow::on_worksListWidget_itemSelectionChanged() {
 
 //==================================================================================================================================
 
-void MainWindow::on_worksListWidget_itemDoubleClicked(QListWidgetItem* item) {
+void MainWindow::on_worksTableWidget_cellDoubleClicked(int row, int column) {
+	QTableWidgetItem* item = ui->worksTableWidget->item(row, column);
+
+
 	int result = QMessageBox::warning(this,
 									  "Deleting Entry",
 									  QString("Are you sure you want to delete \"%1\"?").arg(item->text()),
@@ -293,7 +306,7 @@ void MainWindow::on_worksListWidget_itemDoubleClicked(QListWidgetItem* item) {
 
 	if (result == QMessageBox::Yes) {
 		DatabaseManager::remove_work(item->data(Qt::UserRole).toInt());
-		delete item;
+		ui->worksTableWidget->removeRow(row);
 	}
 }
 
@@ -313,7 +326,7 @@ void MainWindow::on_worksNameLineEdit_textEdited(const QString& text) {
 	DatabaseManager::update_work("name", ui->worksIdLabel->text().toInt(), text);
 
 	//Update the name of the selected work.
-	ui->worksListWidget->selectedItems().first()->setText(text);
+	ui->worksTableWidget->selectedItems().first()->setText(text);
 }
 
 //==================================================================================================================================
@@ -340,7 +353,11 @@ void MainWindow::on_worksChapterLineEdit_textEdited(const QString& text) {
 	DatabaseManager::update_work("chapter", ui->worksIdLabel->text().toInt(), text);
 
 	//Update the Updated datetime label when we change the chapter.
-	emit ui->worksListWidget->itemSelectionChanged();
+	emit ui->worksTableWidget->itemSelectionChanged();
+
+	//Update the chapter in the table widget.
+	int row = ui->worksTableWidget->selectedItems().first()->row();
+	ui->worksTableWidget->item(row, 1)->setText(text);
 }
 
 //==================================================================================================================================

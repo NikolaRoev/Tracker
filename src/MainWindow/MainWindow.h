@@ -41,8 +41,8 @@ private slots:
 	void on_worksFilterTypeComboBox_currentIndexChanged(int index);
 	void on_worksFilterByComboBox_currentIndexChanged(int index);
 
-	void on_worksListWidget_itemSelectionChanged();
-	void on_worksListWidget_itemDoubleClicked(QListWidgetItem* item);
+	void on_worksTableWidget_itemSelectionChanged();
+	void on_worksTableWidget_cellDoubleClicked(int row, int column);
 
 	void on_worksAddButton_clicked();
 	void on_worksNameLineEdit_textEdited(const QString& text);

@@ -30,6 +30,7 @@ public:
 	//Creator.
 	static void add_creator(const QString& name);
 	static void remove_creator(const int id);
+	static void update_creator(const QString& column, const int id, const QString& value);
 };
 
 //==================================================================================================================================
