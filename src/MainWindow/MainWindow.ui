@@ -557,6 +557,9 @@
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
+                <property name="contextMenuPolicy">
+                 <enum>Qt::CustomContextMenu</enum>
+                </property>
                 <property name="frameShadow">
                  <enum>QFrame::Plain</enum>
                 </property>
@@ -643,6 +646,9 @@
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
+                </property>
+                <property name="contextMenuPolicy">
+                 <enum>Qt::CustomContextMenu</enum>
                 </property>
                 <property name="frameShadow">
                  <enum>QFrame::Plain</enum>
@@ -773,7 +779,11 @@
              </widget>
             </item>
             <item row="1" column="1">
-             <widget class="QLineEdit" name="creatorsNameLineEdit"/>
+             <widget class="QLineEdit" name="creatorsNameLineEdit">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>
@@ -786,6 +796,9 @@
           </item>
           <item>
            <widget class="QListWidget" name="creatorsWorksListWidget">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="frameShadow">
              <enum>QFrame::Plain</enum>
             </property>
@@ -839,19 +852,7 @@
     </property>
     <addaction name="actionSettings"/>
    </widget>
-   <widget class="QMenu" name="menuEdit">
-    <property name="title">
-     <string>Edit</string>
-    </property>
-   </widget>
-   <widget class="QMenu" name="menuView">
-    <property name="title">
-     <string>View</string>
-    </property>
-   </widget>
    <addaction name="menuFile"/>
-   <addaction name="menuEdit"/>
-   <addaction name="menuView"/>
    <addaction name="menuTools"/>
    <addaction name="menuHelp"/>
   </widget>

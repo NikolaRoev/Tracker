@@ -6,6 +6,7 @@
 #include "UpdateEntry/UpdateEntry.h"
 #include "AddWorkDialog/AddWorkDialog.h"
 #include "AddCreatorDialog/AddCreatorDialog.h"
+#include "AttachCreatorDialog/AttachCreatorDialog.h"
 
 #include <QMainWindow>
 #include <QSettings>
@@ -298,7 +299,7 @@ void MainWindow::on_worksTableWidget_itemSelectionChanged() {
 
 //==================================================================================================================================
 
-void MainWindow::on_worksTableWidget_customContextMenuRequested(const QPoint &pos) {
+void MainWindow::on_worksTableWidget_customContextMenuRequested(const QPoint& pos) {
 	if (QTableWidgetItem* item = ui->worksTableWidget->itemAt(pos); item) {
 		if (QVariant data = item->data(Qt::UserRole); data.isValid()) {
 			QMenu menu(ui->worksTableWidget);
@@ -372,13 +373,67 @@ void MainWindow::on_worksChapterLineEdit_textEdited(const QString& text) {
 //==================================================================================================================================
 
 void MainWindow::on_worksAuthorAddButton_clicked() {
-	//TO DO: Add.
+	AttachCreatorDialog dialog(ui->worksIdLabel->text().toInt(), "Author", this);
+	if (dialog.exec() == QDialog::Accepted) {
+		emit ui->worksTableWidget->itemSelectionChanged();
+	}
 }
 
 //==================================================================================================================================
 
 void MainWindow::on_worksArtistAddButton_clicked() {
-	//TO DO: Add.
+	AttachCreatorDialog dialog(ui->worksIdLabel->text().toInt(), "Artist", this);
+	if (dialog.exec() == QDialog::Accepted) {
+		emit ui->worksTableWidget->itemSelectionChanged();
+	}
+}
+
+//==================================================================================================================================
+
+void MainWindow::on_worksAuthorListWidget_customContextMenuRequested(const QPoint& pos) {
+	if (QListWidgetItem* item = ui->worksAuthorListWidget->itemAt(pos); item) {
+		if (QVariant data = item->data(Qt::UserRole); data.isValid()) {
+			QMenu menu(ui->worksAuthorListWidget);
+			menu.addAction("Remove", [&](){
+				int result = QMessageBox::warning(this,
+												  "Removing Author",
+												  QString("Are you sure you want to remove \"%1\" as Author?").arg(item->text()),
+												  QMessageBox::Yes,
+												  QMessageBox::No);
+
+				if (result == QMessageBox::Yes) {
+					DatabaseManager::detach_creator(ui->worksIdLabel->text().toInt(), item->data(Qt::UserRole).toInt(), "Author");
+					ui->worksAuthorListWidget->removeItemWidget(item);
+					delete item;
+				}
+			});
+			menu.exec(QCursor::pos());
+		}
+	}
+}
+
+//==================================================================================================================================
+
+void MainWindow::on_worksArtistListWidget_customContextMenuRequested(const QPoint& pos) {
+	if (QListWidgetItem* item = ui->worksArtistListWidget->itemAt(pos); item) {
+		if (QVariant data = item->data(Qt::UserRole); data.isValid()) {
+			QMenu menu(ui->worksArtistListWidget);
+			menu.addAction("Remove", [&](){
+				int result = QMessageBox::warning(this,
+												  "Removing Artist",
+												  QString("Are you sure you want to remove \"%1\" as Artist?").arg(item->text()),
+												  QMessageBox::Yes,
+												  QMessageBox::No);
+
+				if (result == QMessageBox::Yes) {
+					DatabaseManager::detach_creator(ui->worksIdLabel->text().toInt(), item->data(Qt::UserRole).toInt(), "Artist");
+					ui->worksArtistListWidget->removeItemWidget(item);
+					delete item;
+				}
+			});
+			menu.exec(QCursor::pos());
+		}
+	}
 }
 
 //==================================================================================================================================
@@ -454,7 +509,7 @@ void MainWindow::on_creatorsListWidget_itemSelectionChanged() {
 
 //==================================================================================================================================
 
-void MainWindow::on_creatorsListWidget_customContextMenuRequested(const QPoint &pos) {
+void MainWindow::on_creatorsListWidget_customContextMenuRequested(const QPoint& pos) {
 	if (QListWidgetItem* item = ui->creatorsListWidget->itemAt(pos); item) {
 		if (QVariant data = item->data(Qt::UserRole); data.isValid()) {
 			QMenu menu(ui->creatorsListWidget);
@@ -497,7 +552,7 @@ void MainWindow::on_creatorsNameLineEdit_textEdited(const QString& text) {
 //==================================================================================================================================
 
 void MainWindow::on_creatorsWorksListWidget_itemClicked(QListWidgetItem* item) {
-
+	//TO DO: Add me.
 }
 
 //==================================================================================================================================

@@ -1,6 +1,7 @@
 #include "AddWorkDialog.h"
 #include "./ui_AddWorkDialog.h"
 #include "DatabaseManager/DatabaseManager.h"
+#include <AttachCreatorDialog/AttachCreatorDialog.h>
 
 #include <QDialog>
 #include <QListWidgetItem>
@@ -28,39 +29,12 @@ AddWorkDialog::~AddWorkDialog() {
 //==================================================================================================================================
 //==================================================================================================================================
 
-void AddWorkDialog::on_authorAddButton_clicked() {
-
-}
-
-//==================================================================================================================================
-
-void AddWorkDialog::on_artistAddButton_clicked() {
-
-}
-
-//==================================================================================================================================
-
-void AddWorkDialog::on_authorListWidget_itemClicked(QListWidgetItem *item) {
-
-}
-
-//==================================================================================================================================
-
-void AddWorkDialog::on_artistListWidget_itemClicked(QListWidgetItem *item) {
-
-}
-
-//==================================================================================================================================
-//==================================================================================================================================
-
 void AddWorkDialog::on_buttonBox_accepted() {
 	DatabaseManager::add_work(ui->nameLineEdit->text(),
 							  ui->statusComboBox->currentData().toString(),
 							  ui->typeComboBox->currentData().toString(),
 							  ui->groupingLineEdit->text(),
 							  ui->chapterLineEdit->text());
-
-	//TO DO: Add author(s) and/or artist(s) to the recently added work.
 }
 
 //==================================================================================================================================

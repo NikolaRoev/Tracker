@@ -22,11 +22,6 @@ public:
 	~AddWorkDialog();
 
 private slots:
-	void on_authorAddButton_clicked();
-	void on_artistAddButton_clicked();
-	void on_authorListWidget_itemClicked(QListWidgetItem *item);
-	void on_artistListWidget_itemClicked(QListWidgetItem *item);
-
 	void on_buttonBox_accepted();
 };
 
