@@ -158,25 +158,54 @@ void DatabaseManager::update_work(const QString& column, const int id, const QSt
 }
 
 //==================================================================================================================================
-//==================================================================================================================================
 
-QVector<Work> DatabaseManager::search_update_works(const QString& maybe_partial_name) {
+Work DatabaseManager::get_work(const int id) {
 	QSqlQuery query;
 	query.prepare(
-		"SELECT id, name, chapter "
+		"SELECT * "
 		"FROM works "
-		"WHERE name LIKE (:name) AND status = 'Reading'"
+		"WHERE id = (:id)"
 	);
-	query.bindValue(":name", '%' + maybe_partial_name + '%');
+	query.bindValue(":id", id);
 
 
-	QVector<Work> out;
+	Work out;
 
 	if (query.exec()) {
-		while (query.next()) {
-			out.emplace_back(Work{ .id = query.value(0).toInt(),
-								   .name = query.value(1).toString(),
-								   .chapter = query.value(2).toString() });
+		if (query.next()) {
+			out.id = query.value(0).toInt();
+			out.name = query.value(1).toString();
+			out.status = query.value(2).toString();
+			out.type = query.value(3).toString();
+			out.grouping = query.value(4).toString();
+			out.chapter = query.value(5).toString();
+			out.updated = query.value(6).toString();
+			out.added = query.value(7).toString();
+
+			QSqlQuery creator_query;
+			creator_query.prepare(
+				"WITH current_creators AS ("
+				"	SELECT creator_id AS id, type "
+				"	FROM work_creator "
+				"	WHERE work_id = (:work_id)"
+				") "
+				"SELECT current_creators.id, creators.name, current_creators.type "
+				"FROM creators "
+				"INNER JOIN current_creators "
+				"ON creators.id = current_creators.id"
+			);
+			creator_query.bindValue(":work_id", out.id);
+
+			if (creator_query.exec()) {
+				while (creator_query.next()) {
+					out.creators.emplace_back(creator_query.value(0).toInt(),
+											   creator_query.value(1).toString(),
+											   creator_query.value(2).toString());
+				}
+			}
+			else {
+				qDebug() << creator_query.lastError();
+			}
 		}
 	}
 	else {
@@ -236,64 +265,6 @@ QVector<Work> DatabaseManager::search_works_by_name(const QString& maybe_partial
 }
 
 //==================================================================================================================================
-
-Work DatabaseManager::search_work(const int id) {
-	QSqlQuery query;
-	query.prepare(
-		"SELECT * "
-		"FROM works "
-		"WHERE id = (:id)"
-	);
-	query.bindValue(":id", id);
-
-
-	Work out;
-
-	if (query.exec()) {
-		if (query.next()) {
-			out.id = query.value(0).toInt();
-			out.name = query.value(1).toString();
-			out.status = query.value(2).toString();
-			out.type = query.value(3).toString();
-			out.grouping = query.value(4).toString();
-			out.chapter = query.value(5).toString();
-			out.updated = query.value(6).toString();
-			out.added = query.value(7).toString();
-
-			QSqlQuery creator_query;
-			creator_query.prepare(
-				"WITH current_creators AS ("
-				"	SELECT creator_id AS id, type "
-				"	FROM work_creator "
-				"	WHERE work_id = (:work_id)"
-				") "
-				"SELECT current_creators.id, creators.name, current_creators.type "
-				"FROM creators "
-				"INNER JOIN current_creators "
-				"ON creators.id = current_creators.id"
-			);
-			creator_query.bindValue(":work_id", out.id);
-
-			if (creator_query.exec()) {
-				while (creator_query.next()) {
-					out.creators.emplace_back(creator_query.value(0).toInt(),
-											   creator_query.value(1).toString(),
-											   creator_query.value(2).toString());
-				}
-			}
-			else {
-				qDebug() << creator_query.lastError();
-			}
-		}
-	}
-	else {
-		qDebug() << query.lastError();
-	}
-
-	return out;
-}
-
-//==================================================================================================================================
 //==================================================================================================================================
 
 void DatabaseManager::add_creator(const QString& name) {
@@ -309,6 +280,30 @@ void DatabaseManager::remove_creator(const int id) {
 //==================================================================================================================================
 
 void DatabaseManager::update_creator(const QString& column, const int id, const QString& value) {
+
+}
+
+//==================================================================================================================================
+
+Creator DatabaseManager::get_creator(const int id) {
+	return {};
+}
+
+//==================================================================================================================================
+
+QVector<Creator> DatabaseManager::search_creators(const QString& maybe_partial_name) {
+	return {};
+}
+
+//==================================================================================================================================
+
+void DatabaseManager::attach_creator(const int work_id, const int creator_id, const QString& creator_type) {
+
+}
+
+//==================================================================================================================================
+
+void DatabaseManager::detach_creator(const int work_id, const int creator_id, const QString& creator_type) {
 
 }
 

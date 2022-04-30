@@ -158,7 +158,7 @@ void MainWindow::on_updateSearchLineEdit_textChanged(const QString& text) {
 	}
 
 	//Find works and populate the update list.
-	const auto found_works = DatabaseManager::search_update_works(text);
+	const auto found_works = DatabaseManager::search_works_by_name(text, "Reading");
 	for (const auto& found_work : found_works) {
 		ui->updateContentsWidget->layout()->addWidget(
 			new UpdateEntry(found_work, ui->updateScrollArea)
@@ -247,7 +247,7 @@ void MainWindow::on_worksTableWidget_itemSelectionChanged() {
 		ui->worksArtistListWidget->setEnabled(true);
 
 
-		const auto work = DatabaseManager::search_work(selected_items.first()->data(Qt::UserRole).toInt());
+		const auto work = DatabaseManager::get_work(selected_items.first()->data(Qt::UserRole).toInt());
 
 		ui->worksIdLabel->setText(QString::number(work.id));
 		ui->worksNameLineEdit->setText(work.name);

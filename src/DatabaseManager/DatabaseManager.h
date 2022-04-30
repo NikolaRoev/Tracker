@@ -20,17 +20,23 @@ public:
 	static void add_work(const QString& name, const QString& status, const QString& type, const QString& grouping, const QString& chapter);
 	static void remove_work(const int id);
 	static void update_work(const QString& column, const int id, const QString& value);
+	static Work get_work(const int id);
 
-	//TO DO: simplify me?? Why have both of the same? just use Reding for update works???
-	static QVector<Work> search_update_works(const QString& maybe_partial_name);
-	static QVector<Work> search_works_by_name(const QString& maybe_partial_name, const QString& status, const QString& type);
-	static Work search_work(const int id);
+	static QVector<Work> search_works_by_name(const QString& maybe_partial_name,
+											  const QString& status = QString(),
+											  const QString& type = QString());
 
 
 	//Creator.
 	static void add_creator(const QString& name);
 	static void remove_creator(const int id);
 	static void update_creator(const QString& column, const int id, const QString& value);
+	static Creator get_creator(const int id);
+
+	static QVector<Creator> search_creators(const QString& maybe_partial_name);
+
+	static void attach_creator(const int work_id, const int creator_id, const QString& creator_type);
+	static void detach_creator(const int work_id, const int creator_id, const QString& creator_type);
 };
 
 //==================================================================================================================================
