@@ -150,7 +150,7 @@
             </sizepolicy>
            </property>
            <property name="text">
-            <string>Edit</string>
+            <string>Add</string>
            </property>
           </widget>
          </item>
@@ -229,9 +229,9 @@
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="artistEditButton">
+          <widget class="QPushButton" name="artistAddButton">
            <property name="text">
-            <string>Edit</string>
+            <string>Add</string>
            </property>
           </widget>
          </item>

@@ -238,6 +238,9 @@
           </item>
           <item>
            <widget class="QTableWidget" name="worksTableWidget">
+            <property name="contextMenuPolicy">
+             <enum>Qt::CustomContextMenu</enum>
+            </property>
             <property name="editTriggers">
              <set>QAbstractItemView::NoEditTriggers</set>
             </property>
@@ -526,7 +529,7 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QPushButton" name="worksAuthorEditButton">
+                 <widget class="QPushButton" name="worksAuthorAddButton">
                   <property name="enabled">
                    <bool>false</bool>
                   </property>
@@ -537,7 +540,7 @@
                    </sizepolicy>
                   </property>
                   <property name="text">
-                   <string>Edit</string>
+                   <string>Add</string>
                   </property>
                  </widget>
                 </item>
@@ -619,12 +622,12 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QPushButton" name="worksArtistEditButton">
+                 <widget class="QPushButton" name="worksArtistAddButton">
                   <property name="enabled">
                    <bool>false</bool>
                   </property>
                   <property name="text">
-                   <string>Edit</string>
+                   <string>Add</string>
                   </property>
                  </widget>
                 </item>

@@ -21,8 +21,8 @@ public:
 	~AddWorkDialog();
 
 private slots:
-	void on_authorEditButton_clicked();
-	void on_artistEditButton_clicked();
+	void on_authorAddButton_clicked();
+	void on_artistAddButton_clicked();
 
 	void on_buttonBox_accepted();
 };

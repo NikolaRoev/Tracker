@@ -13,6 +13,7 @@
 #include <QString>
 #include <QListWidgetItem>
 #include <QMessageBox>
+#include <QMenu>
 
 //==================================================================================================================================
 //==================================================================================================================================
@@ -64,6 +65,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
 
 	//Set resize mode for the Works table widget.
 	ui->worksTableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+
 
 	//Load settings.
 	QSettings settings("settings.ini", QSettings::IniFormat, this);
@@ -239,9 +241,9 @@ void MainWindow::on_worksTableWidget_itemSelectionChanged() {
 		ui->worksGroupingLineEdit->setEnabled(true);
 		ui->worksChapterLineEdit->setEnabled(true);
 
-		ui->worksAuthorEditButton->setEnabled(true);
+		ui->worksAuthorAddButton->setEnabled(true);
 		ui->worksAuthorListWidget->setEnabled(true);
-		ui->worksArtistEditButton->setEnabled(true);
+		ui->worksArtistAddButton->setEnabled(true);
 		ui->worksArtistListWidget->setEnabled(true);
 
 
@@ -285,28 +287,33 @@ void MainWindow::on_worksTableWidget_itemSelectionChanged() {
 		ui->worksGroupingLineEdit->setDisabled(true);
 		ui->worksChapterLineEdit->setDisabled(true);
 
-		ui->worksAuthorEditButton->setDisabled(true);
+		ui->worksAuthorAddButton->setDisabled(true);
 		ui->worksAuthorListWidget->setDisabled(true);
-		ui->worksArtistEditButton->setDisabled(true);
+		ui->worksArtistAddButton->setDisabled(true);
 		ui->worksArtistListWidget->setDisabled(true);
 	}
 }
 
 //==================================================================================================================================
 
-void MainWindow::on_worksTableWidget_cellDoubleClicked(int row, int column) {
-	QTableWidgetItem* item = ui->worksTableWidget->item(row, column);
+void MainWindow::on_worksTableWidget_customContextMenuRequested(const QPoint &pos) {
+	if (QTableWidgetItem* item = ui->worksTableWidget->itemAt(pos); item) {
+		if (QVariant data = item->data(Qt::UserRole); data.isValid()) {
+			QMenu menu(ui->worksTableWidget);
+			menu.addAction("Remove", [&](){
+				int result = QMessageBox::warning(this,
+												  "Deleting Entry",
+												  QString("Are you sure you want to delete \"%1\"?").arg(item->text()),
+												  QMessageBox::Yes,
+												  QMessageBox::No);
 
-
-	int result = QMessageBox::warning(this,
-									  "Deleting Entry",
-									  QString("Are you sure you want to delete \"%1\"?").arg(item->text()),
-									  QMessageBox::Yes,
-									  QMessageBox::No);
-
-	if (result == QMessageBox::Yes) {
-		DatabaseManager::remove_work(item->data(Qt::UserRole).toInt());
-		ui->worksTableWidget->removeRow(row);
+				if (result == QMessageBox::Yes) {
+					DatabaseManager::remove_work(item->data(Qt::UserRole).toInt());
+					ui->worksTableWidget->removeRow(item->row());
+				}
+			});
+			menu.exec(QCursor::pos());
+		}
 	}
 }
 
@@ -362,13 +369,13 @@ void MainWindow::on_worksChapterLineEdit_textEdited(const QString& text) {
 
 //==================================================================================================================================
 
-void MainWindow::on_worksAuthorEditButton_clicked() {
+void MainWindow::on_worksAuthorAddButton_clicked() {
 	//TO DO: Add.
 }
 
 //==================================================================================================================================
 
-void MainWindow::on_worksArtistEditButton_clicked() {
+void MainWindow::on_worksArtistAddButton_clicked() {
 	//TO DO: Add.
 }
 
