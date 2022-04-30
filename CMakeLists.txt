@@ -41,6 +41,10 @@ qt_add_executable(Tracker
 	"src/AddCreatorDialog/AddCreatorDialog.h"
 	"src/AddCreatorDialog/AddCreatorDialog.cpp"
 	"src/AddCreatorDialog/AddCreatorDialog.ui"
+
+	"src/AttachCreatorDialog/AttachCreatorDialog.h"
+	"src/AttachCreatorDialog/AttachCreatorDialog.cpp"
+	"src/AttachCreatorDialog/AttachCreatorDialog.ui"
 )
 
 target_link_libraries(Tracker

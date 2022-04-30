@@ -43,7 +43,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>2</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="updateTab">
        <attribute name="title">
@@ -710,6 +710,9 @@
             <property name="lineWidth">
              <number>2</number>
             </property>
+            <property name="alternatingRowColors">
+             <bool>true</bool>
+            </property>
            </widget>
           </item>
          </layout>
@@ -788,6 +791,9 @@
             </property>
             <property name="lineWidth">
              <number>2</number>
+            </property>
+            <property name="alternatingRowColors">
+             <bool>true</bool>
             </property>
            </widget>
           </item>
