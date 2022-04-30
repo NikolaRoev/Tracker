@@ -35,8 +35,8 @@ public:
 
 	static QVector<Creator> search_creators(const QString& maybe_partial_name);
 
-	static void attach_creator(const int work_id, const int creator_id, const QString& creator_type);
-	static void detach_creator(const int work_id, const int creator_id, const QString& creator_type);
+	static void attach_creator(const int work_id, const int creator_id, const QString& type);
+	static void detach_creator(const int work_id, const int creator_id, const QString& type);
 };
 
 //==================================================================================================================================

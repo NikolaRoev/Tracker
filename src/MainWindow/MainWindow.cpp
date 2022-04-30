@@ -5,6 +5,7 @@
 #include "DatabaseManager/Creator.h"
 #include "UpdateEntry/UpdateEntry.h"
 #include "AddWorkDialog/AddWorkDialog.h"
+#include "AddCreatorDialog/AddCreatorDialog.h"
 
 #include <QMainWindow>
 #include <QSettings>
@@ -14,6 +15,7 @@
 #include <QListWidgetItem>
 #include <QMessageBox>
 #include <QMenu>
+#include <QCursor>
 
 //==================================================================================================================================
 //==================================================================================================================================
@@ -396,31 +398,100 @@ void MainWindow::on_worksArtistListWidget_itemClicked(QListWidgetItem* item) {
 //==================================================================================================================================
 
 void MainWindow::on_creatorsFilterLineEdit_textChanged(const QString& text) {
+	//Clear list items.
+	ui->creatorsListWidget->clear();
 
+	//Find creators and populate the list.
+	QVector<Creator> found_creators = DatabaseManager::search_creators(text);
+
+	for (const auto& creator : found_creators) {
+		QListWidgetItem* item = new QListWidgetItem(creator.name);
+		item->setData(Qt::UserRole, creator.id);
+
+		ui->creatorsListWidget->addItem(item);
+	}
+
+	//Update status bar.
+	ui->statusBar->showMessage(QString("Found %1 entries.").arg(found_creators.size()));
 }
 
 //==================================================================================================================================
 
 void MainWindow::on_creatorsListWidget_itemSelectionChanged() {
+	//Clear list items.
+	ui->creatorsWorksListWidget->clear();
 
+
+	auto selected_items = ui->creatorsListWidget->selectedItems();
+
+	if (!selected_items.isEmpty()) {
+		//Enable input widgets when an item is selected.
+		ui->creatorsNameLineEdit->setEnabled(true);
+		ui->creatorsWorksListWidget->setEnabled(true);
+
+
+		const auto creator = DatabaseManager::get_creator(selected_items.first()->data(Qt::UserRole).toInt());
+
+		ui->creatorsIdLabel->setText(QString::number(creator.id));
+		ui->creatorsNameLineEdit->setText(creator.name);
+
+		for (const auto& work : creator.works) {
+			QListWidgetItem* item = new QListWidgetItem(work.name);
+			item->setData(Qt::UserRole, work.id);
+
+			ui->creatorsWorksListWidget->addItem(item);
+		}
+	}
+	else {
+		ui->creatorsIdLabel->clear();
+		ui->creatorsNameLineEdit->clear();
+
+		//Disable input widgets when no item is selected.
+		ui->creatorsNameLineEdit->setDisabled(true);
+		ui->creatorsWorksListWidget->setDisabled(true);
+	}
 }
 
 //==================================================================================================================================
 
-void MainWindow::on_creatorsListWidget_itemDoubleClicked(QListWidgetItem* item) {
+void MainWindow::on_creatorsListWidget_customContextMenuRequested(const QPoint &pos) {
+	if (QListWidgetItem* item = ui->creatorsListWidget->itemAt(pos); item) {
+		if (QVariant data = item->data(Qt::UserRole); data.isValid()) {
+			QMenu menu(ui->creatorsListWidget);
+			menu.addAction("Remove", [&](){
+				int result = QMessageBox::warning(this,
+												  "Deleting Entry",
+												  QString("Are you sure you want to delete \"%1\"?").arg(item->text()),
+												  QMessageBox::Yes,
+												  QMessageBox::No);
 
+				if (result == QMessageBox::Yes) {
+					DatabaseManager::remove_creator(item->data(Qt::UserRole).toInt());
+					ui->creatorsListWidget->removeItemWidget(item);
+					delete item;
+				}
+			});
+			menu.exec(QCursor::pos());
+		}
+	}
 }
 
 //==================================================================================================================================
 
 void MainWindow::on_creatorsAddButton_clicked() {
-
+	AddCreatorDialog dialog(this);
+	if (dialog.exec() == QDialog::Accepted) {
+		emit ui->creatorsFilterLineEdit->textChanged(ui->creatorsFilterLineEdit->text());
+	}
 }
 
 //==================================================================================================================================
 
 void MainWindow::on_creatorsNameLineEdit_textEdited(const QString& text) {
+	DatabaseManager::update_creator("name", ui->creatorsIdLabel->text().toInt(), text);
 
+	//Update the name of the selected work.
+	ui->creatorsListWidget->selectedItems().first()->setText(text);
 }
 
 //==================================================================================================================================

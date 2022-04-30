@@ -43,7 +43,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>1</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="updateTab">
        <attribute name="title">
@@ -701,6 +701,9 @@
           </item>
           <item>
            <widget class="QListWidget" name="creatorsListWidget">
+            <property name="contextMenuPolicy">
+             <enum>Qt::CustomContextMenu</enum>
+            </property>
             <property name="frameShadow">
              <enum>QFrame::Plain</enum>
             </property>

@@ -37,6 +37,10 @@ qt_add_executable(Tracker
 	"src/AddWorkDialog/AddWorkDialog.h"
 	"src/AddWorkDialog/AddWorkDialog.cpp"
 	"src/AddWorkDialog/AddWorkDialog.ui"
+
+	"src/AddCreatorDialog/AddCreatorDialog.h"
+	"src/AddCreatorDialog/AddCreatorDialog.cpp"
+	"src/AddCreatorDialog/AddCreatorDialog.ui"
 )
 
 target_link_libraries(Tracker

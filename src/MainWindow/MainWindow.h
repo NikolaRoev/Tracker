@@ -58,7 +58,7 @@ private slots:
 	//Creator tab.
 	void on_creatorsFilterLineEdit_textChanged(const QString& text);
 	void on_creatorsListWidget_itemSelectionChanged();
-	void on_creatorsListWidget_itemDoubleClicked(QListWidgetItem* item);
+	void on_creatorsListWidget_customContextMenuRequested(const QPoint &pos);
 	void on_creatorsAddButton_clicked();
 	void on_creatorsNameLineEdit_textEdited(const QString& text);
 	void on_creatorsWorksListWidget_itemClicked(QListWidgetItem* item);
