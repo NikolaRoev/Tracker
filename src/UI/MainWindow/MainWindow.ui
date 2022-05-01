@@ -20,7 +20,7 @@
    <string>Tracker</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../../resources/resources.qrc">
+   <iconset resource="../../../resources/resources.qrc">
     <normaloff>:/general/icon.ico</normaloff>:/general/icon.ico</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
@@ -897,7 +897,7 @@
   <tabstop>updateSearchLineEdit</tabstop>
  </tabstops>
  <resources>
-  <include location="../../resources/resources.qrc"/>
+  <include location="../../../resources/resources.qrc"/>
  </resources>
  <connections/>
 </ui>

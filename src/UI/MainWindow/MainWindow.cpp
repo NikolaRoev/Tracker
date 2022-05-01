@@ -7,6 +7,8 @@
 #include "AddWorkDialog/AddWorkDialog.h"
 #include "AddCreatorDialog/AddCreatorDialog.h"
 #include "AttachCreatorDialog/AttachCreatorDialog.h"
+#include "WorkDialog/WorkDialog.h"
+#include "CreatorDialog/CreatorDialog.h"
 
 #include <QMainWindow>
 #include <QSettings>
@@ -110,25 +112,28 @@ MainWindow::~MainWindow() {
 
 void MainWindow::on_actionNew_triggered() {
 	QString file = QFileDialog::getSaveFileName(this, "New Database", "", "Databases (*.db)");
-	DatabaseManager::open(file);
 
-	emit ui->tabWidget->currentChanged(ui->tabWidget->currentIndex());
+	if (!file.isNull()) {
+		DatabaseManager::open(file);
+		emit ui->tabWidget->currentChanged(ui->tabWidget->currentIndex());
+	}
 }
 
 //==================================================================================================================================
 
 void MainWindow::on_actionOpen_triggered() {
 	QString file = QFileDialog::getOpenFileName(this, "Open Database", "", "Databases (*.db)");
-	DatabaseManager::open(file);
 
-	emit ui->tabWidget->currentChanged(ui->tabWidget->currentIndex());
+	if (!file.isNull()) {
+		DatabaseManager::open(file);
+		emit ui->tabWidget->currentChanged(ui->tabWidget->currentIndex());
+	}
 }
 
 //==================================================================================================================================
 
 void MainWindow::on_actionClose_triggered() {
 	DatabaseManager::close();
-
 	emit ui->tabWidget->currentChanged(ui->tabWidget->currentIndex());
 }
 
@@ -188,6 +193,7 @@ void MainWindow::on_worksFilterLineEdit_textChanged(const QString& text) {
 															ui->worksFilterStatusComboBox->currentData().toString(),
 															ui->worksFilterTypeComboBox->currentData().toString());
 	}
+	//TO DO: Add the other 'by' searches.
 
 	for (const auto& work : found_works) {
 		QTableWidgetItem* name_item = new QTableWidgetItem(work.name);
@@ -439,13 +445,15 @@ void MainWindow::on_worksArtistListWidget_customContextMenuRequested(const QPoin
 //==================================================================================================================================
 
 void MainWindow::on_worksAuthorListWidget_itemClicked(QListWidgetItem* item) {
-	//TO DO: Add.
+	CreatorDialog* dialog = new CreatorDialog(item->data(Qt::UserRole).toInt(), this);
+	dialog->show();
 }
 
 //==================================================================================================================================
 
 void MainWindow::on_worksArtistListWidget_itemClicked(QListWidgetItem* item) {
-	//TO DO: Add.
+	CreatorDialog* dialog = new CreatorDialog(item->data(Qt::UserRole).toInt(), this);
+	dialog->show();
 }
 
 //==================================================================================================================================
@@ -552,7 +560,8 @@ void MainWindow::on_creatorsNameLineEdit_textEdited(const QString& text) {
 //==================================================================================================================================
 
 void MainWindow::on_creatorsWorksListWidget_itemClicked(QListWidgetItem* item) {
-	//TO DO: Add me.
+	WorkDialog* dialog = new WorkDialog(item->data(Qt::UserRole).toInt(), this);
+	dialog->show();
 }
 
 //==================================================================================================================================

@@ -19,32 +19,44 @@ find_package(Qt6
 qt_add_executable(Tracker
 	"resources/resources.qrc"
 	"resources/resources.rc"
+
+
 	"src/main.cpp"
 
-	"src/MainWindow/MainWindow.h"
-	"src/MainWindow/MainWindow.cpp"
-	"src/MainWindow/MainWindow.ui"
 
 	"src/DatabaseManager/DatabaseManager.h"
 	"src/DatabaseManager/DatabaseManager.cpp"
 	"src/DatabaseManager/Work.h"
 	"src/DatabaseManager/Creator.h"
 
-	"src/UpdateEntry/UpdateEntry.h"
-	"src/UpdateEntry/UpdateEntry.cpp"
-	"src/UpdateEntry/UpdateEntry.ui"
 
-	"src/AddWorkDialog/AddWorkDialog.h"
-	"src/AddWorkDialog/AddWorkDialog.cpp"
-	"src/AddWorkDialog/AddWorkDialog.ui"
+	"src/UI/MainWindow/MainWindow.h"
+	"src/UI/MainWindow/MainWindow.cpp"
+	"src/UI/MainWindow/MainWindow.ui"
 
-	"src/AddCreatorDialog/AddCreatorDialog.h"
-	"src/AddCreatorDialog/AddCreatorDialog.cpp"
-	"src/AddCreatorDialog/AddCreatorDialog.ui"
+	"src/UI/UpdateEntry/UpdateEntry.h"
+	"src/UI/UpdateEntry/UpdateEntry.cpp"
+	"src/UI/UpdateEntry/UpdateEntry.ui"
 
-	"src/AttachCreatorDialog/AttachCreatorDialog.h"
-	"src/AttachCreatorDialog/AttachCreatorDialog.cpp"
-	"src/AttachCreatorDialog/AttachCreatorDialog.ui"
+	"src/UI/AddWorkDialog/AddWorkDialog.h"
+	"src/UI/AddWorkDialog/AddWorkDialog.cpp"
+	"src/UI/AddWorkDialog/AddWorkDialog.ui"
+
+	"src/UI/AddCreatorDialog/AddCreatorDialog.h"
+	"src/UI/AddCreatorDialog/AddCreatorDialog.cpp"
+	"src/UI/AddCreatorDialog/AddCreatorDialog.ui"
+
+	"src/UI/AttachCreatorDialog/AttachCreatorDialog.h"
+	"src/UI/AttachCreatorDialog/AttachCreatorDialog.cpp"
+	"src/UI/AttachCreatorDialog/AttachCreatorDialog.ui"
+
+	"src/UI/WorkDialog/WorkDialog.h"
+	"src/UI/WorkDialog/WorkDialog.cpp"
+	"src/UI/WorkDialog/WorkDialog.ui"
+
+	"src/UI/CreatorDialog/CreatorDialog.h"
+	"src/UI/CreatorDialog/CreatorDialog.cpp"
+	"src/UI/CreatorDialog/CreatorDialog.ui"
 )
 
 target_link_libraries(Tracker
@@ -58,4 +70,5 @@ target_link_libraries(Tracker
 target_include_directories(Tracker
 	PRIVATE
 	"${CMAKE_SOURCE_DIR}/src/"
+	"${CMAKE_SOURCE_DIR}/src/UI/"
 )
