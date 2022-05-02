@@ -25,10 +25,15 @@ public:
 
 private slots:
 	//Menu bar.
+	//File.
 	void on_actionNew_triggered();
 	void on_actionOpen_triggered();
 	void on_actionClose_triggered();
 	void on_actionExit_triggered();
+	//Edit.
+	void on_actionAdd_Work_triggered();
+	void on_actionAdd_Creator_triggered();
+
 
 	void on_tabWidget_currentChanged(int index);
 
@@ -44,7 +49,6 @@ private slots:
 	void on_worksTableWidget_itemSelectionChanged();
 	void on_worksTableWidget_customContextMenuRequested(const QPoint& pos);
 
-	void on_worksAddButton_clicked();
 	void on_worksNameLineEdit_textEdited(const QString& text);
 	void on_worksStatusComboBox_currentIndexChanged(int index);
 	void on_worksTypeComboBox_currentIndexChanged(int index);
@@ -62,9 +66,9 @@ private slots:
 	void on_creatorsFilterLineEdit_textChanged(const QString& text);
 	void on_creatorsListWidget_itemSelectionChanged();
 	void on_creatorsListWidget_customContextMenuRequested(const QPoint& pos);
-	void on_creatorsAddButton_clicked();
 	void on_creatorsNameLineEdit_textEdited(const QString& text);
 	void on_creatorsWorksListWidget_itemClicked(QListWidgetItem* item);
+
 };
 
 //==================================================================================================================================

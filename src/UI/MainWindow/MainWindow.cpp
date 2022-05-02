@@ -74,14 +74,14 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
 
 	//Load settings.
 	QSettings settings("settings.ini", QSettings::IniFormat, this);
-	settings.beginGroup("window");
 	restoreGeometry(settings.value("geometry").toByteArray());
 	restoreState(settings.value("state").toByteArray());
-	settings.endGroup();
 
-	settings.beginGroup("user");
-	DatabaseManager::open(settings.value("default_database").toString());
-	settings.endGroup();
+	if (auto default_database = settings.value("default_database").toString(); !default_database.isEmpty()) {
+		DatabaseManager::open(default_database);
+		ui->actionAdd_Work->setEnabled(true);
+		ui->actionAdd_Creator->setEnabled(true);
+	}
 
 
 	//Populate the update entries when the program starts initially.
@@ -91,17 +91,10 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
 //==================================================================================================================================
 
 MainWindow::~MainWindow() {
-	//Save settings.
 	QSettings settings("settings.ini", QSettings::IniFormat, this);
-	settings.beginGroup("window");
 	settings.setValue("geometry", saveGeometry());
 	settings.setValue("state", saveState());
-	settings.endGroup();
-
-	settings.beginGroup("user");
 	settings.setValue("default_database", DatabaseManager::get());
-	settings.endGroup();
-
 
 	DatabaseManager::deinit();
 	delete ui;
@@ -115,6 +108,9 @@ void MainWindow::on_actionNew_triggered() {
 
 	if (!file.isNull()) {
 		DatabaseManager::open(file);
+		ui->actionAdd_Work->setEnabled(true);
+		ui->actionAdd_Creator->setEnabled(true);
+
 		emit ui->tabWidget->currentChanged(ui->tabWidget->currentIndex());
 	}
 }
@@ -126,6 +122,9 @@ void MainWindow::on_actionOpen_triggered() {
 
 	if (!file.isNull()) {
 		DatabaseManager::open(file);
+		ui->actionAdd_Work->setEnabled(true);
+		ui->actionAdd_Creator->setEnabled(true);
+
 		emit ui->tabWidget->currentChanged(ui->tabWidget->currentIndex());
 	}
 }
@@ -134,6 +133,9 @@ void MainWindow::on_actionOpen_triggered() {
 
 void MainWindow::on_actionClose_triggered() {
 	DatabaseManager::close();
+	ui->actionAdd_Work->setDisabled(true);
+	ui->actionAdd_Creator->setDisabled(true);
+
 	emit ui->tabWidget->currentChanged(ui->tabWidget->currentIndex());
 }
 
@@ -141,6 +143,24 @@ void MainWindow::on_actionClose_triggered() {
 
 void MainWindow::on_actionExit_triggered() {
 	QApplication::exit();
+}
+
+//==================================================================================================================================
+
+void MainWindow::on_actionAdd_Work_triggered() {
+	AddWorkDialog dialog(this);
+	if (dialog.exec() == QDialog::Accepted) {
+		emit ui->worksFilterLineEdit->textChanged(ui->worksFilterLineEdit->text());
+	}
+}
+
+//==================================================================================================================================
+
+void MainWindow::on_actionAdd_Creator_triggered() {
+	AddCreatorDialog dialog(this);
+	if (dialog.exec() == QDialog::Accepted) {
+		emit ui->creatorsFilterLineEdit->textChanged(ui->creatorsFilterLineEdit->text());
+	}
 }
 
 //==================================================================================================================================
@@ -327,15 +347,6 @@ void MainWindow::on_worksTableWidget_customContextMenuRequested(const QPoint& po
 }
 
 //==================================================================================================================================
-//==================================================================================================================================
-
-void MainWindow::on_worksAddButton_clicked() {
-	AddWorkDialog dialog(this);
-	if (dialog.exec() == QDialog::Accepted) {
-		emit ui->worksFilterLineEdit->textChanged(ui->worksFilterLineEdit->text());
-	}
-}
-
 //==================================================================================================================================
 
 void MainWindow::on_worksNameLineEdit_textEdited(const QString& text) {
@@ -536,15 +547,6 @@ void MainWindow::on_creatorsListWidget_customContextMenuRequested(const QPoint& 
 			});
 			menu.exec(QCursor::pos());
 		}
-	}
-}
-
-//==================================================================================================================================
-
-void MainWindow::on_creatorsAddButton_clicked() {
-	AddCreatorDialog dialog(this);
-	if (dialog.exec() == QDialog::Accepted) {
-		emit ui->creatorsFilterLineEdit->textChanged(ui->creatorsFilterLineEdit->text());
 	}
 }
 
