@@ -46,17 +46,17 @@ qt_add_executable(Tracker
 	"src/UI/AddCreatorDialog/AddCreatorDialog.cpp"
 	"src/UI/AddCreatorDialog/AddCreatorDialog.ui"
 
-	"src/UI/AttachCreatorDialog/AttachCreatorDialog.h"
-	"src/UI/AttachCreatorDialog/AttachCreatorDialog.cpp"
-	"src/UI/AttachCreatorDialog/AttachCreatorDialog.ui"
+	"src/UI/WorkPage/WorkPage.h"
+	"src/UI/WorkPage/WorkPage.cpp"
+	"src/UI/WorkPage/WorkPage.ui"
 
-	"src/UI/WorkDialog/WorkDialog.h"
-	"src/UI/WorkDialog/WorkDialog.cpp"
-	"src/UI/WorkDialog/WorkDialog.ui"
+	"src/UI/CreatorPage/CreatorPage.h"
+	"src/UI/CreatorPage/CreatorPage.cpp"
+	"src/UI/CreatorPage/CreatorPage.ui"
 
-	"src/UI/CreatorDialog/CreatorDialog.h"
-	"src/UI/CreatorDialog/CreatorDialog.cpp"
-	"src/UI/CreatorDialog/CreatorDialog.ui"
+	"src/UI/SearchCreatorDialog/SearchCreatorDialog.h"
+	"src/UI/SearchCreatorDialog/SearchCreatorDialog.cpp"
+	"src/UI/SearchCreatorDialog/SearchCreatorDialog.ui"
 )
 
 target_link_libraries(Tracker

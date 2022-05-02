@@ -1,5 +1,5 @@
-#include "AttachCreatorDialog.h"
-#include "./ui_AttachCreatorDialog.h"
+#include "SearchCreatorDialog.h"
+#include "./ui_SearchCreatorDialog.h"
 #include "DatabaseManager/DatabaseManager.h"
 
 #include <QDialog>
@@ -8,44 +8,37 @@
 //==================================================================================================================================
 //==================================================================================================================================
 
-AttachCreatorDialog::AttachCreatorDialog(const int work_id, const QString& type, QWidget* parent)
-	: work_id(work_id), type(type), QDialog(parent), ui(new Ui::AttachCreatorDialog) {
-
+SearchCreatorDialog::SearchCreatorDialog(QWidget* parent) : QDialog(parent), ui(new Ui::SearchCreatorDialog) {
 	ui->setupUi(this);
-	emit ui->filterLineEdit->textEdited(ui->filterLineEdit->text());
+	setAttribute(Qt::WA_DeleteOnClose);
 }
 
 //==================================================================================================================================
 
-AttachCreatorDialog::~AttachCreatorDialog() {
+SearchCreatorDialog::~SearchCreatorDialog() {
 	delete ui;
 }
 
 //==================================================================================================================================
 //==================================================================================================================================
 
-void AttachCreatorDialog::on_filterLineEdit_textEdited(const QString& text) {
-	//Clear list items.
+void SearchCreatorDialog::on_filterLineEdit_textEdited(const QString& text) {
 	ui->listWidget->clear();
 
-	//Find creators and populate the list.
 	QVector<Creator> found_creators = DatabaseManager::search_creators(text);
-
 	for (const auto& creator : found_creators) {
 		QListWidgetItem* item = new QListWidgetItem(creator.name);
 		item->setData(Qt::UserRole, creator.id);
-
 		ui->listWidget->addItem(item);
 	}
 }
 
 //==================================================================================================================================
 
-void AttachCreatorDialog::on_buttonBox_accepted() {
+void SearchCreatorDialog::on_buttonBox_accepted() {
 	auto selected_items = ui->listWidget->selectedItems();
-
 	if (!selected_items.isEmpty()) {
-		DatabaseManager::attach_creator(work_id, selected_items.first()->data(Qt::UserRole).toInt(), type);
+		emit creatorSelected(selected_items.first()->data(Qt::UserRole).toInt(), selected_items.first()->text());
 	}
 }
 

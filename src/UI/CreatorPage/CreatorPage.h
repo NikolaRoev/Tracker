@@ -5,20 +5,20 @@
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
-	class WorkDialog;
+	class CreatorPage;
 }
 QT_END_NAMESPACE
 
 //==================================================================================================================================
 
-class WorkDialog : public QDialog {
+class CreatorDialog : public QDialog {
 	Q_OBJECT
 private:
-	Ui::WorkDialog* ui{ nullptr };
+	Ui::CreatorPage* ui{ nullptr };
 
 public:
-	WorkDialog(const int id, QWidget* parent = nullptr);
-	~WorkDialog();
+	CreatorDialog(const int id, QWidget* parent = nullptr);
+	~CreatorDialog();
 };
 
 //==================================================================================================================================

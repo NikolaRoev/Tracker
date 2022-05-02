@@ -1,12 +1,12 @@
-#include "CreatorDialog.h"
-#include "./ui_CreatorDialog.h"
+#include "CreatorPage.h"
+#include "./ui_CreatorPage.h"
 #include "DatabaseManager/DatabaseManager.h"
 
 #include <QDialog>
 
 //==================================================================================================================================
 
-CreatorDialog::CreatorDialog(const int id, QWidget* parent) : QDialog(parent), ui(new Ui::CreatorDialog) {
+CreatorDialog::CreatorDialog(const int id, QWidget* parent) : QDialog(parent), ui(new Ui::CreatorPage) {
 	ui->setupUi(this);
 	setAttribute(Qt::WA_DeleteOnClose);
 

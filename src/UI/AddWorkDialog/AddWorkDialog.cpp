@@ -1,16 +1,15 @@
 #include "AddWorkDialog.h"
 #include "./ui_AddWorkDialog.h"
 #include "DatabaseManager/DatabaseManager.h"
-#include <AttachCreatorDialog/AttachCreatorDialog.h>
 
 #include <QDialog>
-#include <QListWidgetItem>
 
 //==================================================================================================================================
 //==================================================================================================================================
 
 AddWorkDialog::AddWorkDialog(QWidget* parent) : QDialog(parent), ui(new Ui::AddWorkDialog) {
 	ui->setupUi(this);
+	setAttribute(Qt::WA_DeleteOnClose);
 
 	ui->statusComboBox->setItemData(0, "Reading");
 	ui->statusComboBox->setItemData(1, "Completed");

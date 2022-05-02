@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>AttachCreatorDialog</class>
- <widget class="QDialog" name="AttachCreatorDialog">
+ <class>SearchCreatorDialog</class>
+ <widget class="QDialog" name="SearchCreatorDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -45,7 +45,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>AttachCreatorDialog</receiver>
+   <receiver>SearchCreatorDialog</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -61,7 +61,7 @@
   <connection>
    <sender>buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>AttachCreatorDialog</receiver>
+   <receiver>SearchCreatorDialog</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

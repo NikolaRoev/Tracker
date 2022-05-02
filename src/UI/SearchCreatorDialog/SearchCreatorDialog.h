@@ -6,26 +6,27 @@
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
-	class AttachCreatorDialog;
+	class SearchCreatorDialog;
 }
 QT_END_NAMESPACE
 
 //==================================================================================================================================
 
-class AttachCreatorDialog : public QDialog {
+class SearchCreatorDialog : public QDialog {
 	Q_OBJECT
 private:
-	Ui::AttachCreatorDialog* ui{ nullptr };
-	int work_id{};
-	QString type;
+	Ui::SearchCreatorDialog* ui{ nullptr };
 
 public:
-	AttachCreatorDialog(const int work_id, const QString& type, QWidget* parent = nullptr);
-	~AttachCreatorDialog();
+	SearchCreatorDialog(QWidget* parent = nullptr);
+	~SearchCreatorDialog();
 
 private slots:
 	void on_filterLineEdit_textEdited(const QString& text);
 	void on_buttonBox_accepted();
+
+signals:
+	void creatorSelected(const int id, const QString& name);
 };
 
 //==================================================================================================================================

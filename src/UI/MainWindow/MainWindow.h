@@ -34,13 +34,16 @@ private slots:
 	void on_actionAdd_Work_triggered();
 	void on_actionAdd_Creator_triggered();
 
+	//Tool bar.
+	void on_actionBack_triggered();
+	void on_actionForward_triggered();
+	void on_actionHome_triggered();
 
+	//Tab widget.
 	void on_tabWidget_currentChanged(int index);
-
 	//Update tab.
 	void on_updateSearchLineEdit_textChanged(const QString& text);
-
-	//Works tab.
+	//Browse tab.
 	void on_worksFilterLineEdit_textChanged(const QString& text);
 	void on_worksFilterStatusComboBox_currentIndexChanged(int index);
 	void on_worksFilterTypeComboBox_currentIndexChanged(int index);
@@ -48,27 +51,6 @@ private slots:
 
 	void on_worksTableWidget_itemSelectionChanged();
 	void on_worksTableWidget_customContextMenuRequested(const QPoint& pos);
-
-	void on_worksNameLineEdit_textEdited(const QString& text);
-	void on_worksStatusComboBox_currentIndexChanged(int index);
-	void on_worksTypeComboBox_currentIndexChanged(int index);
-	void on_worksGroupingLineEdit_textEdited(const QString& text);
-	void on_worksChapterLineEdit_textEdited(const QString& text);
-
-	void on_worksAuthorAddButton_clicked();
-	void on_worksArtistAddButton_clicked();
-	void on_worksAuthorListWidget_customContextMenuRequested(const QPoint& pos);
-	void on_worksArtistListWidget_customContextMenuRequested(const QPoint& pos);
-	void on_worksAuthorListWidget_itemClicked(QListWidgetItem* item);
-	void on_worksArtistListWidget_itemClicked(QListWidgetItem* item);
-
-	//Creator tab.
-	void on_creatorsFilterLineEdit_textChanged(const QString& text);
-	void on_creatorsListWidget_itemSelectionChanged();
-	void on_creatorsListWidget_customContextMenuRequested(const QPoint& pos);
-	void on_creatorsNameLineEdit_textEdited(const QString& text);
-	void on_creatorsWorksListWidget_itemClicked(QListWidgetItem* item);
-
 };
 
 //==================================================================================================================================

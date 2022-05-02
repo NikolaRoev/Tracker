@@ -9,9 +9,7 @@
 //==================================================================================================================================
 //==================================================================================================================================
 
-UpdateEntry::UpdateEntry(const Work& work, QWidget* parent)
-	: id(work.id), QWidget(parent), ui(new Ui::UpdateEntry) {
-
+UpdateEntry::UpdateEntry(const Work& work, QWidget* parent) : id(work.id), QWidget(parent), ui(new Ui::UpdateEntry) {
 	ui->setupUi(this);
 	ui->nameLineEdit->setText(work.name);
 	ui->chapterLineEdit->setText(work.chapter);

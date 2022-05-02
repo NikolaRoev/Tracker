@@ -214,7 +214,7 @@ Work DatabaseManager::get_work(const int id) {
 
 //==================================================================================================================================
 
-QVector<Work> DatabaseManager::search_works_by_name(const QString& maybe_partial_name, const QString& status, const QString& type) {
+QVector<Work> DatabaseManager::search_works(const QString& maybe_partial_name, const QString& by, const QString& status, const QString& type) {
 	//Query text construction.
 	QString query_text =
 			"SELECT id, name, chapter "

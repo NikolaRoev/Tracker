@@ -22,9 +22,10 @@ public:
 	static void update_work(const QString& column, const int id, const QString& value);
 	static Work get_work(const int id);
 
-	static QVector<Work> search_works_by_name(const QString& maybe_partial_name,
-											  const QString& status = QString(),
-											  const QString& type = QString());
+	static QVector<Work> search_works(const QString& maybe_partial_name,
+									  const QString& by,
+									  const QString& status = QString(),
+									  const QString& type = QString());
 
 
 	//Creator.

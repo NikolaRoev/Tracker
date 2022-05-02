@@ -41,722 +41,266 @@
      <number>0</number>
     </property>
     <item>
-     <widget class="QTabWidget" name="tabWidget">
-      <property name="currentIndex">
-       <number>2</number>
-      </property>
-      <widget class="QWidget" name="updateTab">
-       <attribute name="title">
-        <string>Update</string>
-       </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout">
+     <widget class="QStackedWidget" name="stackedWidget">
+      <widget class="QWidget" name="homePage">
+       <layout class="QVBoxLayout" name="verticalLayout_5">
         <property name="spacing">
-         <number>5</number>
+         <number>0</number>
         </property>
         <property name="leftMargin">
-         <number>5</number>
+         <number>0</number>
         </property>
         <property name="topMargin">
-         <number>5</number>
+         <number>0</number>
         </property>
         <property name="rightMargin">
-         <number>5</number>
+         <number>0</number>
         </property>
         <property name="bottomMargin">
-         <number>5</number>
+         <number>0</number>
         </property>
         <item>
-         <widget class="QLineEdit" name="updateSearchLineEdit">
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>30</height>
-           </size>
+         <widget class="QTabWidget" name="tabWidget">
+          <property name="currentIndex">
+           <number>1</number>
           </property>
-          <property name="font">
-           <font>
-            <family>Consolas</family>
-            <pointsize>11</pointsize>
-            <kerning>true</kerning>
-           </font>
-          </property>
-          <property name="placeholderText">
-           <string>Search</string>
-          </property>
-          <property name="clearButtonEnabled">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QScrollArea" name="updateScrollArea">
-          <property name="frameShape">
-           <enum>QFrame::NoFrame</enum>
-          </property>
-          <property name="frameShadow">
-           <enum>QFrame::Plain</enum>
-          </property>
-          <property name="lineWidth">
-           <number>0</number>
-          </property>
-          <property name="verticalScrollBarPolicy">
-           <enum>Qt::ScrollBarAsNeeded</enum>
-          </property>
-          <property name="horizontalScrollBarPolicy">
-           <enum>Qt::ScrollBarAlwaysOff</enum>
-          </property>
-          <property name="widgetResizable">
-           <bool>true</bool>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-          <widget class="QWidget" name="updateContentsWidget">
-           <property name="geometry">
-            <rect>
-             <x>0</x>
-             <y>0</y>
-             <width>1266</width>
-             <height>587</height>
-            </rect>
-           </property>
-           <layout class="QVBoxLayout" name="verticalLayout_2">
+          <widget class="QWidget" name="updateTab">
+           <attribute name="title">
+            <string>Update</string>
+           </attribute>
+           <layout class="QVBoxLayout" name="verticalLayout">
             <property name="spacing">
-             <number>15</number>
+             <number>5</number>
             </property>
             <property name="leftMargin">
-             <number>7</number>
+             <number>5</number>
             </property>
             <property name="topMargin">
-             <number>7</number>
+             <number>5</number>
             </property>
             <property name="rightMargin">
-             <number>7</number>
+             <number>5</number>
             </property>
             <property name="bottomMargin">
-             <number>7</number>
+             <number>5</number>
             </property>
+            <item>
+             <widget class="QLineEdit" name="updateSearchLineEdit">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <family>Consolas</family>
+                <pointsize>11</pointsize>
+                <kerning>true</kerning>
+               </font>
+              </property>
+              <property name="placeholderText">
+               <string>Search</string>
+              </property>
+              <property name="clearButtonEnabled">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QScrollArea" name="updateScrollArea">
+              <property name="frameShape">
+               <enum>QFrame::NoFrame</enum>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Plain</enum>
+              </property>
+              <property name="lineWidth">
+               <number>0</number>
+              </property>
+              <property name="verticalScrollBarPolicy">
+               <enum>Qt::ScrollBarAsNeeded</enum>
+              </property>
+              <property name="horizontalScrollBarPolicy">
+               <enum>Qt::ScrollBarAlwaysOff</enum>
+              </property>
+              <property name="widgetResizable">
+               <bool>true</bool>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+              <widget class="QWidget" name="updateContentsWidget">
+               <property name="geometry">
+                <rect>
+                 <x>0</x>
+                 <y>0</y>
+                 <width>1266</width>
+                 <height>558</height>
+                </rect>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_2">
+                <property name="spacing">
+                 <number>15</number>
+                </property>
+                <property name="leftMargin">
+                 <number>7</number>
+                </property>
+                <property name="topMargin">
+                 <number>7</number>
+                </property>
+                <property name="rightMargin">
+                 <number>7</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>7</number>
+                </property>
+               </layout>
+              </widget>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="worksTab">
+           <attribute name="title">
+            <string>Browse</string>
+           </attribute>
+           <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1">
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_1">
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout" stretch="3,1,1,1">
+                <item>
+                 <widget class="QLineEdit" name="worksFilterLineEdit">
+                  <property name="enabled">
+                   <bool>true</bool>
+                  </property>
+                  <property name="placeholderText">
+                   <string>Filter</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QComboBox" name="worksFilterStatusComboBox">
+                  <property name="currentIndex">
+                   <number>0</number>
+                  </property>
+                  <item>
+                   <property name="text">
+                    <string>Any Status</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Reading</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Completed</string>
+                   </property>
+                  </item>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QComboBox" name="worksFilterTypeComboBox">
+                  <item>
+                   <property name="text">
+                    <string>Any Type</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Series</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>One Shot</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Anthology</string>
+                   </property>
+                  </item>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QComboBox" name="worksFilterByComboBox">
+                  <property name="currentIndex">
+                   <number>0</number>
+                  </property>
+                  <item>
+                   <property name="text">
+                    <string>Name</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Chapter</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Creator</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Grouping</string>
+                   </property>
+                  </item>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <widget class="QTableWidget" name="worksTableWidget">
+                <property name="contextMenuPolicy">
+                 <enum>Qt::CustomContextMenu</enum>
+                </property>
+                <property name="editTriggers">
+                 <set>QAbstractItemView::NoEditTriggers</set>
+                </property>
+                <property name="alternatingRowColors">
+                 <bool>true</bool>
+                </property>
+                <property name="selectionMode">
+                 <enum>QAbstractItemView::SingleSelection</enum>
+                </property>
+                <property name="showGrid">
+                 <bool>false</bool>
+                </property>
+                <property name="gridStyle">
+                 <enum>Qt::NoPen</enum>
+                </property>
+                <property name="cornerButtonEnabled">
+                 <bool>false</bool>
+                </property>
+                <attribute name="verticalHeaderVisible">
+                 <bool>false</bool>
+                </attribute>
+                <attribute name="verticalHeaderHighlightSections">
+                 <bool>false</bool>
+                </attribute>
+                <column>
+                 <property name="text">
+                  <string>Name</string>
+                 </property>
+                </column>
+                <column>
+                 <property name="text">
+                  <string>Chapter</string>
+                 </property>
+                </column>
+               </widget>
+              </item>
+             </layout>
+            </item>
            </layout>
           </widget>
          </widget>
-        </item>
-       </layout>
-      </widget>
-      <widget class="QWidget" name="worksTab">
-       <attribute name="title">
-        <string>Works</string>
-       </attribute>
-       <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,1">
-        <item>
-         <layout class="QVBoxLayout" name="verticalLayout_1">
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout" stretch="3,1,1,1">
-            <item>
-             <widget class="QLineEdit" name="worksFilterLineEdit">
-              <property name="enabled">
-               <bool>true</bool>
-              </property>
-              <property name="placeholderText">
-               <string>Filter</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QComboBox" name="worksFilterStatusComboBox">
-              <property name="currentIndex">
-               <number>0</number>
-              </property>
-              <item>
-               <property name="text">
-                <string>Any Status</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>Reading</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>Completed</string>
-               </property>
-              </item>
-             </widget>
-            </item>
-            <item>
-             <widget class="QComboBox" name="worksFilterTypeComboBox">
-              <item>
-               <property name="text">
-                <string>Any Type</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>Series</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>One Shot</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>Anthology</string>
-               </property>
-              </item>
-             </widget>
-            </item>
-            <item>
-             <widget class="QComboBox" name="worksFilterByComboBox">
-              <property name="currentIndex">
-               <number>0</number>
-              </property>
-              <item>
-               <property name="text">
-                <string>Name</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>Chapter</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>Creator</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>Grouping</string>
-               </property>
-              </item>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <widget class="QTableWidget" name="worksTableWidget">
-            <property name="contextMenuPolicy">
-             <enum>Qt::CustomContextMenu</enum>
-            </property>
-            <property name="editTriggers">
-             <set>QAbstractItemView::NoEditTriggers</set>
-            </property>
-            <property name="alternatingRowColors">
-             <bool>true</bool>
-            </property>
-            <property name="selectionMode">
-             <enum>QAbstractItemView::SingleSelection</enum>
-            </property>
-            <property name="showGrid">
-             <bool>false</bool>
-            </property>
-            <property name="gridStyle">
-             <enum>Qt::NoPen</enum>
-            </property>
-            <property name="cornerButtonEnabled">
-             <bool>false</bool>
-            </property>
-            <attribute name="verticalHeaderVisible">
-             <bool>false</bool>
-            </attribute>
-            <attribute name="verticalHeaderHighlightSections">
-             <bool>false</bool>
-            </attribute>
-            <column>
-             <property name="text">
-              <string>Name</string>
-             </property>
-            </column>
-            <column>
-             <property name="text">
-              <string>Chapter</string>
-             </property>
-            </column>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <layout class="QVBoxLayout" name="verticalLayout_3">
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_3"/>
-          </item>
-          <item>
-           <layout class="QFormLayout" name="formLayout">
-            <item row="0" column="0">
-             <widget class="QLabel" name="label_15">
-              <property name="text">
-               <string>Id:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="0">
-             <widget class="QLabel" name="label_17">
-              <property name="text">
-               <string>Name:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="1">
-             <widget class="QLineEdit" name="worksNameLineEdit">
-              <property name="enabled">
-               <bool>false</bool>
-              </property>
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="0">
-             <widget class="QLabel" name="label_18">
-              <property name="text">
-               <string>Status:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="1">
-             <widget class="QComboBox" name="worksStatusComboBox">
-              <property name="enabled">
-               <bool>false</bool>
-              </property>
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <item>
-               <property name="text">
-                <string>Reading</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>Completed</string>
-               </property>
-              </item>
-             </widget>
-            </item>
-            <item row="3" column="0">
-             <widget class="QLabel" name="label_19">
-              <property name="text">
-               <string>Type:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="1">
-             <widget class="QComboBox" name="worksTypeComboBox">
-              <property name="enabled">
-               <bool>false</bool>
-              </property>
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <item>
-               <property name="text">
-                <string>Series</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>One Shot</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>Anthology</string>
-               </property>
-              </item>
-             </widget>
-            </item>
-            <item row="4" column="0">
-             <widget class="QLabel" name="label_20">
-              <property name="text">
-               <string>Grouping:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="4" column="1">
-             <widget class="QLineEdit" name="worksGroupingLineEdit">
-              <property name="enabled">
-               <bool>false</bool>
-              </property>
-             </widget>
-            </item>
-            <item row="5" column="0">
-             <widget class="QLabel" name="label_21">
-              <property name="text">
-               <string>Chapter:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="5" column="1">
-             <widget class="QLineEdit" name="worksChapterLineEdit">
-              <property name="enabled">
-               <bool>false</bool>
-              </property>
-             </widget>
-            </item>
-            <item row="6" column="0">
-             <widget class="QLabel" name="label_22">
-              <property name="text">
-               <string>Updated:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="6" column="1">
-             <widget class="QLabel" name="worksUpdatedLabel">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text">
-               <string>DATE</string>
-              </property>
-              <property name="textInteractionFlags">
-               <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
-              </property>
-             </widget>
-            </item>
-            <item row="7" column="0">
-             <widget class="QLabel" name="label_24">
-              <property name="text">
-               <string>Added:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="7" column="1">
-             <widget class="QLabel" name="worksAddedLabel">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text">
-               <string>DATE</string>
-              </property>
-              <property name="textInteractionFlags">
-               <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1">
-             <widget class="QLabel" name="worksIdLabel">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text">
-               <string>ID</string>
-              </property>
-              <property name="textInteractionFlags">
-               <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_10" stretch="1,1">
-            <item>
-             <layout class="QVBoxLayout" name="verticalLayout_9">
-              <property name="leftMargin">
-               <number>2</number>
-              </property>
-              <property name="topMargin">
-               <number>2</number>
-              </property>
-              <property name="rightMargin">
-               <number>2</number>
-              </property>
-              <property name="bottomMargin">
-               <number>2</number>
-              </property>
-              <item>
-               <layout class="QHBoxLayout" name="horizontalLayout_14" stretch="3,1">
-                <item>
-                 <widget class="QLabel" name="label_10">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="text">
-                   <string>Author(s):</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="worksAuthorAddButton">
-                  <property name="enabled">
-                   <bool>false</bool>
-                  </property>
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="text">
-                   <string>Add</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-              <item>
-               <widget class="QListWidget" name="worksAuthorListWidget">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="contextMenuPolicy">
-                 <enum>Qt::CustomContextMenu</enum>
-                </property>
-                <property name="frameShadow">
-                 <enum>QFrame::Plain</enum>
-                </property>
-                <property name="lineWidth">
-                 <number>2</number>
-                </property>
-                <property name="editTriggers">
-                 <set>QAbstractItemView::DoubleClicked</set>
-                </property>
-                <property name="showDropIndicator" stdset="0">
-                 <bool>false</bool>
-                </property>
-                <property name="alternatingRowColors">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="verticalSpacer">
-                <property name="orientation">
-                 <enum>Qt::Vertical</enum>
-                </property>
-                <property name="sizeType">
-                 <enum>QSizePolicy::Expanding</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>20</width>
-                  <height>16777215</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <layout class="QVBoxLayout" name="verticalLayout_8">
-              <property name="leftMargin">
-               <number>2</number>
-              </property>
-              <property name="topMargin">
-               <number>2</number>
-              </property>
-              <property name="rightMargin">
-               <number>2</number>
-              </property>
-              <property name="bottomMargin">
-               <number>2</number>
-              </property>
-              <item>
-               <layout class="QHBoxLayout" name="horizontalLayout_15" stretch="3,1">
-                <item>
-                 <widget class="QLabel" name="label_11">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="text">
-                   <string>Artist(s):</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="worksArtistAddButton">
-                  <property name="enabled">
-                   <bool>false</bool>
-                  </property>
-                  <property name="text">
-                   <string>Add</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </item>
-              <item>
-               <widget class="QListWidget" name="worksArtistListWidget">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="contextMenuPolicy">
-                 <enum>Qt::CustomContextMenu</enum>
-                </property>
-                <property name="frameShadow">
-                 <enum>QFrame::Plain</enum>
-                </property>
-                <property name="lineWidth">
-                 <number>2</number>
-                </property>
-                <property name="editTriggers">
-                 <set>QAbstractItemView::DoubleClicked</set>
-                </property>
-                <property name="showDropIndicator" stdset="0">
-                 <bool>false</bool>
-                </property>
-                <property name="alternatingRowColors">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="verticalSpacer_2">
-                <property name="orientation">
-                 <enum>Qt::Vertical</enum>
-                </property>
-                <property name="sizeType">
-                 <enum>QSizePolicy::Expanding</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>20</width>
-                  <height>16777215</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-             </layout>
-            </item>
-           </layout>
-          </item>
-         </layout>
-        </item>
-       </layout>
-      </widget>
-      <widget class="QWidget" name="creatorsTab">
-       <attribute name="title">
-        <string>Creators</string>
-       </attribute>
-       <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="1,1">
-        <item>
-         <layout class="QVBoxLayout" name="verticalLayout_5">
-          <item>
-           <widget class="QLineEdit" name="creatorsFilterLineEdit">
-            <property name="placeholderText">
-             <string>Filter</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QListWidget" name="creatorsListWidget">
-            <property name="contextMenuPolicy">
-             <enum>Qt::CustomContextMenu</enum>
-            </property>
-            <property name="frameShadow">
-             <enum>QFrame::Plain</enum>
-            </property>
-            <property name="lineWidth">
-             <number>2</number>
-            </property>
-            <property name="alternatingRowColors">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <layout class="QVBoxLayout" name="verticalLayout_6">
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_4"/>
-          </item>
-          <item>
-           <layout class="QFormLayout" name="formLayout_2">
-            <item row="0" column="0">
-             <widget class="QLabel" name="label">
-              <property name="text">
-               <string>Id:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1">
-             <widget class="QLabel" name="creatorsIdLabel">
-              <property name="text">
-               <string>ID</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="0">
-             <widget class="QLabel" name="label_3">
-              <property name="text">
-               <string>Name:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="1">
-             <widget class="QLineEdit" name="creatorsNameLineEdit">
-              <property name="enabled">
-               <bool>false</bool>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_4">
-            <property name="text">
-             <string>Works:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QListWidget" name="creatorsWorksListWidget">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="frameShadow">
-             <enum>QFrame::Plain</enum>
-            </property>
-            <property name="lineWidth">
-             <number>2</number>
-            </property>
-            <property name="alternatingRowColors">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-         </layout>
         </item>
        </layout>
       </widget>
@@ -811,6 +355,29 @@
    <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <property name="movable">
+    <bool>false</bool>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>20</width>
+     <height>20</height>
+    </size>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionBack"/>
+   <addaction name="actionForward"/>
+   <addaction name="actionHome"/>
+  </widget>
   <action name="actionNew">
    <property name="text">
     <string>New</string>
@@ -860,6 +427,33 @@
    </property>
    <property name="text">
     <string>Add Creator</string>
+   </property>
+  </action>
+  <action name="actionBack">
+   <property name="icon">
+    <iconset resource="../../../resources/resources.qrc">
+     <normaloff>:/general/left-arrow.png</normaloff>:/general/left-arrow.png</iconset>
+   </property>
+   <property name="text">
+    <string>Back</string>
+   </property>
+  </action>
+  <action name="actionForward">
+   <property name="icon">
+    <iconset resource="../../../resources/resources.qrc">
+     <normaloff>:/general/right-arrow.png</normaloff>:/general/right-arrow.png</iconset>
+   </property>
+   <property name="text">
+    <string>Forward</string>
+   </property>
+  </action>
+  <action name="actionHome">
+   <property name="icon">
+    <iconset resource="../../../resources/resources.qrc">
+     <normaloff>:/general/house.png</normaloff>:/general/house.png</iconset>
+   </property>
+   <property name="text">
+    <string>Home</string>
    </property>
   </action>
  </widget>
