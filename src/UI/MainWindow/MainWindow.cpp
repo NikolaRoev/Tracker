@@ -12,7 +12,7 @@
 #include <QShortcut>
 #include <QFileDialog>
 #include <QString>
-#include <QListWidgetItem>
+#include <QTableWidgetItem>
 #include <QMessageBox>
 #include <QMenu>
 #include <QCursor>
@@ -27,38 +27,35 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
 
 
 	//Align the update layout to top so the populated entries look nice.
-	ui->updateContentsWidget->layout()->setAlignment(Qt::AlignTop);
+	ui->contentsWidget->layout()->setAlignment(Qt::AlignTop);
 
 	//Set default focus to the search bar.
 	//As 'tabWidget' is first in the tab order it gets focused when the application starts.
-	ui->tabWidget->setFocusProxy(ui->updateSearchLineEdit);
-
+	ui->tabWidget->setFocusProxy(ui->updateLineEdit);
 
 	//Add a shortcut that selects all text in the search bar and focuses it.
 	QShortcut* shortcut = new QShortcut(QKeySequence(Qt::CTRL | Qt::Key_F), this);
-	connect(shortcut, &QShortcut::activated, ui->updateSearchLineEdit,
-			[&](){ ui->updateSearchLineEdit->selectAll(); ui->updateSearchLineEdit->setFocus(); });
+	connect(shortcut, &QShortcut::activated, ui->updateLineEdit, [&](){ ui->updateLineEdit->selectAll(); ui->updateLineEdit->setFocus(); });
 
+	//Set resize mode for the Browse Table Widget.
+	ui->browseTableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+	ui->browseTableWidget->verticalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
 
 	//Set the various Combo Box Items data.
-	//Works, filters.
-	ui->worksFilterStatusComboBox->setItemData(0, "");
-	ui->worksFilterStatusComboBox->setItemData(1, "Reading");
-	ui->worksFilterStatusComboBox->setItemData(2, "Completed");
+	ui->statusComboBox->setItemData(0, "");
+	ui->statusComboBox->setItemData(1, "Reading");
+	ui->statusComboBox->setItemData(2, "Completed");
 
-	ui->worksFilterTypeComboBox->setItemData(0, "");
-	ui->worksFilterTypeComboBox->setItemData(1, "Series");
-	ui->worksFilterTypeComboBox->setItemData(2, "One Shot");
-	ui->worksFilterTypeComboBox->setItemData(3, "Anthology");
+	ui->typeComboBox->setItemData(0, "");
+	ui->typeComboBox->setItemData(1, "Series");
+	ui->typeComboBox->setItemData(2, "One Shot");
+	ui->typeComboBox->setItemData(3, "Anthology");
 
-	ui->worksFilterByComboBox->setItemData(0, "Name");
-	ui->worksFilterByComboBox->setItemData(1, "Chapter");
-	ui->worksFilterByComboBox->setItemData(2, "Creator");
-	ui->worksFilterByComboBox->setItemData(3, "Grouping");
+	ui->byComboBox->setItemData(0, "name");
+	ui->byComboBox->setItemData(1, "chapter");
+	ui->byComboBox->setItemData(2, "creator");
+	ui->byComboBox->setItemData(3, "grouping");
 
-
-	//Set resize mode for the Works table widget.
-	ui->worksTableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
 
 	//Load settings.
@@ -71,6 +68,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
 		ui->actionAdd_Work->setEnabled(true);
 		ui->actionAdd_Creator->setEnabled(true);
 	}
+
 
 
 	//Populate the update entries when the program starts initially.
@@ -172,18 +170,18 @@ void MainWindow::on_actionHome_triggered() {
 
 void MainWindow::on_tabWidget_currentChanged(int index) {
 	switch (index) {
-		case 0: emit ui->updateSearchLineEdit->textChanged(ui->updateSearchLineEdit->text()); break;
-		case 1: emit ui->worksFilterLineEdit->textChanged(ui->worksFilterLineEdit->text()); break;
+		case 0: emit ui->updateLineEdit->textChanged(ui->updateLineEdit->text()); break;
+		case 1: emit ui->whatComboBox->currentIndexChanged(ui->whatComboBox->currentIndex()); break;
 	}
 }
 
 //==================================================================================================================================
 //==================================================================================================================================
 
-void MainWindow::on_updateSearchLineEdit_textChanged(const QString& text) {
+void MainWindow::on_updateLineEdit_textChanged(const QString& text) {
 	//Clear the current update entries.
 	QLayoutItem* child{ nullptr };
-	while ((child = ui->updateContentsWidget->layout()->takeAt(0)) != nullptr) {
+	while ((child = ui->contentsWidget->layout()->takeAt(0)) != nullptr) {
 		delete child->widget();
 		delete child;
 	}
@@ -191,7 +189,7 @@ void MainWindow::on_updateSearchLineEdit_textChanged(const QString& text) {
 	//Find works and populate the update list.
 	const auto found_works = DatabaseManager::search_works(text, "name", "Reading");
 	for (const auto& found_work : found_works) {
-		ui->updateContentsWidget->layout()->addWidget( new UpdateEntry(found_work, ui->updateScrollArea));
+		ui->contentsWidget->layout()->addWidget(new UpdateEntry(found_work, ui->scrollArea));
 	}
 
 	//Update status bar.
@@ -201,20 +199,14 @@ void MainWindow::on_updateSearchLineEdit_textChanged(const QString& text) {
 //==================================================================================================================================
 //==================================================================================================================================
 
-void MainWindow::on_worksFilterLineEdit_textChanged(const QString& text) {
+void MainWindow::on_browseLineEdit_textChanged(const QString& text) {
 	//Clear list items.
-	ui->worksTableWidget->setRowCount(0);
+	ui->browseTableWidget->setRowCount(0);
 
-	//Find works and populate the list using the selected 'by' search criteria.
-	QString by = ui->worksFilterByComboBox->currentData().toString();
-	QVector<Work> found_works;
-
-	if (by == "Name") {
-		found_works = DatabaseManager::search_works(text, "name",
-															ui->worksFilterStatusComboBox->currentData().toString(),
-															ui->worksFilterTypeComboBox->currentData().toString());
-	}
-	//TO DO: Add the other 'by' searches.
+	QVector<Work> found_works = DatabaseManager::search_works(text,
+															  ui->byComboBox->currentData().toString(),
+															  ui->statusComboBox->currentData().toString(),
+															  ui->typeComboBox->currentData().toString());
 
 	for (const auto& work : found_works) {
 		QTableWidgetItem* name_item = new QTableWidgetItem(work.name);
@@ -224,10 +216,18 @@ void MainWindow::on_worksFilterLineEdit_textChanged(const QString& text) {
 		QTableWidgetItem* chapter_item = new QTableWidgetItem(work.chapter);
 		chapter_item->setFlags(Qt::NoItemFlags);
 
+		QTableWidgetItem* grouping_item = new QTableWidgetItem(work.grouping);
+		grouping_item->setFlags(Qt::NoItemFlags);
 
-		ui->worksTableWidget->insertRow(ui->worksTableWidget->rowCount());
-		ui->worksTableWidget->setItem(ui->worksTableWidget->rowCount() - 1, 0, name_item);
-		ui->worksTableWidget->setItem(ui->worksTableWidget->rowCount() - 1, 1, chapter_item);
+		QTableWidgetItem* updated_item = new QTableWidgetItem(work.updated);
+		updated_item->setFlags(Qt::NoItemFlags);
+
+
+		ui->browseTableWidget->insertRow(ui->browseTableWidget->rowCount());
+		ui->browseTableWidget->setItem(ui->browseTableWidget->rowCount() - 1, 0, name_item);
+		ui->browseTableWidget->setItem(ui->browseTableWidget->rowCount() - 1, 1, chapter_item);
+		ui->browseTableWidget->setItem(ui->browseTableWidget->rowCount() - 1, 2, grouping_item);
+		ui->browseTableWidget->setItem(ui->browseTableWidget->rowCount() - 1, 3, updated_item);
 	}
 
 	//Update status bar.
@@ -236,49 +236,77 @@ void MainWindow::on_worksFilterLineEdit_textChanged(const QString& text) {
 
 //==================================================================================================================================
 
-void MainWindow::on_worksFilterStatusComboBox_currentIndexChanged(int index) {
-	emit ui->worksFilterLineEdit->textChanged(ui->worksFilterLineEdit->text());
+void MainWindow::on_whatComboBox_currentIndexChanged(int index) {
+	switch(index) {
+		case 0:
+			ui->browseTableWidget->setColumnCount(4);
+			ui->browseTableWidget->setHorizontalHeaderLabels({ "Name", "Chapter", "Grouping", "Updated" });
+
+			ui->statusComboBox->setEnabled(true);
+			ui->typeComboBox->setEnabled(true);
+			ui->byComboBox->setEnabled(true);
+			break;
+		case 1:
+			ui->browseTableWidget->setColumnCount(2);
+			ui->browseTableWidget->setHorizontalHeaderLabels({ "Name", "No. of Works" });
+
+			ui->statusComboBox->setDisabled(true);
+			ui->typeComboBox->setDisabled(true);
+			ui->byComboBox->setDisabled(true);
+			break;
+	}
+
+	emit ui->browseLineEdit->textChanged(ui->browseLineEdit->text());
 }
 
 //==================================================================================================================================
 
-void MainWindow::on_worksFilterTypeComboBox_currentIndexChanged(int index) {
-	emit ui->worksFilterLineEdit->textChanged(ui->worksFilterLineEdit->text());
+void MainWindow::on_statusComboBox_currentIndexChanged(int index) {
+	emit ui->browseLineEdit->textChanged(ui->browseLineEdit->text());
 }
 
 //==================================================================================================================================
 
-void MainWindow::on_worksFilterByComboBox_currentIndexChanged(int index) {
-	emit ui->worksFilterLineEdit->textChanged(ui->worksFilterLineEdit->text());
+void MainWindow::on_typeComboBox_currentIndexChanged(int index) {
+	emit ui->browseLineEdit->textChanged(ui->browseLineEdit->text());
 }
 
 //==================================================================================================================================
+
+void MainWindow::on_byComboBox_currentIndexChanged(int index) {
+	emit ui->browseLineEdit->textChanged(ui->browseLineEdit->text());
+}
+
 //==================================================================================================================================
 
-void MainWindow::on_worksTableWidget_itemSelectionChanged() {
-	auto selected_items = ui->worksTableWidget->selectedItems();
-	if (!selected_items.isEmpty()) {
-		const auto work = DatabaseManager::get_work(selected_items.first()->data(Qt::UserRole).toInt());
+void MainWindow::on_browseTableWidget_itemClicked(QTableWidgetItem *item) {
+	if (QVariant data = item->data(Qt::UserRole); data.isValid()) {
 		qDebug() << "Open new page.";
 	}
 }
 
 //==================================================================================================================================
 
-void MainWindow::on_worksTableWidget_customContextMenuRequested(const QPoint& pos) {
-	if (QTableWidgetItem* item = ui->worksTableWidget->itemAt(pos); item) {
+void MainWindow::on_browseTableWidget_customContextMenuRequested(const QPoint& pos) {
+	if (QTableWidgetItem* item = ui->browseTableWidget->itemAt(pos); item) {
 		if (QVariant data = item->data(Qt::UserRole); data.isValid()) {
-			QMenu menu(ui->worksTableWidget);
+			QMenu menu(ui->browseTableWidget);
 			menu.addAction("Remove", [&](){
 				int result = QMessageBox::warning(this,
-												  "Deleting Entry",
-												  QString("Are you sure you want to delete \"%1\"?").arg(item->text()),
+												  "Removing",
+												  QString("Are you sure you want to remove \"%1\"?").arg(item->text()),
 												  QMessageBox::Yes,
 												  QMessageBox::No);
 
 				if (result == QMessageBox::Yes) {
-					DatabaseManager::remove_work(item->data(Qt::UserRole).toInt());
-					ui->worksTableWidget->removeRow(item->row());
+					if (ui->whatComboBox->currentIndex() == 0) {
+						DatabaseManager::remove_work(data.toInt());
+					}
+					else {
+						DatabaseManager::remove_creator(data.toInt());
+					}
+
+					ui->browseTableWidget->removeRow(item->row());
 				}
 			});
 			menu.exec(QCursor::pos());

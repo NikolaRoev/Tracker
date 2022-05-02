@@ -2,7 +2,7 @@
 #include <QMainWindow>
 #include <QWidget>
 #include <QString>
-#include <QListWidgetItem>
+#include <QTableWidgetItem>
 
 //==================================================================================================================================
 
@@ -42,15 +42,15 @@ private slots:
 	//Tab widget.
 	void on_tabWidget_currentChanged(int index);
 	//Update tab.
-	void on_updateSearchLineEdit_textChanged(const QString& text);
+	void on_updateLineEdit_textChanged(const QString& text);
 	//Browse tab.
-	void on_worksFilterLineEdit_textChanged(const QString& text);
-	void on_worksFilterStatusComboBox_currentIndexChanged(int index);
-	void on_worksFilterTypeComboBox_currentIndexChanged(int index);
-	void on_worksFilterByComboBox_currentIndexChanged(int index);
-
-	void on_worksTableWidget_itemSelectionChanged();
-	void on_worksTableWidget_customContextMenuRequested(const QPoint& pos);
+	void on_browseLineEdit_textChanged(const QString& text);
+	void on_whatComboBox_currentIndexChanged(int index);
+	void on_statusComboBox_currentIndexChanged(int index);
+	void on_typeComboBox_currentIndexChanged(int index);
+	void on_byComboBox_currentIndexChanged(int index);
+	void on_browseTableWidget_itemClicked(QTableWidgetItem* item);
+	void on_browseTableWidget_customContextMenuRequested(const QPoint& pos);
 };
 
 //==================================================================================================================================

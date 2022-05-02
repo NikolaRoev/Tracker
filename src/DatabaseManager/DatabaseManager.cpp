@@ -217,7 +217,7 @@ Work DatabaseManager::get_work(const int id) {
 QVector<Work> DatabaseManager::search_works(const QString& maybe_partial_name, const QString& by, const QString& status, const QString& type) {
 	//Query text construction.
 	QString query_text =
-			"SELECT id, name, chapter "
+			"SELECT id, name, grouping, chapter, updated "
 			"FROM works "
 			"WHERE name LIKE (:name)";
 
@@ -251,7 +251,9 @@ QVector<Work> DatabaseManager::search_works(const QString& maybe_partial_name, c
 		while (query.next()) {
 			out.emplace_back(Work{ .id = query.value(0).toInt(),
 								   .name = query.value(1).toString(),
-								   .chapter = query.value(2).toString()});
+								   .grouping = query.value(2).toString(),
+								   .chapter = query.value(3).toString(),
+								   .updated = query.value(4).toString()});
 		}
 	}
 	else {
