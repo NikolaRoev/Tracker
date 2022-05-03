@@ -23,6 +23,11 @@
    <iconset resource="../../../resources/resources.qrc">
     <normaloff>:/general/icon.ico</normaloff>:/general/icon.ico</iconset>
   </property>
+  <property name="styleSheet">
+   <string notr="true">QTableView {
+	font: 9pt &quot;Consolas&quot;;
+}</string>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_4">
     <property name="spacing">
@@ -335,9 +340,7 @@
                  <enum>Qt::CustomContextMenu</enum>
                 </property>
                 <property name="styleSheet">
-                 <string notr="true">QTableView {
-	font: 9pt &quot;Consolas&quot;;
-}</string>
+                 <string notr="true"/>
                 </property>
                 <property name="editTriggers">
                  <set>QAbstractItemView::NoEditTriggers</set>

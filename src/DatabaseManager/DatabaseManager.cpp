@@ -338,7 +338,7 @@ Creator DatabaseManager::get_creator(const int id) {
 				"	FROM work_creator "
 				"	WHERE creator_id = (:creator_id)"
 				") "
-				"SELECT current_works.id, works.name "
+				"SELECT current_works.id, works.name, works.status, works.type, works.grouping, works.chapter, works.updated, works.added "
 				"FROM works "
 				"INNER JOIN current_works "
 				"ON works.id = current_works.id"
@@ -348,7 +348,13 @@ Creator DatabaseManager::get_creator(const int id) {
 			if (creator_query.exec()) {
 				while (creator_query.next()) {
 					out.works.emplace_back(creator_query.value(0).toInt(),
-										   creator_query.value(1).toString());
+										   creator_query.value(1).toString(),
+										   creator_query.value(2).toString(),
+										   creator_query.value(3).toString(),
+										   creator_query.value(4).toString(),
+										   creator_query.value(5).toString(),
+										   creator_query.value(6).toString(),
+										   creator_query.value(7).toString());
 				}
 			}
 			else {

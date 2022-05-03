@@ -6,6 +6,8 @@
 #include "UpdateEntry/UpdateEntry.h"
 #include "AddWorkDialog/AddWorkDialog.h"
 #include "AddCreatorDialog/AddCreatorDialog.h"
+#include "WorkPage/WorkPage.h"
+#include "CreatorPage/CreatorPage.h"
 
 #include <QMainWindow>
 #include <QSettings>
@@ -282,6 +284,9 @@ void MainWindow::on_byComboBox_currentIndexChanged(int index) {
 void MainWindow::on_browseTableWidget_itemClicked(QTableWidgetItem *item) {
 	if (QVariant data = item->data(Qt::UserRole); data.isValid()) {
 		qDebug() << "Open new page.";
+
+		ui->stackedWidget->addWidget(new CreatorPage(1));
+		ui->stackedWidget->setCurrentIndex(1);
 	}
 }
 

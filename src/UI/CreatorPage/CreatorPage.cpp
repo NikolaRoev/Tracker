@@ -1,30 +1,60 @@
 #include "CreatorPage.h"
 #include "./ui_CreatorPage.h"
 #include "DatabaseManager/DatabaseManager.h"
+#include "DatabaseManager/Work.h"
+#include "DatabaseManager/Creator.h"
 
-#include <QDialog>
+#include <QWidget>
+#include <QTableWidgetItem>
 
 //==================================================================================================================================
+//==================================================================================================================================
 
-CreatorDialog::CreatorDialog(const int id, QWidget* parent) : QDialog(parent), ui(new Ui::CreatorPage) {
+CreatorPage::CreatorPage(const int id, QWidget* parent) : id(id), QWidget(parent), ui(new Ui::CreatorPage) {
 	ui->setupUi(this);
-	setAttribute(Qt::WA_DeleteOnClose);
+	ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+	ui->tableWidget->verticalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
 
 	Creator creator = DatabaseManager::get_creator(id);
-
 	setWindowTitle(creator.name);
 	ui->idLabel->setText(QString::number(creator.id));
-	ui->nameLabel->setText(creator.name);
+	ui->lineEdit->setText(creator.name);
 
 	for (const auto& work : creator.works) {
-		ui->listWidget->addItem(work.name);
+		ui->tableWidget->insertRow(ui->tableWidget->rowCount());
+
+		QTableWidgetItem* name_item = new QTableWidgetItem(work.name);
+		name_item->setData(Qt::UserRole, work.id);
+		ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 0, name_item);
+		ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 1, new QTableWidgetItem(work.status));
+		ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 2, new QTableWidgetItem(work.chapter));
+		ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 3, new QTableWidgetItem(work.grouping));
+		ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 4, new QTableWidgetItem(work.type));
+		ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 5, new QTableWidgetItem(work.updated));
+		ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 6, new QTableWidgetItem(work.added));
 	}
 }
 
 //==================================================================================================================================
 
-CreatorDialog::~CreatorDialog() {
+CreatorPage::~CreatorPage() {
 	delete ui;
 }
 
+//==================================================================================================================================
+//==================================================================================================================================
+
+void CreatorPage::on_lineEdit_textChanged(const QString& text) {
+	DatabaseManager::update_creator("name", id, text);
+}
+
+//==================================================================================================================================
+
+void CreatorPage::on_tableWidget_clicked(const QModelIndex& index) {
+	emit workClicked(ui->tableWidget->item(index.row(), 0)->data(Qt::UserRole).toInt());
+
+	qDebug() << ui->tableWidget->item(index.row(), 0)->data(Qt::UserRole).toInt();
+}
+
+//==================================================================================================================================
 //==================================================================================================================================

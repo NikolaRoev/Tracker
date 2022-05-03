@@ -1,5 +1,6 @@
 #pragma once
-#include <QDialog>
+#include <QWidget>
+#include <QTableWidgetItem>
 
 //==================================================================================================================================
 
@@ -11,14 +12,22 @@ QT_END_NAMESPACE
 
 //==================================================================================================================================
 
-class CreatorDialog : public QDialog {
+class CreatorPage : public QWidget {
 	Q_OBJECT
 private:
 	Ui::CreatorPage* ui{ nullptr };
+	int id{};
 
 public:
-	CreatorDialog(const int id, QWidget* parent = nullptr);
-	~CreatorDialog();
+	CreatorPage(const int id, QWidget* parent = nullptr);
+	~CreatorPage();
+
+private slots:
+	void on_lineEdit_textChanged(const QString& text);
+	void on_tableWidget_clicked(const QModelIndex &index);
+
+signals:
+	void workClicked(const int id);
 };
 
 //==================================================================================================================================
