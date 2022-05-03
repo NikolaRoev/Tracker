@@ -166,7 +166,7 @@ void MainWindow::on_actionForward_triggered() {
 //==================================================================================================================================
 
 void MainWindow::on_actionHome_triggered() {
-	//TO DO:
+	ui->stackedWidget->setCurrentIndex(0);
 }
 
 //==================================================================================================================================
@@ -174,7 +174,7 @@ void MainWindow::on_actionHome_triggered() {
 
 void MainWindow::on_tabWidget_currentChanged(int index) {
 	switch (index) {
-		case 0: emit ui->updateLineEdit->textChanged(ui->updateLineEdit->text()); break;
+		case 0: emit ui->updateLineEdit->textEdited(ui->updateLineEdit->text()); break;
 		case 1: emit ui->whatComboBox->currentIndexChanged(ui->whatComboBox->currentIndex()); break;
 	}
 }
@@ -182,7 +182,7 @@ void MainWindow::on_tabWidget_currentChanged(int index) {
 //==================================================================================================================================
 //==================================================================================================================================
 
-void MainWindow::on_updateLineEdit_textChanged(const QString& text) {
+void MainWindow::on_updateLineEdit_textEdited(const QString& text) {
 	//Clear the current update entries.
 	QLayoutItem* child{ nullptr };
 	while ((child = ui->contentsWidget->layout()->takeAt(0)) != nullptr) {
@@ -203,7 +203,7 @@ void MainWindow::on_updateLineEdit_textChanged(const QString& text) {
 //==================================================================================================================================
 //==================================================================================================================================
 
-void MainWindow::on_browseLineEdit_textChanged(const QString& text) {
+void MainWindow::on_browseLineEdit_textEdited(const QString& text) {
 	//Clear list items.
 	ui->browseTableWidget->setRowCount(0);
 
@@ -269,25 +269,25 @@ void MainWindow::on_whatComboBox_currentIndexChanged(int index) {
 			break;
 	}
 
-	emit ui->browseLineEdit->textChanged(ui->browseLineEdit->text());
+	emit ui->browseLineEdit->textEdited(ui->browseLineEdit->text());
 }
 
 //==================================================================================================================================
 
 void MainWindow::on_statusComboBox_currentIndexChanged(int index) {
-	emit ui->browseLineEdit->textChanged(ui->browseLineEdit->text());
+	emit ui->browseLineEdit->textEdited(ui->browseLineEdit->text());
 }
 
 //==================================================================================================================================
 
 void MainWindow::on_typeComboBox_currentIndexChanged(int index) {
-	emit ui->browseLineEdit->textChanged(ui->browseLineEdit->text());
+	emit ui->browseLineEdit->textEdited(ui->browseLineEdit->text());
 }
 
 //==================================================================================================================================
 
 void MainWindow::on_byComboBox_currentIndexChanged(int index) {
-	emit ui->browseLineEdit->textChanged(ui->browseLineEdit->text());
+	emit ui->browseLineEdit->textEdited(ui->browseLineEdit->text());
 }
 
 //==================================================================================================================================

@@ -23,7 +23,7 @@ public:
 	~CreatorPage();
 
 private slots:
-	void on_lineEdit_textChanged(const QString& text);
+	void on_lineEdit_textEdited(const QString& text);
 	void on_tableWidget_clicked(const QModelIndex &index);
 
 signals:

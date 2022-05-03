@@ -23,11 +23,11 @@ public:
 	~WorkPage();
 
 private slots:
-	void on_nameLineEdit_textChanged(const QString& text);
+	void on_nameLineEdit_textEdited(const QString& text);
 	void on_statusComboBox_currentIndexChanged(int index);
 	void on_typeComboBox_currentIndexChanged(int index);
-	void on_groupingLineEdit_textChanged(const QString& text);
-	void on_chapterLineEdit_textChanged(const QString& text);
+	void on_groupingLineEdit_textEdited(const QString& text);
+	void on_chapterLineEdit_textEdited(const QString& text);
 
 	void on_authorPushButton_clicked();
 	void on_artistPushButton_clicked();

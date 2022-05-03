@@ -58,7 +58,7 @@ WorkPage::~WorkPage() {
 //==================================================================================================================================
 //==================================================================================================================================
 
-void WorkPage::on_nameLineEdit_textChanged(const QString& text) {
+void WorkPage::on_nameLineEdit_textEdited(const QString& text) {
 	DatabaseManager::update_work("name", id, text);
 }
 
@@ -76,13 +76,13 @@ void WorkPage::on_typeComboBox_currentIndexChanged(int index) {
 
 //==================================================================================================================================
 
-void WorkPage::on_groupingLineEdit_textChanged(const QString& text) {
+void WorkPage::on_groupingLineEdit_textEdited(const QString& text) {
 	DatabaseManager::update_work("grouping", id, text);
 }
 
 //==================================================================================================================================
 
-void WorkPage::on_chapterLineEdit_textChanged(const QString& text) {
+void WorkPage::on_chapterLineEdit_textEdited(const QString& text) {
 	DatabaseManager::update_work("chapter", id, text);
 
 	QString date_time = QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss");

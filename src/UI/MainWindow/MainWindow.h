@@ -42,9 +42,9 @@ private slots:
 	//Tab widget.
 	void on_tabWidget_currentChanged(int index);
 	//Update tab.
-	void on_updateLineEdit_textChanged(const QString& text);
+	void on_updateLineEdit_textEdited(const QString& text);
 	//Browse tab.
-	void on_browseLineEdit_textChanged(const QString& text);
+	void on_browseLineEdit_textEdited(const QString& text);
 	void on_whatComboBox_currentIndexChanged(int index);
 	void on_statusComboBox_currentIndexChanged(int index);
 	void on_typeComboBox_currentIndexChanged(int index);

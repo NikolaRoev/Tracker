@@ -44,7 +44,7 @@ CreatorPage::~CreatorPage() {
 //==================================================================================================================================
 //==================================================================================================================================
 
-void CreatorPage::on_lineEdit_textChanged(const QString& text) {
+void CreatorPage::on_lineEdit_textEdited(const QString& text) {
 	DatabaseManager::update_creator("name", id, text);
 }
 
