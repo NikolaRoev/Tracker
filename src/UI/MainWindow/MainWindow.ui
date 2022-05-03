@@ -336,6 +336,17 @@
               </item>
               <item>
                <widget class="QTableWidget" name="browseTableWidget">
+                <property name="font">
+                 <font>
+                  <family>Consolas</family>
+                  <pointsize>9</pointsize>
+                  <italic>false</italic>
+                  <bold>false</bold>
+                 </font>
+                </property>
+                <property name="focusPolicy">
+                 <enum>Qt::NoFocus</enum>
+                </property>
                 <property name="contextMenuPolicy">
                  <enum>Qt::CustomContextMenu</enum>
                 </property>

@@ -95,17 +95,19 @@ const QString DatabaseManager::get() {
 //==================================================================================================================================
 //==================================================================================================================================
 
-void DatabaseManager::add_work(const QString& name, const QString& status, const QString& type, const QString& grouping, const QString& chapter) {
+void DatabaseManager::add_work(const Work& work) {
 	QSqlQuery query;
 	query.prepare(
 		"INSERT INTO works (name, status, type, grouping, chapter, updated, added) "
-		"VALUES (:name, :status, :type, :grouping, :chapter, NULL, datetime('now', 'localtime'))"
+		"VALUES (:name, :status, :type, :grouping, :chapter, :updated, :added)"
 	);
-	query.bindValue(":name", name);
-	query.bindValue(":status", status);
-	query.bindValue(":type", type);
-	query.bindValue(":grouping", grouping);
-	query.bindValue(":chapter", chapter);
+	query.bindValue(":name", work.name);
+	query.bindValue(":status", work.status);
+	query.bindValue(":type", work.type);
+	query.bindValue(":grouping", work.grouping);
+	query.bindValue(":chapter", work.chapter);
+	query.bindValue(":updated", work.updated);
+	query.bindValue(":added", work.added);
 
 	if (!query.exec()) {
 		qDebug() << query.lastError();
@@ -130,22 +132,12 @@ void DatabaseManager::remove_work(const int id) {
 //==================================================================================================================================
 
 void DatabaseManager::update_work(const QString& column, const int id, const QString& value) {
-	//If we are updating the chapter, set a new update datetime.
-	QString datetime_arg;
-	if (column == "chapter") {
-		datetime_arg = ", updated = datetime('now', 'localtime') ";
-	}
-
-	//Query construction.
-	QString query_text = QString(
-		"UPDATE works "
-		"SET %1 = (:value) %2"
-		"WHERE id = (:id)"
-	).arg(column, datetime_arg);
-
-	//Query execution.
 	QSqlQuery query;
-	query.prepare(query_text);
+	query.prepare(QString(
+		"UPDATE works "
+		"SET %1 = (:value) "
+		"WHERE id = (:id)"
+	).arg(column));
 	query.bindValue(":value", value);
 	query.bindValue(":id", id);
 
@@ -297,14 +289,12 @@ void DatabaseManager::remove_creator(const int id) {
 //==================================================================================================================================
 
 void DatabaseManager::update_creator(const QString& column, const int id, const QString& value) {
-	QString query_text = QString(
+	QSqlQuery query;
+	query.prepare(QString(
 		"UPDATE creators "
 		"SET %1 = (:value) "
 		"WHERE id = (:id)"
-	).arg(column);
-
-	QSqlQuery query;
-	query.prepare(query_text);
+	).arg(column));
 	query.bindValue(":value", value);
 	query.bindValue(":id", id);
 

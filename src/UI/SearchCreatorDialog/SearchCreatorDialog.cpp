@@ -11,6 +11,7 @@
 SearchCreatorDialog::SearchCreatorDialog(QWidget* parent) : QDialog(parent), ui(new Ui::SearchCreatorDialog) {
 	ui->setupUi(this);
 	setAttribute(Qt::WA_DeleteOnClose);
+	emit ui->filterLineEdit->textEdited(QString());
 }
 
 //==================================================================================================================================

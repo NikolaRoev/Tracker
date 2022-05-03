@@ -1,5 +1,6 @@
 #pragma once
-#include <QDialog>
+#include <QWidget>
+#include <QListWidgetItem>
 
 //==================================================================================================================================
 
@@ -11,14 +12,35 @@ QT_END_NAMESPACE
 
 //==================================================================================================================================
 
-class WorkDialog : public QDialog {
+class WorkPage : public QWidget {
 	Q_OBJECT
 private:
 	Ui::WorkPage* ui{ nullptr };
+	int id{};
 
 public:
-	WorkDialog(const int id, QWidget* parent = nullptr);
-	~WorkDialog();
+	WorkPage(const int id, QWidget* parent = nullptr);
+	~WorkPage();
+
+private slots:
+	void on_nameLineEdit_textChanged(const QString& text);
+	void on_statusComboBox_currentIndexChanged(int index);
+	void on_typeComboBox_currentIndexChanged(int index);
+	void on_groupingLineEdit_textChanged(const QString& text);
+	void on_chapterLineEdit_textChanged(const QString& text);
+
+	void on_authorPushButton_clicked();
+	void on_artistPushButton_clicked();
+	void on_authorListWidget_itemClicked(QListWidgetItem* item);
+	void on_artistListWidget_itemClicked(QListWidgetItem* item);
+	void on_authorListWidget_customContextMenuRequested(const QPoint& pos);
+	void on_artistListWidget_customContextMenuRequested(const QPoint& pos);
+
+	void on_authorSelected(const int creator_id, const QString& name);
+	void on_artistSelected(const int creator_id, const QString& name);
+
+signals:
+	void creatorClicked(const int id);
 };
 
 //==================================================================================================================================

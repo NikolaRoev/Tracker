@@ -9,7 +9,6 @@
 
 AddCreatorDialog::AddCreatorDialog(QWidget* parent) : QDialog(parent), ui(new Ui::AddCreatorDialog) {
 	ui->setupUi(this);
-	setAttribute(Qt::WA_DeleteOnClose);
 }
 
 //==================================================================================================================================

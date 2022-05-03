@@ -5,6 +5,7 @@
 
 #include <QWidget>
 #include <QString>
+#include <QDateTime>
 
 //==================================================================================================================================
 //==================================================================================================================================
@@ -32,6 +33,7 @@ void UpdateEntry::on_nameLineEdit_textEdited(const QString& text) {
 
 void UpdateEntry::on_chapterLineEdit_textEdited(const QString& text) {
 	DatabaseManager::update_work("chapter", id, text);
+	DatabaseManager::update_work("updated", id, QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
 }
 
 //==================================================================================================================================

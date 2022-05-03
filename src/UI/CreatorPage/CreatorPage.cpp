@@ -52,8 +52,6 @@ void CreatorPage::on_lineEdit_textChanged(const QString& text) {
 
 void CreatorPage::on_tableWidget_clicked(const QModelIndex& index) {
 	emit workClicked(ui->tableWidget->item(index.row(), 0)->data(Qt::UserRole).toInt());
-
-	qDebug() << ui->tableWidget->item(index.row(), 0)->data(Qt::UserRole).toInt();
 }
 
 //==================================================================================================================================

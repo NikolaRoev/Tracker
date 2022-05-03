@@ -1,49 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>WorkPage</class>
- <widget class="QDialog" name="WorkPage">
+ <widget class="QWidget" name="WorkPage">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>600</width>
-    <height>356</height>
+    <width>988</width>
+    <height>687</height>
    </rect>
   </property>
-  <property name="sizePolicy">
-   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-    <horstretch>0</horstretch>
-    <verstretch>0</verstretch>
-   </sizepolicy>
-  </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Form</string>
   </property>
-  <property name="sizeGripEnabled">
-   <bool>true</bool>
-  </property>
-  <layout class="QVBoxLayout" name="verticalLayout" stretch="2,1">
+  <layout class="QVBoxLayout" name="verticalLayout_3" stretch="0,0">
+   <property name="spacing">
+    <number>5</number>
+   </property>
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
    <item>
     <layout class="QFormLayout" name="formLayout">
-     <item row="1" column="0">
-      <widget class="QLabel" name="label_3">
-       <property name="text">
-        <string>Name:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="1">
-      <widget class="QLabel" name="nameLabel">
-       <property name="text">
-        <string>NAME</string>
-       </property>
-       <property name="textInteractionFlags">
-        <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
-       </property>
-      </widget>
-     </item>
      <item row="0" column="0">
-      <widget class="QLabel" name="label_5">
+      <widget class="QLabel" name="label_3">
        <property name="text">
         <string>Id:</string>
        </property>
@@ -54,98 +43,113 @@
        <property name="text">
         <string>ID</string>
        </property>
-       <property name="textInteractionFlags">
-        <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="label_5">
+       <property name="text">
+        <string>Name:</string>
        </property>
       </widget>
      </item>
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="nameLineEdit"/>
+     </item>
      <item row="2" column="0">
-      <widget class="QLabel" name="label_7">
+      <widget class="QLabel" name="label_6">
        <property name="text">
         <string>Status:</string>
        </property>
       </widget>
      </item>
      <item row="2" column="1">
-      <widget class="QLabel" name="statusLabel">
-       <property name="text">
-        <string>STATUS</string>
+      <widget class="QComboBox" name="statusComboBox">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
        </property>
-       <property name="textInteractionFlags">
-        <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
-       </property>
+       <item>
+        <property name="text">
+         <string>Reading</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Completed</string>
+        </property>
+       </item>
       </widget>
      </item>
      <item row="3" column="0">
-      <widget class="QLabel" name="label_9">
+      <widget class="QLabel" name="label_7">
        <property name="text">
         <string>Type:</string>
        </property>
       </widget>
      </item>
      <item row="3" column="1">
-      <widget class="QLabel" name="typeLabel">
-       <property name="text">
-        <string>TYPE</string>
+      <widget class="QComboBox" name="typeComboBox">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
        </property>
-       <property name="textInteractionFlags">
-        <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
-       </property>
+       <item>
+        <property name="text">
+         <string>Series</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>One Shot</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Anthology</string>
+        </property>
+       </item>
       </widget>
      </item>
      <item row="4" column="0">
-      <widget class="QLabel" name="label_11">
+      <widget class="QLabel" name="label_8">
        <property name="text">
         <string>Grouping:</string>
        </property>
       </widget>
      </item>
      <item row="4" column="1">
-      <widget class="QLabel" name="groupingLabel">
-       <property name="text">
-        <string>GROUPING</string>
-       </property>
-       <property name="textInteractionFlags">
-        <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
-       </property>
-      </widget>
+      <widget class="QLineEdit" name="groupingLineEdit"/>
      </item>
      <item row="5" column="0">
-      <widget class="QLabel" name="label_13">
+      <widget class="QLabel" name="label_9">
        <property name="text">
         <string>Chapter:</string>
        </property>
       </widget>
      </item>
      <item row="5" column="1">
-      <widget class="QLabel" name="chapterLabel">
-       <property name="text">
-        <string>CHAPTER</string>
-       </property>
-       <property name="textInteractionFlags">
-        <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
-       </property>
-      </widget>
+      <widget class="QLineEdit" name="chapterLineEdit"/>
      </item>
      <item row="6" column="0">
-      <widget class="QLabel" name="label_15">
+      <widget class="QLabel" name="label_10">
        <property name="text">
         <string>Updated:</string>
        </property>
       </widget>
      </item>
      <item row="6" column="1">
-      <widget class="QLabel" name="updated_label">
+      <widget class="QLabel" name="updatedLabel">
        <property name="text">
-        <string>UPDATED</string>
-       </property>
-       <property name="textInteractionFlags">
-        <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
+        <string>DATE</string>
        </property>
       </widget>
      </item>
      <item row="7" column="0">
-      <widget class="QLabel" name="label_17">
+      <widget class="QLabel" name="label_12">
        <property name="text">
         <string>Added:</string>
        </property>
@@ -154,72 +158,116 @@
      <item row="7" column="1">
       <widget class="QLabel" name="addedLabel">
        <property name="text">
-        <string>ADDED</string>
-       </property>
-       <property name="textInteractionFlags">
-        <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
+        <string>DATE</string>
        </property>
       </widget>
      </item>
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
+    <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <property name="spacing">
+      <number>5</number>
+     </property>
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout_2">
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <property name="spacing">
+        <number>0</number>
+       </property>
        <item>
-        <widget class="QLabel" name="label">
-         <property name="text">
-          <string>Author(s):</string>
-         </property>
-        </widget>
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <widget class="QLabel" name="label">
+           <property name="text">
+            <string>Author(s):</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="authorPushButton">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>Add</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
        <item>
         <widget class="QListWidget" name="authorListWidget">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
+         <property name="font">
+          <font>
+           <family>Consolas</family>
+          </font>
+         </property>
+         <property name="contextMenuPolicy">
+          <enum>Qt::CustomContextMenu</enum>
+         </property>
+         <property name="editTriggers">
+          <set>QAbstractItemView::NoEditTriggers</set>
+         </property>
          <property name="alternatingRowColors">
           <bool>true</bool>
-         </property>
-         <property name="selectionMode">
-          <enum>QAbstractItemView::NoSelection</enum>
          </property>
         </widget>
        </item>
       </layout>
      </item>
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout_3">
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <property name="spacing">
+        <number>0</number>
+       </property>
        <item>
-        <widget class="QLabel" name="label_2">
-         <property name="text">
-          <string>Artist(s):</string>
-         </property>
-        </widget>
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <widget class="QLabel" name="label_2">
+           <property name="text">
+            <string>Artist(s):</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="artistPushButton">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>Add</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
        <item>
         <widget class="QListWidget" name="artistListWidget">
-         <property name="enabled">
-          <bool>false</bool>
+         <property name="font">
+          <font>
+           <family>Consolas</family>
+          </font>
          </property>
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
+         <property name="contextMenuPolicy">
+          <enum>Qt::CustomContextMenu</enum>
+         </property>
+         <property name="editTriggers">
+          <set>QAbstractItemView::NoEditTriggers</set>
          </property>
          <property name="alternatingRowColors">
           <bool>true</bool>
-         </property>
-         <property name="selectionMode">
-          <enum>QAbstractItemView::NoSelection</enum>
          </property>
         </widget>
        </item>

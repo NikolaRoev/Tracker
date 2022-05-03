@@ -3,13 +3,13 @@
 #include "DatabaseManager/DatabaseManager.h"
 
 #include <QDialog>
+#include <QDateTime>
 
 //==================================================================================================================================
 //==================================================================================================================================
 
 AddWorkDialog::AddWorkDialog(QWidget* parent) : QDialog(parent), ui(new Ui::AddWorkDialog) {
 	ui->setupUi(this);
-	setAttribute(Qt::WA_DeleteOnClose);
 
 	ui->statusComboBox->setItemData(0, "Reading");
 	ui->statusComboBox->setItemData(1, "Completed");
@@ -29,11 +29,19 @@ AddWorkDialog::~AddWorkDialog() {
 //==================================================================================================================================
 
 void AddWorkDialog::on_buttonBox_accepted() {
-	DatabaseManager::add_work(ui->nameLineEdit->text(),
-							  ui->statusComboBox->currentData().toString(),
-							  ui->typeComboBox->currentData().toString(),
-							  ui->groupingLineEdit->text(),
-							  ui->chapterLineEdit->text());
+	Work work;
+	work.name = ui->nameLineEdit->text();
+	work.status = ui->statusComboBox->currentData().toString();
+	work.type = ui->typeComboBox->currentData().toString();
+	work.grouping = ui->groupingLineEdit->text();
+	work.chapter = ui->chapterLineEdit->text();
+
+	QString date_time = QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss");
+	work.updated = date_time;
+	work.added = date_time;
+
+
+	DatabaseManager::add_work(work);
 }
 
 //==================================================================================================================================

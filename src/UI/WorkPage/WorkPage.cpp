@@ -1,79 +1,127 @@
 #include "WorkPage.h"
 #include "./ui_WorkPage.h"
 #include "DatabaseManager/DatabaseManager.h"
+#include "DatabaseManager/Work.h"
+#include "DatabaseManager/Creator.h"
+#include "SearchCreatorDialog/SearchCreatorDialog.h"
 
-#include <QDialog>
+#include <QWidget>
+#include <QListWidgetItem>
+#include <QDateTime>
+#include <QMenu>
+#include <QMessageBox>
 
 //==================================================================================================================================
+//==================================================================================================================================
+//==================================================================================================================================
 
-WorkDialog::WorkDialog(const int id, QWidget* parent) : QDialog(parent), ui(new Ui::WorkPage) {
+WorkPage::WorkPage(const int id, QWidget* parent) : id(id), QWidget(parent), ui(new Ui::WorkPage) {
 	ui->setupUi(this);
-	setAttribute(Qt::WA_DeleteOnClose);
+	ui->statusComboBox->setItemData(0, "Reading");
+	ui->statusComboBox->setItemData(1, "Completed");
+
+	ui->typeComboBox->setItemData(0, "Series");
+	ui->typeComboBox->setItemData(1, "One Shot");
+	ui->typeComboBox->setItemData(2, "Anthology");
+
 
 	Work work = DatabaseManager::get_work(id);
-
-	setWindowTitle(work.name);
 	ui->idLabel->setText(QString::number(work.id));
-	ui->nameLabel->setText(work.name);
-	ui->statusLabel->setText(work.status);
-	ui->typeLabel->setText(work.status);
-	ui->groupingLabel->setText(work.grouping);
-	ui->chapterLabel->setText(work.chapter);
-	ui->updated_label->setText(work.updated);
+	ui->nameLineEdit->setText(work.name);
+	ui->statusComboBox->setCurrentText(work.status);
+	ui->typeComboBox->setCurrentText(work.type);
+	ui->groupingLineEdit->setText(work.grouping);
+	ui->chapterLineEdit->setText(work.chapter);
+	ui->updatedLabel->setText(work.updated);
 	ui->addedLabel->setText(work.added);
 
 	for (const auto& creator : work.creators) {
+		QListWidgetItem* item = new QListWidgetItem(creator.name);
+		item->setData(Qt::UserRole, creator.id);
+
 		if (creator.type == "Author") {
-			ui->authorListWidget->addItem(creator.name);
+			ui->authorListWidget->addItem(item);
 		}
 		else if (creator.type == "Artist") {
-			ui->artistListWidget->addItem(creator.name);
+			ui->artistListWidget->addItem(item);
 		}
 	}
 }
 
 //==================================================================================================================================
 
-WorkDialog::~WorkDialog() {
+WorkPage::~WorkPage() {
 	delete ui;
 }
 
 //==================================================================================================================================
+//==================================================================================================================================
+//==================================================================================================================================
 
-/*
- * void AddWorkDialog::on_authorSelected(const int id, const QString& name) {
-	QListWidgetItem* item = new QListWidgetItem(name);
-	item->setData(Qt::UserRole, id);
-	ui->authorListWidget->addItem(item);
+void WorkPage::on_nameLineEdit_textChanged(const QString& text) {
+	DatabaseManager::update_work("name", id, text);
 }
 
 //==================================================================================================================================
 
-void AddWorkDialog::on_artistSelected(const int id, const QString& name) {
-	QListWidgetItem* item = new QListWidgetItem(name);
-	item->setData(Qt::UserRole, id);
-	ui->artistListWidget->addItem(item);
+void WorkPage::on_statusComboBox_currentIndexChanged(int index) {
+	DatabaseManager::update_work("status", id, ui->statusComboBox->currentData().toString());
 }
 
 //==================================================================================================================================
 
-void AddWorkDialog::on_authorAddButton_clicked() {
+void WorkPage::on_typeComboBox_currentIndexChanged(int index) {
+	DatabaseManager::update_work("type", id, ui->typeComboBox->currentData().toString());
+}
+
+//==================================================================================================================================
+
+void WorkPage::on_groupingLineEdit_textChanged(const QString& text) {
+	DatabaseManager::update_work("grouping", id, text);
+}
+
+//==================================================================================================================================
+
+void WorkPage::on_chapterLineEdit_textChanged(const QString& text) {
+	DatabaseManager::update_work("chapter", id, text);
+
+	QString date_time = QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss");
+	DatabaseManager::update_work("updated", id, date_time);
+	ui->updatedLabel->setText(date_time);
+}
+
+//==================================================================================================================================
+//==================================================================================================================================
+
+void WorkPage::on_authorPushButton_clicked() {
 	SearchCreatorDialog* dialog = new SearchCreatorDialog(this);
-	connect(dialog, &SearchCreatorDialog::creatorSelected, this, &AddWorkDialog::on_authorSelected);
+	connect(dialog, &SearchCreatorDialog::creatorSelected, this, &WorkPage::on_authorSelected);
 	dialog->show();
 }
 
 //==================================================================================================================================
 
-void AddWorkDialog::on_artistAddButton_clicked() {
+void WorkPage::on_artistPushButton_clicked() {
 	SearchCreatorDialog* dialog = new SearchCreatorDialog(this);
-	connect(dialog, &SearchCreatorDialog::creatorSelected, this, &AddWorkDialog::on_artistSelected);
+	connect(dialog, &SearchCreatorDialog::creatorSelected, this, &WorkPage::on_artistSelected);
 	dialog->show();
 }
 
 //==================================================================================================================================
 
-void AddWorkDialog::on_authorListWidget_customContextMenuRequested(const QPoint &pos) {
+void WorkPage::on_authorListWidget_itemClicked(QListWidgetItem* item) {
+	emit creatorClicked(item->data(Qt::UserRole).toInt());
+}
+
+//==================================================================================================================================
+
+void WorkPage::on_artistListWidget_itemClicked(QListWidgetItem* item) {
+	emit creatorClicked(item->data(Qt::UserRole).toInt());
+}
+
+//==================================================================================================================================
+
+void WorkPage::on_authorListWidget_customContextMenuRequested(const QPoint& pos) {
 	if (QListWidgetItem* item = ui->authorListWidget->itemAt(pos); item) {
 		if (QVariant data = item->data(Qt::UserRole); data.isValid()) {
 			QMenu menu(ui->authorListWidget);
@@ -85,6 +133,7 @@ void AddWorkDialog::on_authorListWidget_customContextMenuRequested(const QPoint 
 												  QMessageBox::No);
 
 				if (result == QMessageBox::Yes) {
+					DatabaseManager::detach_creator(id, data.toInt(), "Author");
 					ui->authorListWidget->removeItemWidget(item);
 					delete item;
 				}
@@ -96,7 +145,7 @@ void AddWorkDialog::on_authorListWidget_customContextMenuRequested(const QPoint 
 
 //==================================================================================================================================
 
-void AddWorkDialog::on_artistListWidget_customContextMenuRequested(const QPoint &pos) {
+void WorkPage::on_artistListWidget_customContextMenuRequested(const QPoint& pos) {
 	if (QListWidgetItem* item = ui->artistListWidget->itemAt(pos); item) {
 		if (QVariant data = item->data(Qt::UserRole); data.isValid()) {
 			QMenu menu(ui->artistListWidget);
@@ -108,6 +157,7 @@ void AddWorkDialog::on_artistListWidget_customContextMenuRequested(const QPoint 
 												  QMessageBox::No);
 
 				if (result == QMessageBox::Yes) {
+					DatabaseManager::detach_creator(id, data.toInt(), "Artist");
 					ui->artistListWidget->removeItemWidget(item);
 					delete item;
 				}
@@ -117,4 +167,29 @@ void AddWorkDialog::on_artistListWidget_customContextMenuRequested(const QPoint 
 	}
 }
 
-*/
+//==================================================================================================================================
+//==================================================================================================================================
+
+void WorkPage::on_authorSelected(const int creator_id, const QString& name) {
+   QListWidgetItem* item = new QListWidgetItem(name);
+   item->setData(Qt::UserRole, creator_id);
+   ui->authorListWidget->addItem(item);
+
+
+   //TO DO: We need to check if this succeeds and then create the list item.
+   DatabaseManager::attach_creator(id, creator_id, "Author");
+}
+
+//==================================================================================================================================
+
+void WorkPage::on_artistSelected(const int creator_id, const QString& name) {
+   QListWidgetItem* item = new QListWidgetItem(name);
+   item->setData(Qt::UserRole, creator_id);
+   ui->artistListWidget->addItem(item);
+
+   DatabaseManager::attach_creator(id, creator_id, "Artist");
+}
+
+//==================================================================================================================================
+//==================================================================================================================================
+//==================================================================================================================================

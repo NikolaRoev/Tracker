@@ -17,7 +17,7 @@ public:
 
 
 	//Work.
-	static void add_work(const QString& name, const QString& status, const QString& type, const QString& grouping, const QString& chapter);
+	static void add_work(const Work& work);
 	static void remove_work(const int id);
 	static void update_work(const QString& column, const int id, const QString& value);
 	static Work get_work(const int id);

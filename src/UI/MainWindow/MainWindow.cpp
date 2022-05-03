@@ -138,14 +138,16 @@ void MainWindow::on_actionExit_triggered() {
 
 void MainWindow::on_actionAdd_Work_triggered() {
 	AddWorkDialog* dialog = new AddWorkDialog(this);
-	dialog->show();
+	if (int result = dialog->exec(); result == QDialog::Accepted) {
+		emit ui->tabWidget->currentChanged(ui->tabWidget->currentIndex());
+	}
 }
 
 //==================================================================================================================================
 
 void MainWindow::on_actionAdd_Creator_triggered() {
 	AddCreatorDialog* dialog = new AddCreatorDialog(this);
-	dialog->show();
+	dialog->exec();
 }
 
 //==================================================================================================================================
@@ -281,11 +283,13 @@ void MainWindow::on_byComboBox_currentIndexChanged(int index) {
 
 //==================================================================================================================================
 
-void MainWindow::on_browseTableWidget_itemClicked(QTableWidgetItem *item) {
-	if (QVariant data = item->data(Qt::UserRole); data.isValid()) {
+void MainWindow::on_browseTableWidget_clicked(const QModelIndex& index) {
+	if (QVariant data = ui->browseTableWidget->item(index.row(), 0)->data(Qt::UserRole); data.isValid()) {
 		qDebug() << "Open new page.";
 
-		ui->stackedWidget->addWidget(new CreatorPage(1));
+
+		//TO DO:
+		ui->stackedWidget->addWidget(new WorkPage(data.toInt()));
 		ui->stackedWidget->setCurrentIndex(1);
 	}
 }

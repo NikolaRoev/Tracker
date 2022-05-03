@@ -49,7 +49,7 @@ private slots:
 	void on_statusComboBox_currentIndexChanged(int index);
 	void on_typeComboBox_currentIndexChanged(int index);
 	void on_byComboBox_currentIndexChanged(int index);
-	void on_browseTableWidget_itemClicked(QTableWidgetItem* item);
+	void on_browseTableWidget_clicked(const QModelIndex& index);
 	void on_browseTableWidget_customContextMenuRequested(const QPoint& pos);
 };
 
