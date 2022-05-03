@@ -25,12 +25,15 @@ void DatabaseManager::deinit() {
 
 //==================================================================================================================================
 
-void DatabaseManager::open(const QString& name) {
+bool DatabaseManager::open(const QString& name) {
 	QSqlDatabase db = QSqlDatabase::database();
 	db.setDatabaseName(name);
 	if (!db.open()) {
 		qDebug() << db.lastError();
+		return false;
 	}
+
+
 	QSqlQuery query;
 	query.exec("PRAGMA foreign_keys = ON");
 
@@ -76,6 +79,8 @@ void DatabaseManager::open(const QString& name) {
 	if (!query.exec()) {
 		qDebug() << query.lastError();
 	}
+
+	return true;
 }
 
 //==================================================================================================================================
@@ -87,7 +92,7 @@ void DatabaseManager::close() {
 
 //==================================================================================================================================
 
-const QString DatabaseManager::get() {
+const QString DatabaseManager::get_name() {
 	QSqlDatabase db = QSqlDatabase::database();
 	return db.databaseName();
 }
@@ -188,8 +193,8 @@ Work DatabaseManager::get_work(const int id) {
 			if (creator_query.exec()) {
 				while (creator_query.next()) {
 					out.creators.emplace_back(creator_query.value(0).toInt(),
-											   creator_query.value(1).toString(),
-											   creator_query.value(2).toString());
+											  creator_query.value(1).toString(),
+											  creator_query.value(2).toString());
 				}
 			}
 			else {
@@ -206,12 +211,38 @@ Work DatabaseManager::get_work(const int id) {
 
 //==================================================================================================================================
 
-QVector<Work> DatabaseManager::search_works(const QString& maybe_partial_name, const QString& by, const QString& status, const QString& type) {
+QVector<Work> DatabaseManager::search_works(const QString& maybe_partial_search, const QString& by, const QString& status, const QString& type) {
 	//Query text construction.
-	QString query_text =
+	QString query_text;
+
+	if (by == "creator") {
+		query_text = QString(
+			"WITH current_creators AS ("
+			"	SELECT id, name "
+			"	FROM creators "
+			"	WHERE name LIKE (:search)"
+			"), "
+			"current_works AS ("
+			"	SELECT DISTINCT work_id "
+			"	FROM work_creator "
+			"	INNER JOIN current_creators "
+			"	ON current_creators.id = work_creator.creator_id"
+			") "
+			"SELECT works.id, works.name, works.grouping, works.chapter, works.updated "
+			"FROM works "
+			"INNER JOIN current_works "
+			"ON current_works.work_id = works.id "
+			"WHERE 1 = 1"
+		);
+	}
+	else {
+		query_text = QString(
 			"SELECT id, name, grouping, chapter, updated "
 			"FROM works "
-			"WHERE name LIKE (:name)";
+			"WHERE %1 LIKE (:search)"
+		).arg(by);
+	}
+
 
 	if (!status.isEmpty()) {
 		query_text.append(" AND status = (:status)");
@@ -225,7 +256,7 @@ QVector<Work> DatabaseManager::search_works(const QString& maybe_partial_name, c
 	//Query preparation.
 	QSqlQuery query;
 	query.prepare(query_text);
-	query.bindValue(":name", '%' + maybe_partial_name + '%');
+	query.bindValue(":search", '%' + maybe_partial_search + '%');
 
 	if (!status.isNull()) {
 		query.bindValue(":status", status);
@@ -241,11 +272,13 @@ QVector<Work> DatabaseManager::search_works(const QString& maybe_partial_name, c
 
 	if (query.exec()) {
 		while (query.next()) {
-			out.emplace_back(Work{ .id = query.value(0).toInt(),
-								   .name = query.value(1).toString(),
-								   .grouping = query.value(2).toString(),
-								   .chapter = query.value(3).toString(),
-								   .updated = query.value(4).toString()});
+			out.emplace_back(Work{
+				.id = query.value(0).toInt(),
+				.name = query.value(1).toString(),
+				.grouping = query.value(2).toString(),
+				.chapter = query.value(3).toString(),
+				.updated = query.value(4).toString()
+			});
 		}
 	}
 	else {
@@ -314,6 +347,7 @@ Creator DatabaseManager::get_creator(const int id) {
 	);
 	query.bindValue(":id", id);
 
+
 	Creator out;
 
 	if (query.exec()) {
@@ -368,6 +402,7 @@ QVector<Creator> DatabaseManager::search_creators(const QString& maybe_partial_n
 				  "WHERE name LIKE (:name)"
 	);
 	query.bindValue(":name", '%' + maybe_partial_name + '%');
+
 
 	QVector<Creator> out;
 

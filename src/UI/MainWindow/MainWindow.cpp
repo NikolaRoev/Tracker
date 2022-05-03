@@ -83,7 +83,7 @@ MainWindow::~MainWindow() {
 	QSettings settings("settings.ini", QSettings::IniFormat, this);
 	settings.setValue("geometry", saveGeometry());
 	settings.setValue("state", saveState());
-	settings.setValue("default_database", DatabaseManager::get());
+	settings.setValue("default_database", DatabaseManager::get_name());
 
 	DatabaseManager::deinit();
 	delete ui;

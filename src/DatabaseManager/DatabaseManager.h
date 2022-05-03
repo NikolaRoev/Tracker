@@ -11,9 +11,9 @@ class DatabaseManager {
 public:
 	static void init();
 	static void deinit();
-	static void open(const QString& name);
+	static bool open(const QString& name);
 	static void close();
-	static const QString get();
+	static const QString get_name();
 
 
 	//Work.
@@ -34,7 +34,7 @@ public:
 	static void update_creator(const QString& column, const int id, const QString& value);
 	static Creator get_creator(const int id);
 
-	static QVector<Creator> search_creators(const QString& maybe_partial_name);
+	static QVector<Creator> search_creators(const QString& maybe_partial_search);
 
 	static void attach_creator(const int work_id, const int creator_id, const QString& type);
 	static void detach_creator(const int work_id, const int creator_id, const QString& type);
