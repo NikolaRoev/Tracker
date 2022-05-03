@@ -207,35 +207,44 @@ void MainWindow::on_browseLineEdit_textChanged(const QString& text) {
 	//Clear list items.
 	ui->browseTableWidget->setRowCount(0);
 
-	QVector<Work> found_works = DatabaseManager::search_works(text,
-															  ui->byComboBox->currentData().toString(),
-															  ui->statusComboBox->currentData().toString(),
-															  ui->typeComboBox->currentData().toString());
+	if (ui->whatComboBox->currentIndex() == 0) {
+		QVector<Work> found_works = DatabaseManager::search_works(text,
+																  ui->byComboBox->currentData().toString(),
+																  ui->statusComboBox->currentData().toString(),
+																  ui->typeComboBox->currentData().toString());
 
-	for (const auto& work : found_works) {
-		QTableWidgetItem* name_item = new QTableWidgetItem(work.name);
-		name_item->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-		name_item->setData(Qt::UserRole, work.id);
+		for (const auto& work : found_works) {
+			ui->browseTableWidget->insertRow(ui->browseTableWidget->rowCount());
 
-		QTableWidgetItem* chapter_item = new QTableWidgetItem(work.chapter);
-		chapter_item->setFlags(Qt::NoItemFlags);
+			QTableWidgetItem* name_item = new QTableWidgetItem(work.name);
+			name_item->setData(Qt::UserRole, work.id);
 
-		QTableWidgetItem* grouping_item = new QTableWidgetItem(work.grouping);
-		grouping_item->setFlags(Qt::NoItemFlags);
+			ui->browseTableWidget->setItem(ui->browseTableWidget->rowCount() - 1, 0, name_item);
+			ui->browseTableWidget->setItem(ui->browseTableWidget->rowCount() - 1, 1, new QTableWidgetItem(work.chapter));
+			ui->browseTableWidget->setItem(ui->browseTableWidget->rowCount() - 1, 2, new QTableWidgetItem(work.grouping));
+			ui->browseTableWidget->setItem(ui->browseTableWidget->rowCount() - 1, 3, new QTableWidgetItem(work.updated));
+		}
 
-		QTableWidgetItem* updated_item = new QTableWidgetItem(work.updated);
-		updated_item->setFlags(Qt::NoItemFlags);
+		//Update status bar.
+		ui->statusBar->showMessage(QString("Found %1 works.").arg(found_works.size()));
+	}
+	else {
+		QVector<Creator> found_creators = DatabaseManager::search_creators(text);
 
+		for (const auto& creator : found_creators) {
+			ui->browseTableWidget->insertRow(ui->browseTableWidget->rowCount());
 
-		ui->browseTableWidget->insertRow(ui->browseTableWidget->rowCount());
-		ui->browseTableWidget->setItem(ui->browseTableWidget->rowCount() - 1, 0, name_item);
-		ui->browseTableWidget->setItem(ui->browseTableWidget->rowCount() - 1, 1, chapter_item);
-		ui->browseTableWidget->setItem(ui->browseTableWidget->rowCount() - 1, 2, grouping_item);
-		ui->browseTableWidget->setItem(ui->browseTableWidget->rowCount() - 1, 3, updated_item);
+			QTableWidgetItem* name_item = new QTableWidgetItem(creator.name);
+			name_item->setData(Qt::UserRole, creator.id);
+
+			ui->browseTableWidget->setItem(ui->browseTableWidget->rowCount() - 1, 0, name_item);
+		}
+
+		//Update status bar.
+		ui->statusBar->showMessage(QString("Found %1 creators.").arg(found_creators.size()));
 	}
 
-	//Update status bar.
-	ui->statusBar->showMessage(QString("Found %1 entries.").arg(found_works.size()));
+
 }
 
 //==================================================================================================================================
@@ -285,12 +294,14 @@ void MainWindow::on_byComboBox_currentIndexChanged(int index) {
 
 void MainWindow::on_browseTableWidget_clicked(const QModelIndex& index) {
 	if (QVariant data = ui->browseTableWidget->item(index.row(), 0)->data(Qt::UserRole); data.isValid()) {
-		qDebug() << "Open new page.";
+		if (ui->whatComboBox->currentIndex() == 0) {
+			ui->stackedWidget->addWidget(new WorkPage(data.toInt()));
+		}
+		else {
+			ui->stackedWidget->addWidget(new CreatorPage(data.toInt()));
+		}
 
-
-		//TO DO:
-		ui->stackedWidget->addWidget(new WorkPage(data.toInt()));
-		ui->stackedWidget->setCurrentIndex(1);
+		ui->stackedWidget->setCurrentIndex(ui->stackedWidget->count() - 1);
 	}
 }
 

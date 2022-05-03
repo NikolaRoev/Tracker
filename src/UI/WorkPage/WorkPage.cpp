@@ -171,23 +171,45 @@ void WorkPage::on_artistListWidget_customContextMenuRequested(const QPoint& pos)
 //==================================================================================================================================
 
 void WorkPage::on_authorSelected(const int creator_id, const QString& name) {
-   QListWidgetItem* item = new QListWidgetItem(name);
-   item->setData(Qt::UserRole, creator_id);
-   ui->authorListWidget->addItem(item);
-
-
-   //TO DO: We need to check if this succeeds and then create the list item.
    DatabaseManager::attach_creator(id, creator_id, "Author");
+
+   ui->authorListWidget->clear();
+   ui->artistListWidget->clear();
+
+   Work work = DatabaseManager::get_work(id);
+   for (const auto& creator : work.creators) {
+	   QListWidgetItem* item = new QListWidgetItem(creator.name);
+	   item->setData(Qt::UserRole, creator.id);
+
+	   if (creator.type == "Author") {
+		   ui->authorListWidget->addItem(item);
+	   }
+	   else if (creator.type == "Artist") {
+		   ui->artistListWidget->addItem(item);
+	   }
+   }
 }
 
 //==================================================================================================================================
 
 void WorkPage::on_artistSelected(const int creator_id, const QString& name) {
-   QListWidgetItem* item = new QListWidgetItem(name);
-   item->setData(Qt::UserRole, creator_id);
-   ui->artistListWidget->addItem(item);
-
    DatabaseManager::attach_creator(id, creator_id, "Artist");
+
+   ui->authorListWidget->clear();
+   ui->artistListWidget->clear();
+
+   Work work = DatabaseManager::get_work(id);
+   for (const auto& creator : work.creators) {
+	   QListWidgetItem* item = new QListWidgetItem(creator.name);
+	   item->setData(Qt::UserRole, creator.id);
+
+	   if (creator.type == "Author") {
+		   ui->authorListWidget->addItem(item);
+	   }
+	   else if (creator.type == "Artist") {
+		   ui->artistListWidget->addItem(item);
+	   }
+   }
 }
 
 //==================================================================================================================================

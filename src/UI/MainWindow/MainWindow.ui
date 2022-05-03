@@ -362,6 +362,9 @@
                 <property name="selectionMode">
                  <enum>QAbstractItemView::SingleSelection</enum>
                 </property>
+                <property name="selectionBehavior">
+                 <enum>QAbstractItemView::SelectRows</enum>
+                </property>
                 <property name="showGrid">
                  <bool>false</bool>
                 </property>
@@ -510,6 +513,9 @@
    </property>
   </action>
   <action name="actionBack">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../../../resources/resources.qrc">
      <normaloff>:/general/left-arrow.png</normaloff>:/general/left-arrow.png</iconset>
@@ -519,6 +525,9 @@
    </property>
   </action>
   <action name="actionForward">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../../../resources/resources.qrc">
      <normaloff>:/general/right-arrow.png</normaloff>:/general/right-arrow.png</iconset>
@@ -528,6 +537,9 @@
    </property>
   </action>
   <action name="actionHome">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../../../resources/resources.qrc">
      <normaloff>:/general/house.png</normaloff>:/general/house.png</iconset>
