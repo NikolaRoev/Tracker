@@ -1,8 +1,11 @@
 <RCC>
-    <qresource prefix="/general">
-        <file>icon.ico</file>
-        <file>house.png</file>
-        <file>left-arrow.png</file>
-        <file>right-arrow.png</file>
+    <qresource prefix="/icons">
+        <file>icons/house.png</file>
+        <file>icons/icon.ico</file>
+        <file>icons/left-arrow.png</file>
+        <file>icons/right-arrow.png</file>
+    </qresource>
+    <qresource prefix="/stylesheets">
+        <file>stylesheets/stylesheet.qss</file>
     </qresource>
 </RCC>

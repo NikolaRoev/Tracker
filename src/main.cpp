@@ -1,6 +1,7 @@
 #include "MainWindow/MainWindow.h"
 
 #include <QApplication>
+#include <QFile>
 #include <QtGlobal>
 
 //==================================================================================================================================
@@ -15,6 +16,13 @@ int main(int argc, char *argv[]) {
 
 
 	QApplication app(argc, argv);
+
+	QFile file(":/stylesheets/stylesheets/stylesheet.qss");
+	if (!file.open(QFile::ReadOnly)) {
+		qWarning() << file.errorString();
+	}
+	app.setStyleSheet(file.readAll());
+
 	MainWindow window;
 	window.show();
 	return app.exec();

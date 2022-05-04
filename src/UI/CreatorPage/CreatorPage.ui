@@ -13,11 +13,6 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <property name="styleSheet">
-   <string notr="true">QTableView {
-	font: 9pt &quot;Consolas&quot;;
-}</string>
-  </property>
   <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,0">
    <property name="spacing">
     <number>5</number>
@@ -73,9 +68,6 @@
     <widget class="QTableWidget" name="tableWidget">
      <property name="focusPolicy">
       <enum>Qt::NoFocus</enum>
-     </property>
-     <property name="styleSheet">
-      <string notr="true"/>
      </property>
      <property name="editTriggers">
       <set>QAbstractItemView::NoEditTriggers</set>

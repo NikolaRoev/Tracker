@@ -20,7 +20,6 @@ qt_add_executable(Tracker
 	"resources/resources.qrc"
 	"resources/resources.rc"
 
-
 	"src/main.cpp"
 
 
