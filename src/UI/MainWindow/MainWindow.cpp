@@ -176,6 +176,8 @@ void MainWindow::on_actionForward_triggered() {
 
 void MainWindow::on_actionHome_triggered() {
 	ui->stackedWidget->setCurrentIndex(0);
+
+	emit ui->tabWidget->currentChanged(ui->tabWidget->currentIndex());
 }
 
 //==================================================================================================================================

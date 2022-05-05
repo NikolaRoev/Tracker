@@ -1,6 +1,7 @@
 #pragma once
 #include <QDialog>
 #include <QString>
+#include <QListWidgetItem>
 
 //==================================================================================================================================
 
@@ -23,10 +24,11 @@ public:
 
 private slots:
 	void on_filterLineEdit_textEdited(const QString& text);
+	void on_listWidget_itemSelectionChanged();
 	void on_buttonBox_accepted();
 
 signals:
-	void creatorSelected(const int id, const QString& name);
+	void creatorSelected(const int id, const QString& name, const QString& type);
 };
 
 //==================================================================================================================================

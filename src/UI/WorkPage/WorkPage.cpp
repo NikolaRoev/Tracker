@@ -6,7 +6,7 @@
 #include "SearchCreatorDialog/SearchCreatorDialog.h"
 
 #include <QWidget>
-#include <QListWidgetItem>
+#include <QTableWidgetItem>
 #include <QDateTime>
 #include <QMenu>
 #include <QMessageBox>
@@ -17,6 +17,9 @@
 
 WorkPage::WorkPage(const int id, QWidget* parent) : id(id), QWidget(parent), ui(new Ui::WorkPage) {
 	ui->setupUi(this);
+	ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+	ui->tableWidget->verticalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+
 	ui->statusComboBox->setItemData(0, "Reading");
 	ui->statusComboBox->setItemData(1, "Completed");
 
@@ -36,15 +39,13 @@ WorkPage::WorkPage(const int id, QWidget* parent) : id(id), QWidget(parent), ui(
 	ui->addedLabel->setText(work.added);
 
 	for (const auto& creator : work.creators) {
-		QListWidgetItem* item = new QListWidgetItem(creator.name);
-		item->setData(Qt::UserRole, creator.id);
+		ui->tableWidget->insertRow(ui->tableWidget->rowCount());
 
-		if (creator.type == "Author") {
-			ui->authorListWidget->addItem(item);
-		}
-		else if (creator.type == "Artist") {
-			ui->artistListWidget->addItem(item);
-		}
+		QTableWidgetItem* name_item = new QTableWidgetItem(creator.name);
+		name_item->setData(Qt::UserRole, creator.id);
+
+		ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 0, name_item);
+		ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 1, new QTableWidgetItem(creator.type));
 	}
 }
 
@@ -93,73 +94,34 @@ void WorkPage::on_chapterLineEdit_textEdited(const QString& text) {
 //==================================================================================================================================
 //==================================================================================================================================
 
-void WorkPage::on_authorPushButton_clicked() {
+void WorkPage::on_addPushButton_clicked() {
 	SearchCreatorDialog* dialog = new SearchCreatorDialog(this);
-	connect(dialog, &SearchCreatorDialog::creatorSelected, this, &WorkPage::on_authorSelected);
-	dialog->show();
+	connect(dialog, &SearchCreatorDialog::creatorSelected, this, &WorkPage::on_creatorSelected);
+	dialog->exec();
 }
 
 //==================================================================================================================================
 
-void WorkPage::on_artistPushButton_clicked() {
-	SearchCreatorDialog* dialog = new SearchCreatorDialog(this);
-	connect(dialog, &SearchCreatorDialog::creatorSelected, this, &WorkPage::on_artistSelected);
-	dialog->show();
+void WorkPage::on_tableWidget_clicked(const QModelIndex& index) {
+	emit creatorClicked(ui->tableWidget->item(index.row(), 0)->data(Qt::UserRole).toInt());
 }
 
 //==================================================================================================================================
 
-void WorkPage::on_authorListWidget_itemClicked(QListWidgetItem* item) {
-	emit creatorClicked(item->data(Qt::UserRole).toInt());
-}
-
-//==================================================================================================================================
-
-void WorkPage::on_artistListWidget_itemClicked(QListWidgetItem* item) {
-	emit creatorClicked(item->data(Qt::UserRole).toInt());
-}
-
-//==================================================================================================================================
-
-void WorkPage::on_authorListWidget_customContextMenuRequested(const QPoint& pos) {
-	if (QListWidgetItem* item = ui->authorListWidget->itemAt(pos); item) {
+void WorkPage::on_tableWidget_customContextMenuRequested(const QPoint& pos) {
+	if (QTableWidgetItem* item = ui->tableWidget->itemAt(pos); item) {
 		if (QVariant data = item->data(Qt::UserRole); data.isValid()) {
-			QMenu menu(ui->authorListWidget);
+			QMenu menu(ui->tableWidget);
 			menu.addAction("Remove", [&](){
 				int result = QMessageBox::warning(this,
-												  "Removing Author",
-												  QString("Are you sure you want to remove \"%1\" as Author?").arg(item->text()),
+												  "Removing",
+												  QString("Are you sure you want to remove \"%1\" as Creator?").arg(item->text()),
 												  QMessageBox::Yes,
 												  QMessageBox::No);
 
 				if (result == QMessageBox::Yes) {
-					DatabaseManager::detach_creator(id, data.toInt(), "Author");
-					ui->authorListWidget->removeItemWidget(item);
-					delete item;
-				}
-			});
-			menu.exec(QCursor::pos());
-		}
-	}
-}
-
-//==================================================================================================================================
-
-void WorkPage::on_artistListWidget_customContextMenuRequested(const QPoint& pos) {
-	if (QListWidgetItem* item = ui->artistListWidget->itemAt(pos); item) {
-		if (QVariant data = item->data(Qt::UserRole); data.isValid()) {
-			QMenu menu(ui->artistListWidget);
-			menu.addAction("Remove", [&](){
-				int result = QMessageBox::warning(this,
-												  "Removing Artist",
-												  QString("Are you sure you want to remove \"%1\" as Artist?").arg(item->text()),
-												  QMessageBox::Yes,
-												  QMessageBox::No);
-
-				if (result == QMessageBox::Yes) {
-					DatabaseManager::detach_creator(id, data.toInt(), "Artist");
-					ui->artistListWidget->removeItemWidget(item);
-					delete item;
+					DatabaseManager::detach_creator(id, data.toInt());
+					ui->tableWidget->removeRow(item->row());
 				}
 			});
 			menu.exec(QCursor::pos());
@@ -170,46 +132,21 @@ void WorkPage::on_artistListWidget_customContextMenuRequested(const QPoint& pos)
 //==================================================================================================================================
 //==================================================================================================================================
 
-void WorkPage::on_authorSelected(const int creator_id, const QString& name) {
-   DatabaseManager::attach_creator(id, creator_id, "Author");
+void WorkPage::on_creatorSelected(const int creator_id, const QString& name, const QString& type) {
+	DatabaseManager::attach_creator(id, creator_id, type);
 
-   ui->authorListWidget->clear();
-   ui->artistListWidget->clear();
+	ui->tableWidget->setRowCount(0);
 
-   Work work = DatabaseManager::get_work(id);
-   for (const auto& creator : work.creators) {
-	   QListWidgetItem* item = new QListWidgetItem(creator.name);
-	   item->setData(Qt::UserRole, creator.id);
+	Work work = DatabaseManager::get_work(id);
+	for (const auto& creator : work.creators) {
+		ui->tableWidget->insertRow(ui->tableWidget->rowCount());
 
-	   if (creator.type == "Author") {
-		   ui->authorListWidget->addItem(item);
-	   }
-	   else if (creator.type == "Artist") {
-		   ui->artistListWidget->addItem(item);
-	   }
-   }
-}
+		QTableWidgetItem* name_item = new QTableWidgetItem(creator.name);
+		name_item->setData(Qt::UserRole, creator.id);
 
-//==================================================================================================================================
-
-void WorkPage::on_artistSelected(const int creator_id, const QString& name) {
-   DatabaseManager::attach_creator(id, creator_id, "Artist");
-
-   ui->authorListWidget->clear();
-   ui->artistListWidget->clear();
-
-   Work work = DatabaseManager::get_work(id);
-   for (const auto& creator : work.creators) {
-	   QListWidgetItem* item = new QListWidgetItem(creator.name);
-	   item->setData(Qt::UserRole, creator.id);
-
-	   if (creator.type == "Author") {
-		   ui->authorListWidget->addItem(item);
-	   }
-	   else if (creator.type == "Artist") {
-		   ui->artistListWidget->addItem(item);
-	   }
-   }
+		ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 0, name_item);
+		ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 1, new QTableWidgetItem(creator.type));
+	}
 }
 
 //==================================================================================================================================

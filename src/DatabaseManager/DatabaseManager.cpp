@@ -70,8 +70,8 @@ bool DatabaseManager::open(const QString& name) {
 		"CREATE TABLE IF NOT EXISTS work_creator ("
 		"	work_id		INTEGER NOT NULL, "
 		"	creator_id	INTEGER NOT NULL, "
-		"	type		TEXT CHECK (type IN ('Author', 'Artist')) NOT NULL, "
-		"	PRIMARY KEY (work_id, creator_id, type), "
+		"	type		TEXT NOT NULL, "
+		"	PRIMARY KEY (work_id, creator_id), "
 		"	FOREIGN KEY (work_id) REFERENCES works (id) ON DELETE CASCADE, "
 		"	FOREIGN KEY (creator_id) REFERENCES creators (id) ON DELETE CASCADE"
 		")"
@@ -437,15 +437,14 @@ void DatabaseManager::attach_creator(const int work_id, const int creator_id, co
 
 //==================================================================================================================================
 
-void DatabaseManager::detach_creator(const int work_id, const int creator_id, const QString& type) {
+void DatabaseManager::detach_creator(const int work_id, const int creator_id) {
 	QSqlQuery query;
 	query.prepare(
 		"DELETE FROM work_creator "
-		"WHERE work_id = (:work_id) AND creator_id = (:creator_id) AND type = (:type)"
+		"WHERE work_id = (:work_id) AND creator_id = (:creator_id)"
 	);
 	query.bindValue(":work_id", work_id);
 	query.bindValue(":creator_id", creator_id);
-	query.bindValue(":type", type);
 
 	if (!query.exec()) {
 		qDebug() << query.lastError();

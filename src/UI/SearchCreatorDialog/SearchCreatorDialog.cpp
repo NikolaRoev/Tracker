@@ -4,13 +4,13 @@
 
 #include <QDialog>
 #include <QString>
+#include <QListWidgetItem>
 
 //==================================================================================================================================
 //==================================================================================================================================
 
 SearchCreatorDialog::SearchCreatorDialog(QWidget* parent) : QDialog(parent), ui(new Ui::SearchCreatorDialog) {
 	ui->setupUi(this);
-	setAttribute(Qt::WA_DeleteOnClose);
 	emit ui->filterLineEdit->textEdited(QString());
 }
 
@@ -36,10 +36,24 @@ void SearchCreatorDialog::on_filterLineEdit_textEdited(const QString& text) {
 
 //==================================================================================================================================
 
+void SearchCreatorDialog::on_listWidget_itemSelectionChanged() {
+	auto selected_items = ui->listWidget->selectedItems();
+	if (selected_items.isEmpty()) {
+		ui->typeLineEdit->setDisabled(true);
+	}
+	else {
+		ui->typeLineEdit->setEnabled(true);
+	}
+}
+
+//==================================================================================================================================
+
 void SearchCreatorDialog::on_buttonBox_accepted() {
 	auto selected_items = ui->listWidget->selectedItems();
 	if (!selected_items.isEmpty()) {
-		emit creatorSelected(selected_items.first()->data(Qt::UserRole).toInt(), selected_items.first()->text());
+		emit creatorSelected(selected_items.first()->data(Qt::UserRole).toInt(),
+							 selected_items.first()->text(),
+							 ui->typeLineEdit->text());
 	}
 }
 

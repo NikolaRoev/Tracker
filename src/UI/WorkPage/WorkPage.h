@@ -1,6 +1,5 @@
 #pragma once
 #include <QWidget>
-#include <QListWidgetItem>
 
 //==================================================================================================================================
 
@@ -29,15 +28,11 @@ private slots:
 	void on_groupingLineEdit_textEdited(const QString& text);
 	void on_chapterLineEdit_textEdited(const QString& text);
 
-	void on_authorPushButton_clicked();
-	void on_artistPushButton_clicked();
-	void on_authorListWidget_itemClicked(QListWidgetItem* item);
-	void on_artistListWidget_itemClicked(QListWidgetItem* item);
-	void on_authorListWidget_customContextMenuRequested(const QPoint& pos);
-	void on_artistListWidget_customContextMenuRequested(const QPoint& pos);
+	void on_addPushButton_clicked();
+	void on_tableWidget_clicked(const QModelIndex& index);
+	void on_tableWidget_customContextMenuRequested(const QPoint& pos);
 
-	void on_authorSelected(const int creator_id, const QString& name);
-	void on_artistSelected(const int creator_id, const QString& name);
+	void on_creatorSelected(const int creator_id, const QString& name, const QString& type);
 
 signals:
 	void creatorClicked(const int id);
