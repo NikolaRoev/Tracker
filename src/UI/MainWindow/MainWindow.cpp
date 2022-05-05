@@ -154,13 +154,22 @@ void MainWindow::on_actionAdd_Creator_triggered() {
 //==================================================================================================================================
 
 void MainWindow::on_actionBack_triggered() {
-	//TO DO:
+	int previous = ui->stackedWidget->currentIndex() - 1;
+
+	if (previous >= 0) {
+		ui->stackedWidget->setCurrentIndex(previous);
+	}
 }
 
 //==================================================================================================================================
 
 void MainWindow::on_actionForward_triggered() {
-	//TO DO:
+	int current = ui->stackedWidget->currentIndex();
+	int last = ui->stackedWidget->count() - 1;
+
+	if (current < last) {
+		ui->stackedWidget->setCurrentIndex(current + 1);
+	}
 }
 
 //==================================================================================================================================
@@ -243,8 +252,6 @@ void MainWindow::on_browseLineEdit_textEdited(const QString& text) {
 		//Update status bar.
 		ui->statusBar->showMessage(QString("Found %1 creators.").arg(found_creators.size()));
 	}
-
-
 }
 
 //==================================================================================================================================
@@ -295,13 +302,11 @@ void MainWindow::on_byComboBox_currentIndexChanged(int index) {
 void MainWindow::on_browseTableWidget_clicked(const QModelIndex& index) {
 	if (QVariant data = ui->browseTableWidget->item(index.row(), 0)->data(Qt::UserRole); data.isValid()) {
 		if (ui->whatComboBox->currentIndex() == 0) {
-			ui->stackedWidget->addWidget(new WorkPage(data.toInt()));
+			on_workClicked(data.toInt());
 		}
 		else {
-			ui->stackedWidget->addWidget(new CreatorPage(data.toInt()));
+			on_creatorClicked(data.toInt());
 		}
-
-		ui->stackedWidget->setCurrentIndex(ui->stackedWidget->count() - 1);
 	}
 }
 
@@ -332,6 +337,51 @@ void MainWindow::on_browseTableWidget_customContextMenuRequested(const QPoint& p
 			menu.exec(QCursor::pos());
 		}
 	}
+}
+
+//==================================================================================================================================
+//==================================================================================================================================
+
+void MainWindow::on_workClicked(const int id) {
+	int last = ui->stackedWidget->count() - 1;
+	int current = ui->stackedWidget->currentIndex();
+
+	if (current < last) {
+		for (int i = last; i > current; --i) {
+			QWidget* widget = ui->stackedWidget->widget(i);
+			ui->stackedWidget->removeWidget(widget);
+			delete widget;
+		}
+	}
+
+
+	WorkPage* work_page = new WorkPage(id);
+	connect(work_page, &WorkPage::creatorClicked, this, &MainWindow::on_creatorClicked);
+
+	ui->stackedWidget->addWidget(work_page);
+	ui->stackedWidget->setCurrentIndex(ui->stackedWidget->count() - 1);
+}
+
+//==================================================================================================================================
+
+void MainWindow::on_creatorClicked(const int id) {
+	int last = ui->stackedWidget->count() - 1;
+	int current = ui->stackedWidget->currentIndex();
+
+	if (current < last) {
+		for (int i = last; i > current; --i) {
+			QWidget* widget = ui->stackedWidget->widget(i);
+			ui->stackedWidget->removeWidget(widget);
+			delete widget;
+		}
+	}
+
+
+	CreatorPage* creator_page = new CreatorPage(id);
+	connect(creator_page, &CreatorPage::workClicked, this, &MainWindow::on_workClicked);
+
+	ui->stackedWidget->addWidget(creator_page);
+	ui->stackedWidget->setCurrentIndex(ui->stackedWidget->count() - 1);
 }
 
 //==================================================================================================================================

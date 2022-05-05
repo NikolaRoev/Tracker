@@ -51,6 +51,10 @@ private slots:
 	void on_byComboBox_currentIndexChanged(int index);
 	void on_browseTableWidget_clicked(const QModelIndex& index);
 	void on_browseTableWidget_customContextMenuRequested(const QPoint& pos);
+
+	//Custom.
+	void on_workClicked(const int id);
+	void on_creatorClicked(const int id);
 };
 
 //==================================================================================================================================
