@@ -39,6 +39,9 @@ private slots:
 	void on_actionForward_triggered();
 	void on_actionHome_triggered();
 
+	//Stacked widget.
+	void on_stackedWidget_currentChanged(int index);
+
 	//Tab widget.
 	void on_tabWidget_currentChanged(int index);
 	//Update tab.

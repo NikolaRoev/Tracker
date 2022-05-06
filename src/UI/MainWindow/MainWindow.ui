@@ -506,7 +506,7 @@
   </action>
   <action name="actionBack">
    <property name="enabled">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
    <property name="icon">
     <iconset resource="../../../resources/resources.qrc">
@@ -518,7 +518,7 @@
   </action>
   <action name="actionForward">
    <property name="enabled">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
    <property name="icon">
     <iconset resource="../../../resources/resources.qrc">
@@ -529,6 +529,9 @@
    </property>
   </action>
   <action name="actionHome">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset resource="../../../resources/resources.qrc">
      <normaloff>:/icons/icons/house.png</normaloff>:/icons/icons/house.png</iconset>

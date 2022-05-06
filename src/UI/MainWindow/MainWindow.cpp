@@ -183,6 +183,25 @@ void MainWindow::on_actionHome_triggered() {
 //==================================================================================================================================
 //==================================================================================================================================
 
+void MainWindow::on_stackedWidget_currentChanged(int index) {
+	int last = ui->stackedWidget->count() - 1;
+
+	if (index == 0) {
+		ui->actionBack->setDisabled(true);
+		ui->actionForward->setDisabled(true);
+		ui->actionHome->setDisabled(true);
+
+		if (last > 0) {
+			ui->actionForward->setEnabled(true);
+		}
+	}
+
+	//TO DO: ??? simplify^^^.
+}
+
+//==================================================================================================================================
+//==================================================================================================================================
+
 void MainWindow::on_tabWidget_currentChanged(int index) {
 	switch (index) {
 		case 0: emit ui->updateLineEdit->textEdited(ui->updateLineEdit->text()); break;
