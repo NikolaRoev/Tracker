@@ -184,19 +184,22 @@ void MainWindow::on_actionHome_triggered() {
 //==================================================================================================================================
 
 void MainWindow::on_stackedWidget_currentChanged(int index) {
-	int last = ui->stackedWidget->count() - 1;
-
 	if (index == 0) {
 		ui->actionBack->setDisabled(true);
-		ui->actionForward->setDisabled(true);
 		ui->actionHome->setDisabled(true);
-
-		if (last > 0) {
-			ui->actionForward->setEnabled(true);
-		}
+	}
+	else {
+		ui->actionBack->setEnabled(true);
+		ui->actionHome->setEnabled(true);
 	}
 
-	//TO DO: ??? simplify^^^.
+	int last = ui->stackedWidget->count() - 1;
+	if (index == last) {
+		ui->actionForward->setDisabled(true);
+	}
+	else {
+		ui->actionForward->setEnabled(true);
+	}
 }
 
 //==================================================================================================================================
