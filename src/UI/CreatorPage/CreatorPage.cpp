@@ -17,7 +17,6 @@ CreatorPage::CreatorPage(const int id, QWidget* parent) : id(id), QWidget(parent
 	ui->tableWidget->verticalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
 
 	Creator creator = DatabaseManager::get_creator(id);
-	setWindowTitle(creator.name);
 	ui->idLabel->setText(QString::number(creator.id));
 	ui->lineEdit->setText(creator.name);
 

@@ -40,7 +40,6 @@ void AddWorkDialog::on_buttonBox_accepted() {
 	work.updated = date_time;
 	work.added = date_time;
 
-
 	DatabaseManager::add_work(work);
 }
 

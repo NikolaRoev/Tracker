@@ -44,7 +44,6 @@ WorkPage::WorkPage(const int id, QWidget* parent) : id(id), QWidget(parent), ui(
 
 		QTableWidgetItem* name_item = new QTableWidgetItem(creator.name);
 		name_item->setData(Qt::UserRole, creator.id);
-
 		ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 0, name_item);
 		ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 1, new QTableWidgetItem(creator.type));
 	}
