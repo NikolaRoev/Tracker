@@ -25,19 +25,18 @@ void DatabaseManager::deinit() {
 
 //==================================================================================================================================
 
-bool DatabaseManager::open(const QString& name) {
+void DatabaseManager::open(const QString& name) {
 	QSqlDatabase db = QSqlDatabase::database();
 	db.setDatabaseName(name);
 	if (!db.open()) {
-		qDebug() << db.lastError();
-		return false;
+		qCritical() << db.lastError();
 	}
 
-
+	//Activate Foreign Keys. It seems Qt compiles SQLite with the Foreign Keys flag disabled.
 	QSqlQuery query;
 	query.exec("PRAGMA foreign_keys = ON");
 
-	//Works table.
+	//Create the Works table.
 	query.prepare(
 		"CREATE TABLE IF NOT EXISTS works ("
 		"	id			INTEGER PRIMARY KEY NOT NULL, "
@@ -51,10 +50,10 @@ bool DatabaseManager::open(const QString& name) {
 		")"
 	);
 	if (!query.exec()) {
-		qDebug() << query.lastError();
+		qWarning() << query.lastError();
 	}
 
-	//Creators table.
+	//Create the Creators table.
 	query.prepare(
 		"CREATE TABLE IF NOT EXISTS creators ("
 		"	id		INTEGER PRIMARY KEY NOT NULL, "
@@ -62,10 +61,10 @@ bool DatabaseManager::open(const QString& name) {
 		")"
 	);
 	if (!query.exec()) {
-		qDebug() << query.lastError();
+		qWarning() << query.lastError();
 	}
 
-	//Work-creator table.
+	//Create the Work-creator table.
 	query.prepare(
 		"CREATE TABLE IF NOT EXISTS work_creator ("
 		"	work_id		INTEGER NOT NULL, "
@@ -77,10 +76,8 @@ bool DatabaseManager::open(const QString& name) {
 		")"
 	);
 	if (!query.exec()) {
-		qDebug() << query.lastError();
+		qWarning() << query.lastError();
 	}
-
-	return true;
 }
 
 //==================================================================================================================================
@@ -115,7 +112,7 @@ void DatabaseManager::add_work(const Work& work) {
 	query.bindValue(":added", work.added);
 
 	if (!query.exec()) {
-		qDebug() << query.lastError();
+		qWarning() << query.lastError();
 	}
 }
 
@@ -130,7 +127,7 @@ void DatabaseManager::remove_work(const int id) {
 	query.bindValue(":id", id);
 
 	if (!query.exec()) {
-		qDebug() << query.lastError();
+		qWarning() << query.lastError();
 	}
 }
 
@@ -147,71 +144,73 @@ void DatabaseManager::update_work(const QString& column, const int id, const QSt
 	query.bindValue(":id", id);
 
 	if (!query.exec()) {
-		qDebug() << query.lastError();
+		qWarning() << query.lastError();
 	}
 }
 
 //==================================================================================================================================
 
 Work DatabaseManager::get_work(const int id) {
+	//Select the Work.
 	QSqlQuery query;
 	query.prepare(
-		"SELECT * "
+		"SELECT name, status, type, grouping, chapter, updated, added "
 		"FROM works "
 		"WHERE id = (:id)"
 	);
 	query.bindValue(":id", id);
 
-
 	Work out;
-
 	if (query.exec()) {
 		if (query.next()) {
-			out.id = query.value(0).toInt();
-			out.name = query.value(1).toString();
-			out.status = query.value(2).toString();
-			out.type = query.value(3).toString();
-			out.grouping = query.value(4).toString();
-			out.chapter = query.value(5).toString();
-			out.updated = query.value(6).toString();
-			out.added = query.value(7).toString();
-
-			QSqlQuery creator_query;
-			creator_query.prepare(
-				"WITH current_creators AS ("
-				"	SELECT creator_id AS id, type "
-				"	FROM work_creator "
-				"	WHERE work_id = (:work_id)"
-				") "
-				"SELECT current_creators.id, creators.name, current_creators.type "
-				"FROM creators "
-				"INNER JOIN current_creators "
-				"ON creators.id = current_creators.id"
-			);
-			creator_query.bindValue(":work_id", out.id);
-
-			if (creator_query.exec()) {
-				while (creator_query.next()) {
-					out.creators.emplace_back(creator_query.value(0).toInt(),
-											  creator_query.value(1).toString(),
-											  creator_query.value(2).toString());
-				}
-			}
-			else {
-				qDebug() << creator_query.lastError();
-			}
+			out.id = id;
+			out.name = query.value(0).toString();
+			out.status = query.value(1).toString();
+			out.type = query.value(2).toString();
+			out.grouping = query.value(3).toString();
+			out.chapter = query.value(4).toString();
+			out.updated = query.value(5).toString();
+			out.added = query.value(6).toString();
 		}
 	}
 	else {
-		qDebug() << query.lastError();
+		qWarning() << query.lastError();
 	}
+
+	//Find all the associated Creators.
+	query.prepare(
+		"WITH current_creators AS ("
+		"	SELECT creator_id AS id, type "
+		"	FROM work_creator "
+		"	WHERE work_id = (:work_id)"
+		") "
+		"SELECT current_creators.id, creators.name, current_creators.type "
+		"FROM creators "
+		"INNER JOIN current_creators "
+		"ON creators.id = current_creators.id"
+	);
+	query.bindValue(":work_id", out.id);
+
+	if (query.exec()) {
+		while (query.next()) {
+			out.creators.emplace_back(Creator{
+				.id = query.value(0).toInt(),
+				.name = query.value(1).toString(),
+				.type = query.value(2).toString()
+			});
+		}
+	}
+	else {
+		qWarning() << query.lastError();
+	}
+
 
 	return out;
 }
 
 //==================================================================================================================================
 
-QVector<Work> DatabaseManager::search_works(const QString& maybe_partial_search, const QString& by, const QString& status, const QString& type) {
+QVector<Work> DatabaseManager::search_works(const QString& search, const QString& by, const QString& status, const QString& type) {
 	//Query text construction.
 	QString query_text;
 
@@ -243,7 +242,6 @@ QVector<Work> DatabaseManager::search_works(const QString& maybe_partial_search,
 		).arg(by);
 	}
 
-
 	if (!status.isEmpty()) {
 		query_text.append(" AND status = (:status)");
 	}
@@ -256,7 +254,7 @@ QVector<Work> DatabaseManager::search_works(const QString& maybe_partial_search,
 	//Query preparation.
 	QSqlQuery query;
 	query.prepare(query_text);
-	query.bindValue(":search", '%' + maybe_partial_search + '%');
+	query.bindValue(":search", '%' + search + '%');
 
 	if (!status.isNull()) {
 		query.bindValue(":status", status);
@@ -269,7 +267,6 @@ QVector<Work> DatabaseManager::search_works(const QString& maybe_partial_search,
 
 	//Query execution.
 	QVector<Work> out;
-
 	if (query.exec()) {
 		while (query.next()) {
 			out.emplace_back(Work{
@@ -282,8 +279,9 @@ QVector<Work> DatabaseManager::search_works(const QString& maybe_partial_search,
 		}
 	}
 	else {
-		qDebug() << query.lastError();
+		qWarning() << query.lastError();
 	}
+
 
 	return out;
 }
@@ -300,7 +298,7 @@ void DatabaseManager::add_creator(const QString& name) {
 	query.bindValue(":name", name);
 
 	if (!query.exec()) {
-		qDebug() << query.lastError();
+		qWarning() << query.lastError();
 	}
 }
 
@@ -315,7 +313,7 @@ void DatabaseManager::remove_creator(const int id) {
 	query.bindValue(":id", id);
 
 	if (!query.exec()) {
-		qDebug() << query.lastError();
+		qWarning() << query.lastError();
 	}
 }
 
@@ -332,88 +330,92 @@ void DatabaseManager::update_creator(const QString& column, const int id, const 
 	query.bindValue(":id", id);
 
 	if (!query.exec()) {
-		qDebug() << query.lastError();
+		qWarning() << query.lastError();
 	}
 }
 
 //==================================================================================================================================
 
 Creator DatabaseManager::get_creator(const int id) {
+	//Select the Creator.
 	QSqlQuery query;
 	query.prepare(
-		"SELECT * "
+		"SELECT name "
 		"FROM creators "
 		"WHERE id = (:id)"
 	);
 	query.bindValue(":id", id);
 
-
 	Creator out;
-
 	if (query.exec()) {
 		if (query.next()) {
-			out.id = query.value(0).toInt();
-			out.name = query.value(1).toString();
-
-			QSqlQuery creator_query;
-			creator_query.prepare(
-				"WITH current_works AS ("
-				"	SELECT DISTINCT work_id AS id "
-				"	FROM work_creator "
-				"	WHERE creator_id = (:creator_id)"
-				") "
-				"SELECT current_works.id, works.name, works.status, works.type, works.grouping, works.chapter, works.updated, works.added "
-				"FROM works "
-				"INNER JOIN current_works "
-				"ON works.id = current_works.id"
-			);
-			creator_query.bindValue(":creator_id", out.id);
-
-			if (creator_query.exec()) {
-				while (creator_query.next()) {
-					out.works.emplace_back(creator_query.value(0).toInt(),
-										   creator_query.value(1).toString(),
-										   creator_query.value(2).toString(),
-										   creator_query.value(3).toString(),
-										   creator_query.value(4).toString(),
-										   creator_query.value(5).toString(),
-										   creator_query.value(6).toString(),
-										   creator_query.value(7).toString());
-				}
-			}
-			else {
-				qDebug() << creator_query.lastError();
-			}
+			out.id = id;
+			out.name = query.value(0).toString();
 		}
 	}
 	else {
-		qDebug() << query.lastError();
+		qWarning() << query.lastError();
 	}
+
+	//Find all the associated Works.
+	query.prepare(
+		"WITH current_works AS ("
+		"	SELECT DISTINCT work_id AS id "
+		"	FROM work_creator "
+		"	WHERE creator_id = (:creator_id)"
+		") "
+		"SELECT current_works.id, works.name, works.status, works.type, works.grouping, works.chapter, works.updated, works.added "
+		"FROM works "
+		"INNER JOIN current_works "
+		"ON works.id = current_works.id"
+	);
+	query.bindValue(":creator_id", out.id);
+
+	if (query.exec()) {
+		while (query.next()) {
+			out.works.emplace_back(Work{
+				.id = query.value(0).toInt(),
+				.name = query.value(1).toString(),
+				.status = query.value(2).toString(),
+				.type = query.value(3).toString(),
+				.grouping = query.value(4).toString(),
+				.chapter = query.value(5).toString(),
+				.updated = query.value(6).toString(),
+				.added = query.value(7).toString()
+			});
+		}
+	}
+	else {
+		qWarning() << query.lastError();
+	}
+
 
 	return out;
 }
 
 //==================================================================================================================================
 
-QVector<Creator> DatabaseManager::search_creators(const QString& maybe_partial_name) {
+QVector<Creator> DatabaseManager::search_creators(const QString& search) {
 	QSqlQuery query;
 	query.prepare("SELECT id, name "
 				  "FROM creators "
 				  "WHERE name LIKE (:name)"
 	);
-	query.bindValue(":name", '%' + maybe_partial_name + '%');
-
+	query.bindValue(":name", '%' + search + '%');
 
 	QVector<Creator> out;
-
 	if (query.exec()) {
 		while (query.next()) {
-			out.emplace_back(Creator{ .id = query.value(0).toInt(), .name = query.value(1).toString()});
+			out.emplace_back(Creator{
+				.id = query.value(0).toInt(),
+				.name = query.value(1).toString()
+			});
 		}
 	}
 	else {
-		qDebug() << query.lastError();
+		qWarning() << query.lastError();
 	}
+
 
 	return out;
 }
@@ -431,7 +433,7 @@ void DatabaseManager::attach_creator(const int work_id, const int creator_id, co
 	query.bindValue(":type", type);
 
 	if (!query.exec()) {
-		qDebug() << query.lastError();
+		qWarning() << query.lastError();
 	}
 }
 
@@ -447,7 +449,7 @@ void DatabaseManager::detach_creator(const int work_id, const int creator_id) {
 	query.bindValue(":creator_id", creator_id);
 
 	if (!query.exec()) {
-		qDebug() << query.lastError();
+		qWarning() << query.lastError();
 	}
 }
 

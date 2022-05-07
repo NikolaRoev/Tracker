@@ -13,6 +13,7 @@
 CreatorPage::CreatorPage(const int id, QWidget* parent) : id(id), QWidget(parent), ui(new Ui::CreatorPage) {
 	ui->setupUi(this);
 	ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+	ui->tableWidget->horizontalHeader()->setDefaultAlignment(Qt::AlignLeft);
 	ui->tableWidget->verticalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
 
 	Creator creator = DatabaseManager::get_creator(id);

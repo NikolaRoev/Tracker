@@ -41,6 +41,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
 
 	//Set resize mode for the Browse Table Widget.
 	ui->browseTableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+	ui->browseTableWidget->horizontalHeader()->setDefaultAlignment(Qt::AlignLeft);
 	ui->browseTableWidget->verticalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
 
 	//Set the various Combo Box Items data.
@@ -224,7 +225,7 @@ void MainWindow::on_updateLineEdit_textEdited(const QString& text) {
 	}
 
 	//Find works and populate the update list.
-	const auto found_works = DatabaseManager::search_works(text, "name", "Reading");
+	const auto found_works = DatabaseManager::search_works(text, "name", "Reading", NULL);
 	for (const auto& found_work : found_works) {
 		ui->contentsWidget->layout()->addWidget(new UpdateEntry(found_work, ui->scrollArea));
 	}
