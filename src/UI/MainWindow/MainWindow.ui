@@ -165,213 +165,206 @@
            <attribute name="title">
             <string>Browse</string>
            </attribute>
-           <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1">
+           <layout class="QVBoxLayout" name="verticalLayout_3" stretch="0,0,0">
             <property name="spacing">
-             <number>5</number>
+             <number>0</number>
             </property>
             <property name="leftMargin">
-             <number>5</number>
+             <number>0</number>
             </property>
             <property name="topMargin">
-             <number>5</number>
+             <number>0</number>
             </property>
             <property name="rightMargin">
-             <number>5</number>
+             <number>0</number>
             </property>
             <property name="bottomMargin">
-             <number>5</number>
+             <number>0</number>
             </property>
             <item>
-             <layout class="QVBoxLayout" name="verticalLayout_1">
+             <widget class="QLineEdit" name="browseLineEdit">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="font">
+               <font>
+                <family>Consolas</family>
+               </font>
+              </property>
+              <property name="placeholderText">
+               <string>Filter</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,1,1,1,99">
               <property name="spacing">
                <number>5</number>
               </property>
               <item>
-               <widget class="QLineEdit" name="browseLineEdit">
-                <property name="enabled">
-                 <bool>true</bool>
-                </property>
-                <property name="font">
-                 <font>
-                  <family>Consolas</family>
-                 </font>
-                </property>
-                <property name="placeholderText">
-                 <string>Filter</string>
-                </property>
+               <widget class="QComboBox" name="whatComboBox">
+                <item>
+                 <property name="text">
+                  <string>Works</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Creators</string>
+                 </property>
+                </item>
                </widget>
               </item>
               <item>
-               <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,1,1,1,99">
-                <property name="spacing">
-                 <number>5</number>
+               <widget class="QComboBox" name="statusComboBox">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="currentIndex">
+                 <number>0</number>
                 </property>
                 <item>
-                 <widget class="QComboBox" name="whatComboBox">
-                  <item>
-                   <property name="text">
-                    <string>Works</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>Creators</string>
-                   </property>
-                  </item>
-                 </widget>
+                 <property name="text">
+                  <string>Any Status</string>
+                 </property>
                 </item>
                 <item>
-                 <widget class="QComboBox" name="statusComboBox">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="currentIndex">
-                   <number>0</number>
-                  </property>
-                  <item>
-                   <property name="text">
-                    <string>Any Status</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>Reading</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>Completed</string>
-                   </property>
-                  </item>
-                 </widget>
+                 <property name="text">
+                  <string>Reading</string>
+                 </property>
                 </item>
                 <item>
-                 <widget class="QComboBox" name="typeComboBox">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <item>
-                   <property name="text">
-                    <string>Any Type</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>Series</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>One Shot</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>Anthology</string>
-                   </property>
-                  </item>
-                 </widget>
+                 <property name="text">
+                  <string>Completed</string>
+                 </property>
                 </item>
-                <item>
-                 <widget class="QComboBox" name="byComboBox">
-                  <property name="sizePolicy">
-                   <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-                    <horstretch>0</horstretch>
-                    <verstretch>0</verstretch>
-                   </sizepolicy>
-                  </property>
-                  <property name="currentIndex">
-                   <number>0</number>
-                  </property>
-                  <item>
-                   <property name="text">
-                    <string>Name</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>Chapter</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>Creator</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>Grouping</string>
-                   </property>
-                  </item>
-                 </widget>
-                </item>
-                <item>
-                 <spacer name="horizontalSpacer">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                  <property name="sizeType">
-                   <enum>QSizePolicy::Minimum</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>40</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-               </layout>
+               </widget>
               </item>
               <item>
-               <widget class="QTableWidget" name="browseTableWidget">
-                <property name="font">
-                 <font>
-                  <family>Consolas</family>
-                  <pointsize>9</pointsize>
-                  <italic>false</italic>
-                  <bold>false</bold>
-                 </font>
+               <widget class="QComboBox" name="typeComboBox">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
                 </property>
-                <property name="focusPolicy">
-                 <enum>Qt::NoFocus</enum>
-                </property>
-                <property name="contextMenuPolicy">
-                 <enum>Qt::CustomContextMenu</enum>
-                </property>
-                <property name="editTriggers">
-                 <set>QAbstractItemView::NoEditTriggers</set>
-                </property>
-                <property name="alternatingRowColors">
-                 <bool>true</bool>
-                </property>
-                <property name="selectionMode">
-                 <enum>QAbstractItemView::SingleSelection</enum>
-                </property>
-                <property name="selectionBehavior">
-                 <enum>QAbstractItemView::SelectRows</enum>
-                </property>
-                <property name="showGrid">
-                 <bool>false</bool>
-                </property>
-                <property name="cornerButtonEnabled">
-                 <bool>false</bool>
-                </property>
-                <attribute name="horizontalHeaderHighlightSections">
-                 <bool>false</bool>
-                </attribute>
-                <attribute name="verticalHeaderHighlightSections">
-                 <bool>false</bool>
-                </attribute>
+                <item>
+                 <property name="text">
+                  <string>Any Type</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Series</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>One Shot</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Anthology</string>
+                 </property>
+                </item>
                </widget>
+              </item>
+              <item>
+               <widget class="QComboBox" name="byComboBox">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="currentIndex">
+                 <number>0</number>
+                </property>
+                <item>
+                 <property name="text">
+                  <string>Name</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Chapter</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Creator</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Grouping</string>
+                 </property>
+                </item>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeType">
+                 <enum>QSizePolicy::Minimum</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
               </item>
              </layout>
+            </item>
+            <item>
+             <widget class="QTableWidget" name="browseTableWidget">
+              <property name="font">
+               <font>
+                <family>Consolas</family>
+                <pointsize>9</pointsize>
+                <italic>false</italic>
+                <bold>false</bold>
+               </font>
+              </property>
+              <property name="focusPolicy">
+               <enum>Qt::NoFocus</enum>
+              </property>
+              <property name="contextMenuPolicy">
+               <enum>Qt::CustomContextMenu</enum>
+              </property>
+              <property name="editTriggers">
+               <set>QAbstractItemView::NoEditTriggers</set>
+              </property>
+              <property name="alternatingRowColors">
+               <bool>true</bool>
+              </property>
+              <property name="selectionMode">
+               <enum>QAbstractItemView::SingleSelection</enum>
+              </property>
+              <property name="selectionBehavior">
+               <enum>QAbstractItemView::SelectRows</enum>
+              </property>
+              <property name="showGrid">
+               <bool>false</bool>
+              </property>
+              <property name="cornerButtonEnabled">
+               <bool>false</bool>
+              </property>
+              <attribute name="horizontalHeaderHighlightSections">
+               <bool>false</bool>
+              </attribute>
+              <attribute name="verticalHeaderHighlightSections">
+               <bool>false</bool>
+              </attribute>
+             </widget>
             </item>
            </layout>
           </widget>

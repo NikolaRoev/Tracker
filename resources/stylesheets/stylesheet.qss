@@ -1,4 +1,22 @@
+* {
+	color: #DDDDDD;
+	background-color: #343434;
+	alternate-background-color: #838383;
+}
+
+QHeaderView::section {
+	background-color: #1B1B1B;
+}
+
 QTableView {
 	font-family: "Consolas";
-	font-size: 9pt
+	font-size: 9pt;
+}
+
+QTabWidget::pane {
+	background-color: #1B1B1B;
+}
+
+QTabBar::tab {
+	background-color: #1B1B1B;
 }
