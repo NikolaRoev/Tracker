@@ -25,7 +25,6 @@ private slots:
 	void on_nameLineEdit_textEdited(const QString& text);
 	void on_statusComboBox_currentIndexChanged(int index);
 	void on_typeComboBox_currentIndexChanged(int index);
-	void on_groupingLineEdit_textEdited(const QString& text);
 	void on_chapterLineEdit_textEdited(const QString& text);
 
 	void on_addPushButton_clicked();

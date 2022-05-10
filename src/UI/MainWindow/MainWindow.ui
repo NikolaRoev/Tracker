@@ -299,11 +299,6 @@
                   <string>Creator</string>
                  </property>
                 </item>
-                <item>
-                 <property name="text">
-                  <string>Grouping</string>
-                 </property>
-                </item>
                </widget>
               </item>
               <item>
@@ -354,6 +349,9 @@
               </property>
               <property name="showGrid">
                <bool>false</bool>
+              </property>
+              <property name="sortingEnabled">
+               <bool>true</bool>
               </property>
               <property name="cornerButtonEnabled">
                <bool>false</bool>

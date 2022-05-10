@@ -13,7 +13,6 @@ struct Work {
 	QString name;
 	QString status;
 	QString type;
-	QString grouping;
 	QString chapter;
 	QString updated;
 	QString added;

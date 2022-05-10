@@ -1,18 +1,11 @@
+/* Global */
 * {
 	color: #DDDDDD;
 	background-color: #343434;
 	alternate-background-color: #838383;
 }
 
-QHeaderView::section {
-	background-color: #1B1B1B;
-}
-
-QTableView {
-	font-family: "Consolas";
-	font-size: 9pt;
-}
-
+/* Tab Widget */
 QTabWidget::pane {
 	background-color: #1B1B1B;
 }
@@ -20,3 +13,35 @@ QTabWidget::pane {
 QTabBar::tab {
 	background-color: #1B1B1B;
 }
+
+QTabBar::tab::selected {
+	background-color: #838383;
+}
+
+/* Table Widget */
+QTableWidget {
+	background-color: #1B1B1B;
+}
+
+QTableCornerButton::section {
+	background-color: #1B1B1B;
+}
+
+QHeaderView::section {
+	background-color: #1B1B1B;
+}
+
+QHeaderView::down-arrow {
+	background-color: white;
+}
+
+QHeaderView::up-arrow {
+	image: url(:/icons/icons/house.png);
+}
+
+QTableView {
+	font-family: "Consolas";
+	font-size: 9pt;
+}
+
+

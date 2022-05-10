@@ -43,7 +43,6 @@ void DatabaseManager::open(const QString& name) {
 		"	name		TEXT NOT NULL, "
 		"   status		TEXT CHECK (status IN ('Reading', 'Completed')) NOT NULL, "
 		"   type		TEXT CHECK (type IN ('Series', 'One Shot', 'Anthology')) NOT NULL, "
-		"   grouping	TEXT, "
 		"   chapter		TEXT, "
 		"   updated		TEXT, "
 		"	added		TEXT"
@@ -100,13 +99,12 @@ const QString DatabaseManager::get_name() {
 void DatabaseManager::add_work(const Work& work) {
 	QSqlQuery query;
 	query.prepare(
-		"INSERT INTO works (name, status, type, grouping, chapter, updated, added) "
-		"VALUES (:name, :status, :type, :grouping, :chapter, :updated, :added)"
+		"INSERT INTO works (name, status, type, chapter, updated, added) "
+		"VALUES (:name, :status, :type, :chapter, :updated, :added)"
 	);
 	query.bindValue(":name", work.name);
 	query.bindValue(":status", work.status);
 	query.bindValue(":type", work.type);
-	query.bindValue(":grouping", work.grouping);
 	query.bindValue(":chapter", work.chapter);
 	query.bindValue(":updated", work.updated);
 	query.bindValue(":added", work.added);
@@ -154,7 +152,7 @@ Work DatabaseManager::get_work(const int id) {
 	//Select the Work.
 	QSqlQuery query;
 	query.prepare(
-		"SELECT name, status, type, grouping, chapter, updated, added "
+		"SELECT name, status, type, chapter, updated, added "
 		"FROM works "
 		"WHERE id = (:id)"
 	);
@@ -167,10 +165,9 @@ Work DatabaseManager::get_work(const int id) {
 			out.name = query.value(0).toString();
 			out.status = query.value(1).toString();
 			out.type = query.value(2).toString();
-			out.grouping = query.value(3).toString();
-			out.chapter = query.value(4).toString();
-			out.updated = query.value(5).toString();
-			out.added = query.value(6).toString();
+			out.chapter = query.value(3).toString();
+			out.updated = query.value(4).toString();
+			out.added = query.value(5).toString();
 		}
 	}
 	else {
@@ -227,7 +224,7 @@ QVector<Work> DatabaseManager::search_works(const QString& search, const QString
 			"	INNER JOIN current_creators "
 			"	ON current_creators.id = work_creator.creator_id"
 			") "
-			"SELECT works.id, works.name, works.grouping, works.chapter, works.updated "
+			"SELECT works.id, works.name, works.chapter, works.updated, works.added "
 			"FROM works "
 			"INNER JOIN current_works "
 			"ON current_works.work_id = works.id "
@@ -236,7 +233,7 @@ QVector<Work> DatabaseManager::search_works(const QString& search, const QString
 	}
 	else {
 		query_text = QString(
-			"SELECT id, name, grouping, chapter, updated "
+			"SELECT id, name, chapter, updated, added "
 			"FROM works "
 			"WHERE %1 LIKE (:search)"
 		).arg(by);
@@ -272,9 +269,9 @@ QVector<Work> DatabaseManager::search_works(const QString& search, const QString
 			out.emplace_back(Work{
 				.id = query.value(0).toInt(),
 				.name = query.value(1).toString(),
-				.grouping = query.value(2).toString(),
-				.chapter = query.value(3).toString(),
-				.updated = query.value(4).toString()
+				.chapter = query.value(2).toString(),
+				.updated = query.value(3).toString(),
+				.added = query.value(4).toString()
 			});
 		}
 	}
@@ -364,7 +361,7 @@ Creator DatabaseManager::get_creator(const int id) {
 		"	FROM work_creator "
 		"	WHERE creator_id = (:creator_id)"
 		") "
-		"SELECT current_works.id, works.name, works.status, works.type, works.grouping, works.chapter, works.updated, works.added "
+		"SELECT current_works.id, works.name, works.status, works.type, works.chapter, works.updated, works.added "
 		"FROM works "
 		"INNER JOIN current_works "
 		"ON works.id = current_works.id"
@@ -378,10 +375,9 @@ Creator DatabaseManager::get_creator(const int id) {
 				.name = query.value(1).toString(),
 				.status = query.value(2).toString(),
 				.type = query.value(3).toString(),
-				.grouping = query.value(4).toString(),
-				.chapter = query.value(5).toString(),
-				.updated = query.value(6).toString(),
-				.added = query.value(7).toString()
+				.chapter = query.value(4).toString(),
+				.updated = query.value(5).toString(),
+				.added = query.value(6).toString()
 			});
 		}
 	}

@@ -33,7 +33,6 @@ void AddWorkDialog::on_buttonBox_accepted() {
 	work.name = ui->nameLineEdit->text();
 	work.status = ui->statusComboBox->currentData().toString();
 	work.type = ui->typeComboBox->currentData().toString();
-	work.grouping = ui->groupingLineEdit->text();
 	work.chapter = ui->chapterLineEdit->text();
 
 	QString date_time = QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss");

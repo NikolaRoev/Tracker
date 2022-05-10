@@ -57,7 +57,6 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
 	ui->byComboBox->setItemData(0, "name");
 	ui->byComboBox->setItemData(1, "chapter");
 	ui->byComboBox->setItemData(2, "creator");
-	ui->byComboBox->setItemData(3, "grouping");
 
 
 
@@ -255,8 +254,8 @@ void MainWindow::on_browseLineEdit_textEdited(const QString& text) {
 
 			ui->browseTableWidget->setItem(ui->browseTableWidget->rowCount() - 1, 0, name_item);
 			ui->browseTableWidget->setItem(ui->browseTableWidget->rowCount() - 1, 1, new QTableWidgetItem(work.chapter));
-			ui->browseTableWidget->setItem(ui->browseTableWidget->rowCount() - 1, 2, new QTableWidgetItem(work.grouping));
-			ui->browseTableWidget->setItem(ui->browseTableWidget->rowCount() - 1, 3, new QTableWidgetItem(work.updated));
+			ui->browseTableWidget->setItem(ui->browseTableWidget->rowCount() - 1, 2, new QTableWidgetItem(work.updated));
+			ui->browseTableWidget->setItem(ui->browseTableWidget->rowCount() - 1, 3, new QTableWidgetItem(work.added));
 		}
 
 		//Update status bar.
@@ -285,7 +284,7 @@ void MainWindow::on_whatComboBox_currentIndexChanged(int index) {
 	switch(index) {
 		case 0:
 			ui->browseTableWidget->setColumnCount(4);
-			ui->browseTableWidget->setHorizontalHeaderLabels({ "Name", "Chapter", "Grouping", "Updated" });
+			ui->browseTableWidget->setHorizontalHeaderLabels({ "Name", "Chapter", "Updated", "Added" });
 
 			ui->statusComboBox->setEnabled(true);
 			ui->typeComboBox->setEnabled(true);

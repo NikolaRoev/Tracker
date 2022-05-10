@@ -28,7 +28,6 @@ CreatorPage::CreatorPage(const int id, QWidget* parent) : id(id), QWidget(parent
 		ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 0, name_item);
 		ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 1, new QTableWidgetItem(work.status));
 		ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 2, new QTableWidgetItem(work.chapter));
-		ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 3, new QTableWidgetItem(work.grouping));
 		ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 4, new QTableWidgetItem(work.type));
 		ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 5, new QTableWidgetItem(work.updated));
 		ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 6, new QTableWidgetItem(work.added));

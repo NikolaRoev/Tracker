@@ -34,7 +34,6 @@ WorkPage::WorkPage(const int id, QWidget* parent) : id(id), QWidget(parent), ui(
 	ui->nameLineEdit->setText(work.name);
 	ui->statusComboBox->setCurrentText(work.status);
 	ui->typeComboBox->setCurrentText(work.type);
-	ui->groupingLineEdit->setText(work.grouping);
 	ui->chapterLineEdit->setText(work.chapter);
 	ui->updatedLabel->setText(work.updated);
 	ui->addedLabel->setText(work.added);
@@ -73,12 +72,6 @@ void WorkPage::on_statusComboBox_currentIndexChanged(int index) {
 
 void WorkPage::on_typeComboBox_currentIndexChanged(int index) {
 	DatabaseManager::update_work("type", id, ui->typeComboBox->currentData().toString());
-}
-
-//==================================================================================================================================
-
-void WorkPage::on_groupingLineEdit_textEdited(const QString& text) {
-	DatabaseManager::update_work("grouping", id, text);
 }
 
 //==================================================================================================================================
