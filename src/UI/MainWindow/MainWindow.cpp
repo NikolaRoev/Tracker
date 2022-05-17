@@ -28,6 +28,8 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
 	DatabaseManager::init();
 
 
+
+	//Customization.
 	//Align the update layout to top so the populated entries look nice.
 	ui->contentsWidget->layout()->setAlignment(Qt::AlignTop);
 
@@ -43,6 +45,10 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
 	ui->browseTableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 	ui->browseTableWidget->horizontalHeader()->setDefaultAlignment(Qt::AlignLeft);
 	ui->browseTableWidget->verticalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+	//
+	//Customization END.
+
+
 
 	//Set the various Combo Box Items data.
 	ui->statusComboBox->setItemData(0, "");
@@ -93,7 +99,7 @@ MainWindow::~MainWindow() {
 //==================================================================================================================================
 
 void MainWindow::on_actionNew_triggered() {
-	QString file = QFileDialog::getSaveFileName(this, "New Database", "", "Databases (*.db)");
+	QString file = QFileDialog::getSaveFileName(this, "New Database", "", "Database (*.db)");
 
 	if (!file.isNull()) {
 		DatabaseManager::open(file);
@@ -107,7 +113,7 @@ void MainWindow::on_actionNew_triggered() {
 //==================================================================================================================================
 
 void MainWindow::on_actionOpen_triggered() {
-	QString file = QFileDialog::getOpenFileName(this, "Open Database", "", "Databases (*.db)");
+	QString file = QFileDialog::getOpenFileName(this, "Open Database", "", "Database (*.db)");
 
 	if (!file.isNull()) {
 		DatabaseManager::open(file);
