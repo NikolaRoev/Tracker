@@ -1,37 +1,31 @@
 #pragma once
 #include <QWidget>
-#include <QMainWindow>
+#include <QString>
 
 //==================================================================================================================================
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
-	class MainWindow;
+	class UpdatePage;
 }
 QT_END_NAMESPACE
 
 //==================================================================================================================================
 
-class MainWindow : public QMainWindow {
+class UpdatePage : public QWidget {
 	Q_OBJECT
 private:
-	Ui::MainWindow *ui{ nullptr };
+	Ui::UpdatePage* ui{ nullptr };
 
 public:
-	MainWindow(QWidget* parent = nullptr);
-	~MainWindow();
+	UpdatePage(QWidget* parent = nullptr);
+	~UpdatePage();
 
 private slots:
-	//Menu Bar.
-	//File.
-	void on_actionExit_triggered();
-	//Edit.
-	void on_actionAdd_Work_triggered();
-	void on_actionAdd_Creator_triggered();
+	void on_lineEdit_textEdited(const QString& text);
 
-	//Main window.
-	//Selection.
-	void on_listWidget_currentRowChanged(int currentRow);
+signals:
+	void message(const QString& message, int timeout = 0);
 };
 
 //==================================================================================================================================

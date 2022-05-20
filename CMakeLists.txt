@@ -33,9 +33,17 @@ qt_add_executable(Tracker
 	"src/UI/MainWindow/MainWindow.cpp"
 	"src/UI/MainWindow/MainWindow.ui"
 
+	"src/UI/UpdatePage/UpdatePage.h"
+	"src/UI/UpdatePage/UpdatePage.cpp"
+	"src/UI/UpdatePage/UpdatePage.ui"
+
 	"src/UI/UpdateEntry/UpdateEntry.h"
 	"src/UI/UpdateEntry/UpdateEntry.cpp"
 	"src/UI/UpdateEntry/UpdateEntry.ui"
+
+	"src/UI/BrowsePage/BrowsePage.h"
+	"src/UI/BrowsePage/BrowsePage.cpp"
+	"src/UI/BrowsePage/BrowsePage.ui"
 
 	"src/UI/AddWorkDialog/AddWorkDialog.h"
 	"src/UI/AddWorkDialog/AddWorkDialog.cpp"
