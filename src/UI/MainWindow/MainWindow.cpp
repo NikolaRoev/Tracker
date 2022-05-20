@@ -35,7 +35,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
 
 	//Set default focus to the search bar.
 	//As 'tabWidget' is first in the tab order it gets focused when the application starts.
-	ui->tabWidget->setFocusProxy(ui->updateLineEdit);
+	ui->centralwidget->setFocusProxy(ui->updateLineEdit);
 
 	//Add a shortcut that selects all text in the search bar and focuses it.
 	QShortcut* shortcut = new QShortcut(QKeySequence(Qt::CTRL | Qt::Key_F), this);
@@ -71,16 +71,10 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
 	restoreGeometry(settings.value("geometry").toByteArray());
 	restoreState(settings.value("state").toByteArray());
 
-	if (auto default_database = settings.value("default_database").toString(); !default_database.isEmpty()) {
-		DatabaseManager::open(default_database);
-		ui->actionAdd_Work->setEnabled(true);
-		ui->actionAdd_Creator->setEnabled(true);
-	}
-
 
 
 	//Populate the update entries when the program starts initially.
-	emit ui->tabWidget->currentChanged(ui->tabWidget->currentIndex());
+	ui->listWidget->setCurrentRow(0);
 }
 
 //==================================================================================================================================
@@ -89,51 +83,12 @@ MainWindow::~MainWindow() {
 	QSettings settings("settings.ini", QSettings::IniFormat, this);
 	settings.setValue("geometry", saveGeometry());
 	settings.setValue("state", saveState());
-	settings.setValue("default_database", DatabaseManager::get_name());
 
 	DatabaseManager::deinit();
 	delete ui;
 }
 
 //==================================================================================================================================
-//==================================================================================================================================
-
-void MainWindow::on_actionNew_triggered() {
-	QString file = QFileDialog::getSaveFileName(this, "New Database", "", "Database (*.db)");
-
-	if (!file.isNull()) {
-		DatabaseManager::open(file);
-		ui->actionAdd_Work->setEnabled(true);
-		ui->actionAdd_Creator->setEnabled(true);
-
-		emit ui->tabWidget->currentChanged(ui->tabWidget->currentIndex());
-	}
-}
-
-//==================================================================================================================================
-
-void MainWindow::on_actionOpen_triggered() {
-	QString file = QFileDialog::getOpenFileName(this, "Open Database", "", "Database (*.db)");
-
-	if (!file.isNull()) {
-		DatabaseManager::open(file);
-		ui->actionAdd_Work->setEnabled(true);
-		ui->actionAdd_Creator->setEnabled(true);
-
-		emit ui->tabWidget->currentChanged(ui->tabWidget->currentIndex());
-	}
-}
-
-//==================================================================================================================================
-
-void MainWindow::on_actionClose_triggered() {
-	DatabaseManager::close();
-	ui->actionAdd_Work->setDisabled(true);
-	ui->actionAdd_Creator->setDisabled(true);
-
-	emit ui->tabWidget->currentChanged(ui->tabWidget->currentIndex());
-}
-
 //==================================================================================================================================
 
 void MainWindow::on_actionExit_triggered() {
@@ -144,9 +99,7 @@ void MainWindow::on_actionExit_triggered() {
 
 void MainWindow::on_actionAdd_Work_triggered() {
 	AddWorkDialog* dialog = new AddWorkDialog(this);
-	if (int result = dialog->exec(); result == QDialog::Accepted) {
-		emit ui->tabWidget->currentChanged(ui->tabWidget->currentIndex());
-	}
+	dialog->exec();
 }
 
 //==================================================================================================================================
@@ -160,59 +113,37 @@ void MainWindow::on_actionAdd_Creator_triggered() {
 //==================================================================================================================================
 
 void MainWindow::on_actionBack_triggered() {
-	int previous = ui->stackedWidget->currentIndex() - 1;
+	int previous = ui->browseStackedWidget->currentIndex() - 1;
 
 	if (previous >= 0) {
-		ui->stackedWidget->setCurrentIndex(previous);
+		ui->browseStackedWidget->setCurrentIndex(previous);
 	}
 }
 
 //==================================================================================================================================
 
 void MainWindow::on_actionForward_triggered() {
-	int current = ui->stackedWidget->currentIndex();
-	int last = ui->stackedWidget->count() - 1;
+	int current = ui->browseStackedWidget->currentIndex();
+	int last = ui->browseStackedWidget->count() - 1;
 
 	if (current < last) {
-		ui->stackedWidget->setCurrentIndex(current + 1);
+		ui->browseStackedWidget->setCurrentIndex(current + 1);
 	}
 }
 
 //==================================================================================================================================
 
 void MainWindow::on_actionHome_triggered() {
-	ui->stackedWidget->setCurrentIndex(0);
-
-	emit ui->tabWidget->currentChanged(ui->tabWidget->currentIndex());
+	ui->browseStackedWidget->setCurrentIndex(0);
 }
 
 //==================================================================================================================================
 //==================================================================================================================================
 
-void MainWindow::on_stackedWidget_currentChanged(int index) {
-	if (index == 0) {
-		ui->actionBack->setDisabled(true);
-		ui->actionHome->setDisabled(true);
-	}
-	else {
-		ui->actionBack->setEnabled(true);
-		ui->actionHome->setEnabled(true);
-	}
+void MainWindow::on_listWidget_currentRowChanged(int currentRow) {
+	ui->mainStackedWidget->setCurrentIndex(currentRow);
 
-	int last = ui->stackedWidget->count() - 1;
-	if (index == last) {
-		ui->actionForward->setDisabled(true);
-	}
-	else {
-		ui->actionForward->setEnabled(true);
-	}
-}
-
-//==================================================================================================================================
-//==================================================================================================================================
-
-void MainWindow::on_tabWidget_currentChanged(int index) {
-	switch (index) {
+	switch (currentRow) {
 		case 0: emit ui->updateLineEdit->textEdited(ui->updateLineEdit->text()); break;
 		case 1: emit ui->whatComboBox->currentIndexChanged(ui->whatComboBox->currentIndex()); break;
 	}
@@ -240,6 +171,27 @@ void MainWindow::on_updateLineEdit_textEdited(const QString& text) {
 }
 
 //==================================================================================================================================
+//==================================================================================================================================
+
+void MainWindow::on_browseStackedWidget_currentChanged(int index) {
+	if (index == 0) {
+		ui->actionBack->setDisabled(true);
+		ui->actionHome->setDisabled(true);
+	}
+	else {
+		ui->actionBack->setEnabled(true);
+		ui->actionHome->setEnabled(true);
+	}
+
+	int last = ui->browseStackedWidget->count() - 1;
+	if (index == last) {
+		ui->actionForward->setDisabled(true);
+	}
+	else {
+		ui->actionForward->setEnabled(true);
+	}
+}
+
 //==================================================================================================================================
 
 void MainWindow::on_browseLineEdit_textEdited(const QString& text) {
@@ -373,13 +325,13 @@ void MainWindow::on_browseTableWidget_customContextMenuRequested(const QPoint& p
 //==================================================================================================================================
 
 void MainWindow::on_workClicked(const int id) {
-	int last = ui->stackedWidget->count() - 1;
-	int current = ui->stackedWidget->currentIndex();
+	int last = ui->browseStackedWidget->count() - 1;
+	int current = ui->browseStackedWidget->currentIndex();
 
 	if (current < last) {
 		for (int i = last; i > current; --i) {
-			QWidget* widget = ui->stackedWidget->widget(i);
-			ui->stackedWidget->removeWidget(widget);
+			QWidget* widget = ui->browseStackedWidget->widget(i);
+			ui->browseStackedWidget->removeWidget(widget);
 			delete widget;
 		}
 	}
@@ -388,20 +340,20 @@ void MainWindow::on_workClicked(const int id) {
 	WorkPage* work_page = new WorkPage(id);
 	connect(work_page, &WorkPage::creatorClicked, this, &MainWindow::on_creatorClicked);
 
-	ui->stackedWidget->addWidget(work_page);
-	ui->stackedWidget->setCurrentIndex(ui->stackedWidget->count() - 1);
+	ui->browseStackedWidget->addWidget(work_page);
+	ui->browseStackedWidget->setCurrentIndex(ui->browseStackedWidget->count() - 1);
 }
 
 //==================================================================================================================================
 
 void MainWindow::on_creatorClicked(const int id) {
-	int last = ui->stackedWidget->count() - 1;
-	int current = ui->stackedWidget->currentIndex();
+	int last = ui->browseStackedWidget->count() - 1;
+	int current = ui->browseStackedWidget->currentIndex();
 
 	if (current < last) {
 		for (int i = last; i > current; --i) {
-			QWidget* widget = ui->stackedWidget->widget(i);
-			ui->stackedWidget->removeWidget(widget);
+			QWidget* widget = ui->browseStackedWidget->widget(i);
+			ui->browseStackedWidget->removeWidget(widget);
 			delete widget;
 		}
 	}
@@ -410,8 +362,8 @@ void MainWindow::on_creatorClicked(const int id) {
 	CreatorPage* creator_page = new CreatorPage(id);
 	connect(creator_page, &CreatorPage::workClicked, this, &MainWindow::on_workClicked);
 
-	ui->stackedWidget->addWidget(creator_page);
-	ui->stackedWidget->setCurrentIndex(ui->stackedWidget->count() - 1);
+	ui->browseStackedWidget->addWidget(creator_page);
+	ui->browseStackedWidget->setCurrentIndex(ui->browseStackedWidget->count() - 1);
 }
 
 //==================================================================================================================================

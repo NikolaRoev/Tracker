@@ -26,9 +26,6 @@ public:
 private slots:
 	//Menu bar.
 	//File.
-	void on_actionNew_triggered();
-	void on_actionOpen_triggered();
-	void on_actionClose_triggered();
 	void on_actionExit_triggered();
 	//Edit.
 	void on_actionAdd_Work_triggered();
@@ -39,14 +36,13 @@ private slots:
 	void on_actionForward_triggered();
 	void on_actionHome_triggered();
 
-	//Stacked widget.
-	void on_stackedWidget_currentChanged(int index);
-
-	//Tab widget.
-	void on_tabWidget_currentChanged(int index);
+	//Main window.
+	//Selection.
+	void on_listWidget_currentRowChanged(int currentRow);
 	//Update tab.
 	void on_updateLineEdit_textEdited(const QString& text);
 	//Browse tab.
+	void on_browseStackedWidget_currentChanged(int index);
 	void on_browseLineEdit_textEdited(const QString& text);
 	void on_whatComboBox_currentIndexChanged(int index);
 	void on_statusComboBox_currentIndexChanged(int index);
@@ -58,6 +54,7 @@ private slots:
 	//Custom.
 	void on_workClicked(const int id);
 	void on_creatorClicked(const int id);
+
 };
 
 //==================================================================================================================================

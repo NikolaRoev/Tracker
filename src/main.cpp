@@ -21,7 +21,7 @@ int main(int argc, char *argv[]) {
 	if (!file.open(QFile::ReadOnly)) {
 		qWarning() << file.errorString();
 	}
-	app.setStyleSheet(file.readAll());
+	//app.setStyleSheet(file.readAll());
 
 	MainWindow window;
 	window.show();

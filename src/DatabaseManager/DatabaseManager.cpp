@@ -15,19 +15,9 @@
 
 void DatabaseManager::init() {
 	QSqlDatabase::addDatabase("QSQLITE");
-}
 
-//==================================================================================================================================
-
-void DatabaseManager::deinit() {
-	QSqlDatabase::removeDatabase("QSQLITE");
-}
-
-//==================================================================================================================================
-
-void DatabaseManager::open(const QString& name) {
 	QSqlDatabase db = QSqlDatabase::database();
-	db.setDatabaseName(name);
+	db.setDatabaseName("database.db");
 	if (!db.open()) {
 		qCritical() << db.lastError();
 	}
@@ -81,16 +71,10 @@ void DatabaseManager::open(const QString& name) {
 
 //==================================================================================================================================
 
-void DatabaseManager::close() {
+void DatabaseManager::deinit() {
 	QSqlDatabase db = QSqlDatabase::database();
 	db.close();
-}
-
-//==================================================================================================================================
-
-const QString DatabaseManager::get_name() {
-	QSqlDatabase db = QSqlDatabase::database();
-	return db.databaseName();
+	QSqlDatabase::removeDatabase("QSQLITE");
 }
 
 //==================================================================================================================================

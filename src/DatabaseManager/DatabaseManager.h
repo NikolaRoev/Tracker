@@ -10,9 +10,6 @@
 namespace DatabaseManager {
 	void init();
 	void deinit();
-	void open(const QString& name);
-	void close();
-	const QString get_name();
 
 	//Work.
 	void add_work(const Work& work);
