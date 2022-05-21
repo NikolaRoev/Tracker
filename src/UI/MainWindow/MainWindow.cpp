@@ -27,14 +27,14 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
 	//As 'listWidget' is first in the tab order it gets focused when the application starts.
 	ui->listWidget->setFocusProxy(ui->updatePage);
 
-	//Load settings.
+	//Preselect the Update section, populating the Update entries.
+	ui->listWidget->setCurrentRow(0);
+
+
+	//Load Main Window settings.
 	QSettings settings("settings.ini", QSettings::IniFormat, this);
 	restoreGeometry(settings.value("geometry").toByteArray());
 	restoreState(settings.value("state").toByteArray());
-
-
-	//Populate the update entries when the program starts initially.
-	ui->listWidget->setCurrentRow(0);
 }
 
 //==================================================================================================================================
@@ -76,7 +76,7 @@ void MainWindow::on_listWidget_currentRowChanged(int currentRow) {
 	ui->mainStackedWidget->setCurrentIndex(currentRow);
 
 	switch (currentRow) {
-		case 0: break;
+		case 0: ui->updatePage->populate(""); break;
 		case 1: break;
 	}
 }

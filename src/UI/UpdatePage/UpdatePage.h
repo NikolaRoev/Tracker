@@ -21,6 +21,8 @@ public:
 	UpdatePage(QWidget* parent = nullptr);
 	~UpdatePage();
 
+	void populate(const QString& search);
+
 private slots:
 	void on_lineEdit_textEdited(const QString& text);
 

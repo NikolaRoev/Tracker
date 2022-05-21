@@ -23,6 +23,8 @@ public:
 	BrowsePage(QWidget* parent = nullptr);
 	~BrowsePage();
 
+	void populate(const QString& search);
+
 private slots:
 	void on_backToolButton_clicked();
 	void on_forwardToolButton_clicked();
