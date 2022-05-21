@@ -59,14 +59,18 @@ void MainWindow::on_actionExit_triggered() {
 
 void MainWindow::on_actionAdd_Work_triggered() {
 	AddWorkDialog* dialog = new AddWorkDialog(this);
-	dialog->exec();
+	if (int result = dialog->exec(); result == QDialog::Accepted) {
+		on_listWidget_currentRowChanged(ui->listWidget->currentRow());
+	}
 }
 
 //==================================================================================================================================
 
 void MainWindow::on_actionAdd_Creator_triggered() {
 	AddCreatorDialog* dialog = new AddCreatorDialog(this);
-	dialog->exec();
+	if (int result = dialog->exec(); result == QDialog::Accepted) {
+		on_listWidget_currentRowChanged(ui->listWidget->currentRow());
+	}
 }
 
 //==================================================================================================================================
@@ -77,7 +81,7 @@ void MainWindow::on_listWidget_currentRowChanged(int currentRow) {
 
 	switch (currentRow) {
 		case 0: ui->updatePage->populate(""); break;
-		case 1: break;
+		case 1: ui->browsePage->populate(""); break;
 	}
 }
 

@@ -30,7 +30,7 @@ BrowsePage::BrowsePage(QWidget* parent) : QWidget(parent), ui(new Ui::BrowsePage
 	ui->tableWidget->horizontalHeader()->setDefaultAlignment(Qt::AlignLeft);
 	ui->tableWidget->verticalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
 
-	//Set the various Combo Box Items data.
+	//Set the various Combo Box Items Data.
 	ui->statusComboBox->setItemData(0, "");
 	ui->statusComboBox->setItemData(1, "Reading");
 	ui->statusComboBox->setItemData(2, "Completed");
@@ -43,9 +43,6 @@ BrowsePage::BrowsePage(QWidget* parent) : QWidget(parent), ui(new Ui::BrowsePage
 	ui->byComboBox->setItemData(0, "name");
 	ui->byComboBox->setItemData(1, "chapter");
 	ui->byComboBox->setItemData(2, "creator");
-
-
-	emit ui->whatComboBox->currentIndexChanged(0);
 }
 
 //==================================================================================================================================
@@ -57,9 +54,46 @@ BrowsePage::~BrowsePage() {
 //==================================================================================================================================
 //==================================================================================================================================
 
-void BrowsePage::populate(const QString& search)
-{
+void BrowsePage::populate(const QString& search) {
+	//Clear list items.
+	ui->tableWidget->setRowCount(0);
 
+	if (ui->whatComboBox->currentIndex() == 0) {
+		QVector<Work> found_works = DatabaseManager::search_works(search,
+																  ui->byComboBox->currentData().toString(),
+																  ui->statusComboBox->currentData().toString(),
+																  ui->typeComboBox->currentData().toString());
+
+		for (const auto& work : found_works) {
+			ui->tableWidget->insertRow(ui->tableWidget->rowCount());
+
+			QTableWidgetItem* name_item = new QTableWidgetItem(work.name);
+			name_item->setData(Qt::UserRole, work.id);
+
+			ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 0, name_item);
+			ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 1, new QTableWidgetItem(work.chapter));
+			ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 2, new QTableWidgetItem(work.updated));
+			ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 3, new QTableWidgetItem(work.added));
+		}
+
+		//Update the Status Bar.
+		emit message(QString("Found %1 works.").arg(found_works.size()));
+	}
+	else {
+		QVector<Creator> found_creators = DatabaseManager::search_creators(search);
+
+		for (const auto& creator : found_creators) {
+			ui->tableWidget->insertRow(ui->tableWidget->rowCount());
+
+			QTableWidgetItem* name_item = new QTableWidgetItem(creator.name);
+			name_item->setData(Qt::UserRole, creator.id);
+
+			ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 0, name_item);
+		}
+
+		//Update the Status Bar.
+		emit message(QString("Found %1 creators.").arg(found_creators.size()));
+	}
 }
 
 //==================================================================================================================================
@@ -116,45 +150,7 @@ void BrowsePage::on_stackedWidget_currentChanged(int index) {
 //==================================================================================================================================
 
 void BrowsePage::on_lineEdit_textEdited(const QString& text) {
-	//Clear list items.
-	ui->tableWidget->setRowCount(0);
-
-	if (ui->whatComboBox->currentIndex() == 0) {
-		QVector<Work> found_works = DatabaseManager::search_works(text,
-																  ui->byComboBox->currentData().toString(),
-																  ui->statusComboBox->currentData().toString(),
-																  ui->typeComboBox->currentData().toString());
-
-		for (const auto& work : found_works) {
-			ui->tableWidget->insertRow(ui->tableWidget->rowCount());
-
-			QTableWidgetItem* name_item = new QTableWidgetItem(work.name);
-			name_item->setData(Qt::UserRole, work.id);
-
-			ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 0, name_item);
-			ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 1, new QTableWidgetItem(work.chapter));
-			ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 2, new QTableWidgetItem(work.updated));
-			ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 3, new QTableWidgetItem(work.added));
-		}
-
-		//Update the Status Bar.
-		emit message(QString("Found %1 works.").arg(found_works.size()));
-	}
-	else {
-		QVector<Creator> found_creators = DatabaseManager::search_creators(text);
-
-		for (const auto& creator : found_creators) {
-			ui->tableWidget->insertRow(ui->tableWidget->rowCount());
-
-			QTableWidgetItem* name_item = new QTableWidgetItem(creator.name);
-			name_item->setData(Qt::UserRole, creator.id);
-
-			ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 0, name_item);
-		}
-
-		//Update the Status Bar.
-		emit message(QString("Found %1 creators.").arg(found_creators.size()));
-	}
+	populate(text);
 }
 
 //==================================================================================================================================
@@ -179,25 +175,25 @@ void BrowsePage::on_whatComboBox_currentIndexChanged(int index) {
 			break;
 	}
 
-	emit ui->lineEdit->textEdited(ui->lineEdit->text());
+	populate(ui->lineEdit->text());
 }
 
 //==================================================================================================================================
 
 void BrowsePage::on_statusComboBox_currentIndexChanged(int index) {
-	emit ui->lineEdit->textEdited(ui->lineEdit->text());
+	populate(ui->lineEdit->text());
 }
 
 //==================================================================================================================================
 
 void BrowsePage::on_typeComboBox_currentIndexChanged(int index) {
-	emit ui->lineEdit->textEdited(ui->lineEdit->text());
+	populate(ui->lineEdit->text());
 }
 
 //==================================================================================================================================
 
 void BrowsePage::on_byComboBox_currentIndexChanged(int index) {
-	emit ui->lineEdit->textEdited(ui->lineEdit->text());
+	populate(ui->lineEdit->text());
 }
 
 //==================================================================================================================================

@@ -36,6 +36,9 @@
      </property>
      <item>
       <widget class="QToolButton" name="backToolButton">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="icon">
         <iconset resource="../../../resources/resources.qrc">
          <normaloff>:/icons/icons/left-arrow.png</normaloff>:/icons/icons/left-arrow.png</iconset>
@@ -44,6 +47,9 @@
      </item>
      <item>
       <widget class="QToolButton" name="forwardToolButton">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="icon">
         <iconset resource="../../../resources/resources.qrc">
          <normaloff>:/icons/icons/right-arrow.png</normaloff>:/icons/icons/right-arrow.png</iconset>
@@ -52,6 +58,9 @@
      </item>
      <item>
       <widget class="QToolButton" name="homeToolButton">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="icon">
         <iconset resource="../../../resources/resources.qrc">
          <normaloff>:/icons/icons/house.png</normaloff>:/icons/icons/house.png</iconset>
@@ -273,6 +282,26 @@
          <attribute name="verticalHeaderHighlightSections">
           <bool>false</bool>
          </attribute>
+         <column>
+          <property name="text">
+           <string>Name</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Chapter</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Updated</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Added</string>
+          </property>
+         </column>
         </widget>
        </item>
       </layout>
