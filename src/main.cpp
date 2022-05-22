@@ -4,6 +4,8 @@
 #include <QFile>
 #include <QtGlobal>
 
+#include "RequestsManagers/MangaUpdatesManager/MangaUpdatesManager.h"
+
 //==================================================================================================================================
 
 int main(int argc, char *argv[]) {
@@ -16,6 +18,10 @@ int main(int argc, char *argv[]) {
 
 
 	QApplication app(argc, argv);
+
+
+	MangaUpdatesManager test{};
+
 
 	QFile file(":/stylesheets/stylesheets/stylesheet.qss");
 	if (!file.open(QFile::ReadOnly)) {

@@ -13,6 +13,7 @@ find_package(Qt6
 	Core
 	Widgets
 	Gui
+	Network
 	Sql
 )
 
@@ -64,6 +65,16 @@ qt_add_executable(Tracker
 	"src/UI/SearchCreatorDialog/SearchCreatorDialog.h"
 	"src/UI/SearchCreatorDialog/SearchCreatorDialog.cpp"
 	"src/UI/SearchCreatorDialog/SearchCreatorDialog.ui"
+
+
+	"src/RequestsManagers/RedditManager/RedditManager.h"
+	"src/RequestsManagers/RedditManager/RedditManager.cpp"
+
+	"src/RequestsManagers/MangaDexManager/MangaDexManager.h"
+	"src/RequestsManagers/MangaDexManager/MangaDexManager.cpp"
+
+	"src/RequestsManagers/MangaUpdatesManager/MangaUpdatesManager.h"
+	"src/RequestsManagers/MangaUpdatesManager/MangaUpdatesManager.cpp"
 )
 
 target_link_libraries(Tracker
@@ -71,6 +82,7 @@ target_link_libraries(Tracker
 	Qt6::Core
 	Qt6::Widgets
 	Qt6::Gui
+	Qt6::Network
 	Qt6::Sql
 )
 
