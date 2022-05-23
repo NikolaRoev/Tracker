@@ -19,6 +19,12 @@ private:
 public:
 	MangaUpdatesPage(QWidget* parent = nullptr);
 	~MangaUpdatesPage();
+
+private slots:
+	void on_loginButton_clicked();
+	void on_logoutButton_clicked();
+
+	void on_getButton_clicked();
 };
 
 //==================================================================================================================================
