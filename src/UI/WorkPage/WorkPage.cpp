@@ -37,6 +37,8 @@ WorkPage::WorkPage(const int id, QWidget* parent) : id(id), QWidget(parent), ui(
 	ui->chapterLineEdit->setText(work.chapter);
 	ui->updatedLabel->setText(work.updated);
 	ui->addedLabel->setText(work.added);
+	ui->mdLineEdit->setText(work.md_id);
+	ui->muLineEdit->setText(work.mu_id);
 
 	for (const auto& creator : work.creators) {
 		ui->tableWidget->insertRow(ui->tableWidget->rowCount());
@@ -82,6 +84,18 @@ void WorkPage::on_chapterLineEdit_textEdited(const QString& text) {
 	QString date_time = QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss");
 	DatabaseManager::update_work("updated", id, date_time);
 	ui->updatedLabel->setText(date_time);
+}
+
+//==================================================================================================================================
+
+void WorkPage::on_mdLineEdit_textEdited(const QString& text) {
+	DatabaseManager::update_work("md_id", id, text);
+}
+
+//==================================================================================================================================
+
+void WorkPage::on_muLineEdit_textEdited(const QString& text) {
+	DatabaseManager::update_work("mu_id", id, text);
 }
 
 //==================================================================================================================================

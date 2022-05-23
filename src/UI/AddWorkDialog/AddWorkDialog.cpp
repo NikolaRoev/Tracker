@@ -39,6 +39,9 @@ void AddWorkDialog::on_buttonBox_accepted() {
 	work.updated = date_time;
 	work.added = date_time;
 
+	work.md_id = ui->mdLineEdit->text();
+	work.mu_id = ui->muLineEdit->text();
+
 	DatabaseManager::add_work(work);
 }
 

@@ -8,12 +8,20 @@
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QSqlQuery>
+#include <QMessageBox>
 
 //==================================================================================================================================
 //==================================================================================================================================
 //==================================================================================================================================
 
-void DatabaseManager::init() {
+QWidget* DatabaseManager::m_parent{ nullptr };
+
+//==================================================================================================================================
+//==================================================================================================================================
+//==================================================================================================================================
+
+void DatabaseManager::init(QWidget* parent) {
+	m_parent = parent;
 	QSqlDatabase::addDatabase("QSQLITE");
 
 	QSqlDatabase db = QSqlDatabase::database();
@@ -35,7 +43,9 @@ void DatabaseManager::init() {
 		"   type		TEXT CHECK (type IN ('Series', 'One Shot', 'Anthology')) NOT NULL, "
 		"   chapter		TEXT, "
 		"   updated		TEXT, "
-		"	added		TEXT"
+		"	added		TEXT, "
+		"	md_id		TEXT UNIQUE, "
+		"	mu_id		TEXT UNIQUE"
 		")"
 	);
 	if (!query.exec()) {
@@ -79,12 +89,13 @@ void DatabaseManager::deinit() {
 
 //==================================================================================================================================
 //==================================================================================================================================
+//==================================================================================================================================
 
 void DatabaseManager::add_work(const Work& work) {
 	QSqlQuery query;
 	query.prepare(
-		"INSERT INTO works (name, status, type, chapter, updated, added) "
-		"VALUES (:name, :status, :type, :chapter, :updated, :added)"
+		"INSERT INTO works (name, status, type, chapter, updated, added, md_id, mu_id) "
+		"VALUES (:name, :status, :type, :chapter, :updated, :added, :md_id, :mu_id)"
 	);
 	query.bindValue(":name", work.name);
 	query.bindValue(":status", work.status);
@@ -92,9 +103,11 @@ void DatabaseManager::add_work(const Work& work) {
 	query.bindValue(":chapter", work.chapter);
 	query.bindValue(":updated", work.updated);
 	query.bindValue(":added", work.added);
+	query.bindValue(":md_id", work.md_id);
+	query.bindValue(":mu_id", work.mu_id);
 
 	if (!query.exec()) {
-		qWarning() << query.lastError();
+		QMessageBox::critical(m_parent, "Failed to add Work.", query.lastError().text());
 	}
 }
 
@@ -136,7 +149,7 @@ Work DatabaseManager::get_work(const int id) {
 	//Select the Work.
 	QSqlQuery query;
 	query.prepare(
-		"SELECT name, status, type, chapter, updated, added "
+		"SELECT name, status, type, chapter, updated, added, md_id, mu_id "
 		"FROM works "
 		"WHERE id = (:id)"
 	);
@@ -152,6 +165,8 @@ Work DatabaseManager::get_work(const int id) {
 			out.chapter = query.value(3).toString();
 			out.updated = query.value(4).toString();
 			out.added = query.value(5).toString();
+			out.md_id = query.value(6).toString();
+			out.mu_id = query.value(7).toString();
 		}
 	}
 	else {

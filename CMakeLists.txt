@@ -67,14 +67,8 @@ qt_add_executable(Tracker
 	"src/UI/SearchCreatorDialog/SearchCreatorDialog.ui"
 
 
-	"src/RequestsManagers/RedditManager/RedditManager.h"
-	"src/RequestsManagers/RedditManager/RedditManager.cpp"
-
-	"src/RequestsManagers/MangaDexManager/MangaDexManager.h"
-	"src/RequestsManagers/MangaDexManager/MangaDexManager.cpp"
-
-	"src/RequestsManagers/MangaUpdatesManager/MangaUpdatesManager.h"
-	"src/RequestsManagers/MangaUpdatesManager/MangaUpdatesManager.cpp"
+	"src/RequestsManager/RequestsManager.h"
+	"src/RequestsManager/RequestsManager.cpp"
 )
 
 target_link_libraries(Tracker

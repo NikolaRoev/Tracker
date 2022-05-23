@@ -15,7 +15,7 @@
 //==================================================================================================================================
 
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
-	DatabaseManager::init();
+	DatabaseManager::init(this);
 	ui->setupUi(this);
 
 
@@ -31,18 +31,22 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
 	ui->listWidget->setCurrentRow(0);
 
 
-	//Load Main Window settings.
+	//Load settings.
 	QSettings settings("settings.ini", QSettings::IniFormat, this);
+	settings.beginGroup("Window");
 	restoreGeometry(settings.value("geometry").toByteArray());
 	restoreState(settings.value("state").toByteArray());
+	settings.endGroup();
 }
 
 //==================================================================================================================================
 
 MainWindow::~MainWindow() {
 	QSettings settings("settings.ini", QSettings::IniFormat, this);
+	settings.beginGroup("Window");
 	settings.setValue("geometry", saveGeometry());
 	settings.setValue("state", saveState());
+	settings.endGroup();
 
 	DatabaseManager::deinit();
 	delete ui;

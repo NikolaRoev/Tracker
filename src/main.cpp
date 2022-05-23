@@ -4,7 +4,7 @@
 #include <QFile>
 #include <QtGlobal>
 
-#include "RequestsManagers/MangaUpdatesManager/MangaUpdatesManager.h"
+#include "RequestsManager/RequestsManager.h"
 
 //==================================================================================================================================
 
@@ -20,7 +20,7 @@ int main(int argc, char *argv[]) {
 	QApplication app(argc, argv);
 
 
-	MangaUpdatesManager test{};
+	RequestsManager test{};
 
 
 	QFile file(":/stylesheets/stylesheets/stylesheet.qss");

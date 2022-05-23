@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>600</width>
-    <height>193</height>
+    <width>676</width>
+    <height>263</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -103,6 +103,26 @@
      </item>
      <item row="3" column="1">
       <widget class="QLineEdit" name="chapterLineEdit"/>
+     </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="label_4">
+       <property name="text">
+        <string>MD Id:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="QLineEdit" name="mdLineEdit"/>
+     </item>
+     <item row="5" column="0">
+      <widget class="QLabel" name="label_6">
+       <property name="text">
+        <string>MU Id:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="1">
+      <widget class="QLineEdit" name="muLineEdit"/>
      </item>
     </layout>
    </item>

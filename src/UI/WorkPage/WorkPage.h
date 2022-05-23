@@ -26,6 +26,8 @@ private slots:
 	void on_statusComboBox_currentIndexChanged(int index);
 	void on_typeComboBox_currentIndexChanged(int index);
 	void on_chapterLineEdit_textEdited(const QString& text);
+	void on_mdLineEdit_textEdited(const QString& text);
+	void on_muLineEdit_textEdited(const QString& text);
 
 	void on_addPushButton_clicked();
 	void on_tableWidget_clicked(const QModelIndex& index);

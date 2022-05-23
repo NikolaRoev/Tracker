@@ -16,7 +16,6 @@
 UpdatePage::UpdatePage(QWidget *parent) : QWidget(parent), ui(new Ui::UpdatePage) {
 	ui->setupUi(this);
 
-
 	//Align the update layout to top so the populated entries look nice.
 	ui->contentsWidget->layout()->setAlignment(Qt::AlignTop);
 

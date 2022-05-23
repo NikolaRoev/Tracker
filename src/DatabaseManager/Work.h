@@ -16,6 +16,8 @@ struct Work {
 	QString chapter;
 	QString updated;
 	QString added;
+	QString md_id;
+	QString mu_id;
 	QVector<Creator> creators;
 };
 

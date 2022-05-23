@@ -43,6 +43,8 @@ BrowsePage::BrowsePage(QWidget* parent) : QWidget(parent), ui(new Ui::BrowsePage
 	ui->byComboBox->setItemData(0, "name");
 	ui->byComboBox->setItemData(1, "chapter");
 	ui->byComboBox->setItemData(2, "creator");
+	ui->byComboBox->setItemData(3, "md_id");
+	ui->byComboBox->setItemData(4, "mu_id");
 }
 
 //==================================================================================================================================

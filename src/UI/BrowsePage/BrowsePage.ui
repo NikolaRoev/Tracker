@@ -219,6 +219,16 @@
              <string>Creator</string>
             </property>
            </item>
+           <item>
+            <property name="text">
+             <string>MD Id</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>MU Id</string>
+            </property>
+           </item>
           </widget>
          </item>
          <item>
