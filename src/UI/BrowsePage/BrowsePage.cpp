@@ -24,7 +24,6 @@
 BrowsePage::BrowsePage(QWidget* parent) : QWidget(parent), ui(new Ui::BrowsePage) {
 	ui->setupUi(this);
 
-
 	//Set resize mode for the Table Widget.
 	ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 	ui->tableWidget->horizontalHeader()->setDefaultAlignment(Qt::AlignLeft);
@@ -168,8 +167,8 @@ void BrowsePage::on_whatComboBox_currentIndexChanged(int index) {
 			ui->byComboBox->setEnabled(true);
 			break;
 		case 1:
-			ui->tableWidget->setColumnCount(2);
-			ui->tableWidget->setHorizontalHeaderLabels({ "Name", "No. of Works" });
+			ui->tableWidget->setColumnCount(1);
+			ui->tableWidget->setHorizontalHeaderLabels({ "Name" });
 
 			ui->statusComboBox->setDisabled(true);
 			ui->typeComboBox->setDisabled(true);
