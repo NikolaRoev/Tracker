@@ -4,11 +4,9 @@
 #include <QFile>
 #include <QtGlobal>
 
-#include "RequestsManager/RequestsManager.h"
-
 //==================================================================================================================================
 
-int main(int argc, char *argv[]) {
+int main(int argc, char* argv[]) {
 	qSetMessagePattern("[%{if-debug}Debug%{endif}"
 					   "%{if-info}Info%{endif}"
 					   "%{if-warning}Warning%{endif}"
@@ -18,10 +16,6 @@ int main(int argc, char *argv[]) {
 
 
 	QApplication app(argc, argv);
-
-
-	RequestsManager test{};
-
 
 	QFile file(":/stylesheets/stylesheets/stylesheet.qss");
 	if (!file.open(QFile::ReadOnly)) {

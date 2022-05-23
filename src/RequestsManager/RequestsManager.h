@@ -1,15 +1,21 @@
 #pragma once
-#include <QObject>
+#include <QWidget>
 #include <QNetworkAccessManager>
+#include <QNetworkRequest>
+#include <QNetworkReply>
 
 //==================================================================================================================================
 
-class RequestsManager {
-private:
-	QNetworkAccessManager* manager{ nullptr };
-
+class RequestsManager : QNetworkAccessManager {
+	Q_OBJECT
 public:
-	RequestsManager(QObject* parent = nullptr);
+	RequestsManager(QWidget* parent = nullptr);
+
+public slots:
+	void on_request(QNetworkAccessManager::Operation op, const QNetworkRequest& request, QIODevice* data = nullptr);
+
+signals:
+	void request_sent(QNetworkReply* reply);
 };
 
 //==================================================================================================================================

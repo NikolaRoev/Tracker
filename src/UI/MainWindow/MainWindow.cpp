@@ -5,6 +5,7 @@
 #include "AddCreatorDialog/AddCreatorDialog.h"
 #include "UpdatePage/UpdatePage.h"
 #include "BrowsePage/BrowsePage.h"
+#include "MangaUpdatesPage/MangaUpdatesPage.h"
 
 #include <QWidget>
 #include <QMainWindow>
@@ -17,6 +18,13 @@
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
 	DatabaseManager::init(this);
 	ui->setupUi(this);
+	requests_manager = new RequestsManager(this);
+
+
+	//Connect the requests signals.
+	//TO DO:
+	MangaUpdatesPage* temp = static_cast<MangaUpdatesPage*>(ui->mainStackedWidget->widget(4));
+	qDebug() << temp->objectName();
 
 
 	//Connect the signals for the Status Bar.
