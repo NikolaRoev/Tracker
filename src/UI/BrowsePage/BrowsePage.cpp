@@ -146,6 +146,8 @@ void BrowsePage::on_stackedWidget_currentChanged(int index) {
 	else {
 		ui->forwardToolButton->setEnabled(true);
 	}
+
+	populate(ui->lineEdit->text());
 }
 
 //==================================================================================================================================

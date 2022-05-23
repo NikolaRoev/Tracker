@@ -42,6 +42,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
 //==================================================================================================================================
 
 MainWindow::~MainWindow() {
+	//Save settings.
 	QSettings settings("settings.ini", QSettings::IniFormat, this);
 	settings.beginGroup("Window");
 	settings.setValue("geometry", saveGeometry());
