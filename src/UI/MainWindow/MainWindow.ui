@@ -96,7 +96,7 @@
       <widget class="BrowsePage" name="browsePage"/>
       <widget class="QWidget" name="redditPage"/>
       <widget class="QWidget" name="mdPage"/>
-      <widget class="QWidget" name="muPage"/>
+      <widget class="MangaUpdatesPage" name="muPage"/>
      </widget>
     </item>
    </layout>
@@ -185,6 +185,12 @@
    <class>BrowsePage</class>
    <extends>QWidget</extends>
    <header>BrowsePage/BrowsePage.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>MangaUpdatesPage</class>
+   <extends>QWidget</extends>
+   <header>MangaUpdatesPage/MangaUpdatesPage.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
