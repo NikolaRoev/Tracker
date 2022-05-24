@@ -6,16 +6,16 @@
 
 //==================================================================================================================================
 
-class RequestsManager : QNetworkAccessManager {
+class RequestsManager : public QNetworkAccessManager {
 	Q_OBJECT
 public:
 	RequestsManager(QWidget* parent = nullptr);
 
 public slots:
-	void on_request(QNetworkAccessManager::Operation op, const QNetworkRequest& request, QIODevice* data = nullptr);
+	void on_request(QNetworkAccessManager::Operation op, const QNetworkRequest& request, const QByteArray& data);
 
 signals:
-	void request_sent(QNetworkReply* reply);
+	void requestSent(QNetworkReply* reply);
 };
 
 //==================================================================================================================================

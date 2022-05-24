@@ -1,5 +1,9 @@
 #pragma once
 #include <QWidget>
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
+#include <QNetworkReply>
+#include <QByteArray>
 
 //==================================================================================================================================
 
@@ -23,8 +27,13 @@ public:
 private slots:
 	void on_loginButton_clicked();
 	void on_logoutButton_clicked();
-
 	void on_getButton_clicked();
+
+public slots:
+	void on_requestSent(QNetworkReply* reply);
+
+signals:
+	void request(QNetworkAccessManager::Operation op, const QNetworkRequest& request, const QByteArray& data);
 };
 
 //==================================================================================================================================

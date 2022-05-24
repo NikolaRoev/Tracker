@@ -21,10 +21,10 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
 	requests_manager = new RequestsManager(this);
 
 
-	//Connect the requests signals.
-	//TO DO:
-	MangaUpdatesPage* temp = static_cast<MangaUpdatesPage*>(ui->mainStackedWidget->widget(4));
-	qDebug() << temp->objectName();
+	//Connect the Requests signals.
+	MangaUpdatesPage* mangaupdates_page = static_cast<MangaUpdatesPage*>(ui->mainStackedWidget->widget(4));
+	connect(mangaupdates_page, &MangaUpdatesPage::request, requests_manager, &RequestsManager::on_request);
+	connect(requests_manager, &RequestsManager::requestSent, mangaupdates_page, &MangaUpdatesPage::on_requestSent);
 
 
 	//Connect the signals for the Status Bar.
