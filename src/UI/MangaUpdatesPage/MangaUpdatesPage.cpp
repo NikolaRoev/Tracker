@@ -8,6 +8,8 @@
 #include <QJsonObject>
 #include <QJsonDocument>
 #include <QByteArray>
+#include <QSettings>
+#include <QMessageBox>
 
 //==================================================================================================================================
 //==================================================================================================================================
@@ -15,11 +17,25 @@
 
 MangaUpdatesPage::MangaUpdatesPage(QWidget* parent) : QWidget(parent), ui(new Ui::MangaUpdatesPage) {
 	ui->setupUi(this);
+
+	//Load settings.
+	QSettings settings("settings.ini", QSettings::IniFormat, this);
+	settings.beginGroup("MangaUpdates");
+	token = settings.value("token").toString();
+	settings.endGroup();
+
+	//If token is not null:
+	//Try to get the account info here to see if the token is still valid.
 }
 
 //==================================================================================================================================
 
 MangaUpdatesPage::~MangaUpdatesPage() {
+	QSettings settings("settings.ini", QSettings::IniFormat, this);
+	settings.beginGroup("MangaUpdates");
+	settings.setValue("token", token);
+	settings.endGroup();
+
 	delete ui;
 }
 
@@ -28,7 +44,7 @@ MangaUpdatesPage::~MangaUpdatesPage() {
 //==================================================================================================================================
 
 void MangaUpdatesPage::on_loginButton_clicked() {
-	//ui->loginButton->setDisabled(true);
+	ui->loginButton->setDisabled(true);
 
 	const QUrl url("https://api.mangaupdates.com/v1/account/login");
 	QNetworkRequest req(url);
@@ -62,17 +78,30 @@ void MangaUpdatesPage::on_getButton_clicked() {
 //==================================================================================================================================
 
 void MangaUpdatesPage::on_requestSent(QNetworkReply* reply) {
-	QObject::connect(reply, &QNetworkReply::finished, [=](){
-		if (reply->error() == QNetworkReply::NoError) {
-			QString contents = QString::fromUtf8(reply->readAll());
-			qDebug() << QJsonDocument::fromJson(contents.toUtf8());
+	QObject::connect(reply, &QNetworkReply::finished, this, [=](){
+		QByteArray contents = reply->readAll();
+		QJsonDocument document = QJsonDocument::fromJson(contents);
+		QJsonObject object = document.object();
 
-			//ui->stackedWidget->setCurrentIndex(1);
+
+		if (reply->error() == QNetworkReply::NoError) {
+			token = object["context"].toObject()["session_token"].toString();
+
+			//TO DO: Add the account request.
+
+			ui->stackedWidget->setCurrentIndex(1);
 		}
 		else {
-			qDebug() << reply->error() << QString::fromUtf8(reply->readAll());
+			qDebug() << QString("Error [%1][%2]: %3.")
+							.arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt())
+							.arg(reply->error())
+							.arg(contents);
+
+			QMessageBox::warning(this, "Failed to Log in.", object["reason"].toString());
 		}
 
+
+		ui->loginButton->setEnabled(true);
 		reply->deleteLater();
 	});
 }

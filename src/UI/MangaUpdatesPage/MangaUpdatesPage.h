@@ -1,5 +1,6 @@
 #pragma once
 #include <QWidget>
+#include <QString>
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
@@ -19,6 +20,7 @@ class MangaUpdatesPage : public QWidget {
 	Q_OBJECT
 private:
 	Ui::MangaUpdatesPage* ui{ nullptr };
+	QString token;
 
 public:
 	MangaUpdatesPage(QWidget* parent = nullptr);
