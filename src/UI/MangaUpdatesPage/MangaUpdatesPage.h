@@ -20,9 +20,6 @@ private:
 	QNetworkAccessManager* network_access_manager{ nullptr };
 	QString token;
 
-
-	void get_account();
-
 public:
 	MangaUpdatesPage(QWidget* parent = nullptr);
 	~MangaUpdatesPage();
