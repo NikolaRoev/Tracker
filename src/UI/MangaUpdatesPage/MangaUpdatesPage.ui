@@ -218,6 +218,9 @@
        </item>
        <item>
         <widget class="QPushButton" name="getButton">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="text">
           <string>Get Releases</string>
          </property>
@@ -233,5 +236,38 @@
   </layout>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>usernameLineEdit</sender>
+   <signal>returnPressed()</signal>
+   <receiver>loginButton</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>176</x>
+     <y>22</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>230</x>
+     <y>91</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>passwordLineEdit</sender>
+   <signal>returnPressed()</signal>
+   <receiver>loginButton</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>176</x>
+     <y>55</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>230</x>
+     <y>91</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

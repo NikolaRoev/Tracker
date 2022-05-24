@@ -17,6 +17,16 @@
 //==================================================================================================================================
 //==================================================================================================================================
 
+void MangaUpdatesPage::get_account() {
+
+
+	ui->stackedWidget->setCurrentIndex(1);
+	ui->getButton->setEnabled(true);
+}
+
+//==================================================================================================================================
+//==================================================================================================================================
+
 MangaUpdatesPage::MangaUpdatesPage(QWidget* parent) : QWidget(parent), ui(new Ui::MangaUpdatesPage) {
 	ui->setupUi(this);
 
@@ -26,8 +36,9 @@ MangaUpdatesPage::MangaUpdatesPage(QWidget* parent) : QWidget(parent), ui(new Ui
 	token = settings.value("token").toString();
 	settings.endGroup();
 
-	//If token is not null:
-	//Try to get the account info here to see if the token is still valid.
+	if (!token.isNull()) {
+		get_account();
+	}
 }
 
 //==================================================================================================================================
@@ -55,6 +66,7 @@ void MangaUpdatesPage::set_network_access_manager(QNetworkAccessManager* network
 void MangaUpdatesPage::on_loginButton_clicked() {
 	ui->loginButton->setDisabled(true);
 
+
 	QNetworkRequest request(QUrl("https://api.mangaupdates.com/v1/account/login"));
 	request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
@@ -74,9 +86,7 @@ void MangaUpdatesPage::on_loginButton_clicked() {
 		if (reply->error() == QNetworkReply::NoError) {
 			token = object["context"].toObject()["session_token"].toString();
 
-			//TO DO: Add the account request.
-
-			ui->stackedWidget->setCurrentIndex(1);
+			get_account();
 		}
 		else {
 			qDebug() << QString("Error [%1][%2]: %3.")
@@ -96,16 +106,46 @@ void MangaUpdatesPage::on_loginButton_clicked() {
 //==================================================================================================================================
 
 void MangaUpdatesPage::on_logoutButton_clicked() {
-	//try to log out
+	ui->logoutButton->setDisabled(true);
 
-	ui->stackedWidget->setCurrentIndex(0);
+
+	QNetworkRequest request(QUrl("https://api.mangaupdates.com/v1/account/logout"));
+	request.setRawHeader("Authorization", token.toUtf8());
+
+
+	QNetworkReply* reply = network_access_manager->post(request, QByteArray());
+
+	QObject::connect(reply, &QNetworkReply::finished, this, [=](){
+		QByteArray contents = reply->readAll();
+		QJsonDocument document = QJsonDocument::fromJson(contents);
+		QJsonObject object = document.object();
+
+
+		if (reply->error() == QNetworkReply::NoError) {
+			token = NULL;
+
+			ui->stackedWidget->setCurrentIndex(0);
+			ui->getButton->setDisabled(true);
+		}
+		else {
+			qDebug() << QString("Error [%1][%2]: %3.")
+							.arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt())
+							.arg(reply->error())
+							.arg(contents);
+
+			QMessageBox::warning(this, "Failed to Log out.", object["reason"].toString());
+		}
+
+
+		ui->logoutButton->setEnabled(true);
+		reply->deleteLater();
+	});
 }
 
 //==================================================================================================================================
 
 void MangaUpdatesPage::on_getButton_clicked() {
-	//populate releases
-	//request.setRawHeader("Authorization", "");
+
 }
 
 //==================================================================================================================================
