@@ -9,6 +9,7 @@
 
 #include <QWidget>
 #include <QMainWindow>
+#include <QNetworkAccessManager>
 #include <QSettings>
 #include <QStatusBar>
 
@@ -18,14 +19,12 @@
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
 	DatabaseManager::init(this);
 	ui->setupUi(this);
-	requests_manager = new RequestsManager(this);
+	network_access_manager = new QNetworkAccessManager(this);
 
 
-	//Connect the Requests signals.
+	//Set the QNetworkAccessManager dependency to the pages.
 	MangaUpdatesPage* mangaupdates_page = static_cast<MangaUpdatesPage*>(ui->mainStackedWidget->widget(4));
-	connect(mangaupdates_page, &MangaUpdatesPage::request, requests_manager, &RequestsManager::on_request);
-	connect(requests_manager, &RequestsManager::requestSent, mangaupdates_page, &MangaUpdatesPage::on_requestSent);
-
+	mangaupdates_page->set_network_access_manager(network_access_manager);
 
 	//Connect the signals for the Status Bar.
 	connect(ui->updatePage, &UpdatePage::message, ui->statusBar, &QStatusBar::showMessage);

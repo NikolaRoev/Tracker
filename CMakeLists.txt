@@ -69,10 +69,6 @@ qt_add_executable(Tracker
 	"src/UI/SearchCreatorDialog/SearchCreatorDialog.h"
 	"src/UI/SearchCreatorDialog/SearchCreatorDialog.cpp"
 	"src/UI/SearchCreatorDialog/SearchCreatorDialog.ui"
-
-
-	"src/RequestsManager/RequestsManager.h"
-	"src/RequestsManager/RequestsManager.cpp"
 )
 
 target_link_libraries(Tracker

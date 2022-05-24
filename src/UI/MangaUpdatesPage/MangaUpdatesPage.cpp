@@ -2,9 +2,11 @@
 #include "./ui_MangaUpdatesPage.h"
 
 #include <QWidget>
+#include <QString>
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QUrl>
 #include <QJsonObject>
 #include <QJsonDocument>
 #include <QByteArray>
@@ -41,43 +43,28 @@ MangaUpdatesPage::~MangaUpdatesPage() {
 
 //==================================================================================================================================
 //==================================================================================================================================
+
+void MangaUpdatesPage::set_network_access_manager(QNetworkAccessManager* network_access_manager) {
+	this->network_access_manager = network_access_manager;
+}
+
+//==================================================================================================================================
+//==================================================================================================================================
 //==================================================================================================================================
 
 void MangaUpdatesPage::on_loginButton_clicked() {
 	ui->loginButton->setDisabled(true);
 
-	const QUrl url("https://api.mangaupdates.com/v1/account/login");
-	QNetworkRequest req(url);
-	req.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+	QNetworkRequest request(QUrl("https://api.mangaupdates.com/v1/account/login"));
+	request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
 	QJsonObject object;
 	object["username"] = ui->usernameLineEdit->text();
 	object["password"] = ui->passwordLineEdit->text();
-	QJsonDocument document(object);
-	QByteArray data = document.toJson();
 
-	emit request(QNetworkAccessManager::Operation::PutOperation, req, data);
-}
 
-//==================================================================================================================================
+	QNetworkReply* reply = network_access_manager->put(request, QJsonDocument(object).toJson());
 
-void MangaUpdatesPage::on_logoutButton_clicked() {
-	//try to log out
-
-	ui->stackedWidget->setCurrentIndex(0);
-}
-
-//==================================================================================================================================
-
-void MangaUpdatesPage::on_getButton_clicked() {
-	//populate releases
-	//request.setRawHeader("Authorization", "");
-}
-
-//==================================================================================================================================
-//==================================================================================================================================
-
-void MangaUpdatesPage::on_requestSent(QNetworkReply* reply) {
 	QObject::connect(reply, &QNetworkReply::finished, this, [=](){
 		QByteArray contents = reply->readAll();
 		QJsonDocument document = QJsonDocument::fromJson(contents);
@@ -104,6 +91,21 @@ void MangaUpdatesPage::on_requestSent(QNetworkReply* reply) {
 		ui->loginButton->setEnabled(true);
 		reply->deleteLater();
 	});
+}
+
+//==================================================================================================================================
+
+void MangaUpdatesPage::on_logoutButton_clicked() {
+	//try to log out
+
+	ui->stackedWidget->setCurrentIndex(0);
+}
+
+//==================================================================================================================================
+
+void MangaUpdatesPage::on_getButton_clicked() {
+	//populate releases
+	//request.setRawHeader("Authorization", "");
 }
 
 //==================================================================================================================================

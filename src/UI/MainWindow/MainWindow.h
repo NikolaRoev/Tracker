@@ -1,8 +1,7 @@
 #pragma once
-#include "RequestsManager/RequestsManager.h"
-
 #include <QWidget>
 #include <QMainWindow>
+#include <QNetworkAccessManager>
 
 //==================================================================================================================================
 
@@ -18,7 +17,7 @@ class MainWindow : public QMainWindow {
 	Q_OBJECT
 private:
 	Ui::MainWindow *ui{ nullptr };
-	RequestsManager* requests_manager{ nullptr };
+	QNetworkAccessManager* network_access_manager{ nullptr };
 
 public:
 	MainWindow(QWidget* parent = nullptr);
