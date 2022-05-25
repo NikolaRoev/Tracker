@@ -56,7 +56,7 @@ BrowsePage::~BrowsePage() {
 //==================================================================================================================================
 
 void BrowsePage::populate(const QString& search) {
-	//Clear list items.
+	//Clear table items.
 	ui->tableWidget->setRowCount(0);
 
 	if (ui->whatComboBox->currentIndex() == 0) {

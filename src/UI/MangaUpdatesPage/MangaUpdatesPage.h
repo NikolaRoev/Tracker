@@ -18,19 +18,23 @@ class MangaUpdatesPage : public QWidget {
 private:
 	Ui::MangaUpdatesPage* ui{ nullptr };
 	QNetworkAccessManager* network_access_manager{ nullptr };
-	QString username;
 	QString token;
+
+
+	void validate();
 
 public:
 	MangaUpdatesPage(QWidget* parent = nullptr);
 	~MangaUpdatesPage();
 
-	void set_network_access_manager(QNetworkAccessManager* network_access_manager);
+	void setup(QNetworkAccessManager* network_access_manager);
 
 private slots:
 	void on_loginButton_clicked();
 	void on_logoutButton_clicked();
+
 	void on_getButton_clicked();
+	void on_tableWidget_clicked(const QModelIndex& index);
 };
 
 //==================================================================================================================================

@@ -24,7 +24,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
 
 	//Set the QNetworkAccessManager dependency to the pages.
 	MangaUpdatesPage* mangaupdates_page = static_cast<MangaUpdatesPage*>(ui->mainStackedWidget->widget(4));
-	mangaupdates_page->set_network_access_manager(network_access_manager);
+	mangaupdates_page->setup(network_access_manager);
 
 	//Connect the signals for the Status Bar.
 	connect(ui->updatePage, &UpdatePage::message, ui->statusBar, &QStatusBar::showMessage);

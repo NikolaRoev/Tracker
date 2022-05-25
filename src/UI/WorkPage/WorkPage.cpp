@@ -89,13 +89,23 @@ void WorkPage::on_chapterLineEdit_textEdited(const QString& text) {
 //==================================================================================================================================
 
 void WorkPage::on_mdLineEdit_textEdited(const QString& text) {
-	DatabaseManager::update_work("md_id", id, text);
+	if (text.isEmpty()) {
+		DatabaseManager::update_work("md_id", id, NULL);
+	}
+	else {
+		DatabaseManager::update_work("md_id", id, text);
+	}
 }
 
 //==================================================================================================================================
 
 void WorkPage::on_muLineEdit_textEdited(const QString& text) {
-	DatabaseManager::update_work("mu_id", id, text);
+	if (text.isEmpty()) {
+		DatabaseManager::update_work("mu_id", id, NULL);
+	}
+	else {
+		DatabaseManager::update_work("mu_id", id, text);
+	}
 }
 
 //==================================================================================================================================
