@@ -46,6 +46,10 @@ qt_add_executable(Tracker
 	"src/UI/BrowsePage/BrowsePage.cpp"
 	"src/UI/BrowsePage/BrowsePage.ui"
 
+	"src/UI/MangaDexPage/MangaDexPage.h"
+	"src/UI/MangaDexPage/MangaDexPage.cpp"
+	"src/UI/MangaDexPage/MangaDexPage.ui"
+
 	"src/UI/MangaUpdatesPage/MangaUpdatesPage.h"
 	"src/UI/MangaUpdatesPage/MangaUpdatesPage.cpp"
 	"src/UI/MangaUpdatesPage/MangaUpdatesPage.ui"
