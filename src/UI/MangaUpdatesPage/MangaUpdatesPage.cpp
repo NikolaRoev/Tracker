@@ -1,5 +1,7 @@
 #include "MangaUpdatesPage.h"
 #include "./ui_MangaUpdatesPage.h"
+#include "DatabaseManager/DatabaseManager.h"
+#include "DatabaseManager/Work.h"
 
 #include <QWidget>
 #include <QString>
@@ -73,13 +75,12 @@ void MangaUpdatesPage::on_loginButton_clicked() {
 
 	QObject::connect(reply, &QNetworkReply::finished, this, [=](){
 		QByteArray contents = reply->readAll();
-		QJsonDocument document = QJsonDocument::fromJson(contents);
-		QJsonObject reply_object = document.object();
+		QJsonObject reply_object = QJsonDocument::fromJson(contents).object();
 
 
 		if (reply->error() == QNetworkReply::NoError) {
-			token = reply_object["context"].toObject()["session_token"].toString();
 			username = data_object["username"].toString();
+			token = reply_object["context"].toObject()["session_token"].toString();
 
 			ui->usernameLabel->setText(username);
 			ui->stackedWidget->setCurrentIndex(1);
@@ -114,13 +115,12 @@ void MangaUpdatesPage::on_logoutButton_clicked() {
 
 	QObject::connect(reply, &QNetworkReply::finished, this, [=](){
 		QByteArray contents = reply->readAll();
-		QJsonDocument document = QJsonDocument::fromJson(contents);
-		QJsonObject object = document.object();
+		QJsonObject object = QJsonDocument::fromJson(contents).object();
 
 
 		if (reply->error() == QNetworkReply::NoError) {
-			token = NULL;
 			username = NULL;
+			token = NULL;
 
 			ui->stackedWidget->setCurrentIndex(0);
 			ui->getButton->setDisabled(true);
@@ -143,7 +143,38 @@ void MangaUpdatesPage::on_logoutButton_clicked() {
 //==================================================================================================================================
 
 void MangaUpdatesPage::on_getButton_clicked() {
+	ui->getButton->setDisabled(true);
 
+
+	QNetworkRequest request(QUrl("https://api.mangaupdates.com/v1/releases/days?include_metadata=true"));
+	request.setRawHeader("Authorization", token.toUtf8());
+
+
+	QNetworkReply* reply = network_access_manager->post(request, QByteArray());
+
+	QObject::connect(reply, &QNetworkReply::finished, this, [=](){
+		QByteArray contents = reply->readAll();
+		QJsonObject object = QJsonDocument::fromJson(contents).object();
+
+
+		if (reply->error() == QNetworkReply::NoError) {
+			//TO DO: Process the releases information.
+
+			ui->getButton->setDisabled(true);
+		}
+		else {
+			qDebug() << QString("Error [%1][%2]: %3.")
+							.arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt())
+							.arg(reply->error())
+							.arg(contents);
+
+			QMessageBox::warning(this, "Failed to get releases.", object["reason"].toString());
+		}
+
+
+		ui->getButton->setEnabled(true);
+		reply->deleteLater();
+	});
 }
 
 //==================================================================================================================================
