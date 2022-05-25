@@ -23,7 +23,7 @@ MangaUpdatesPage::MangaUpdatesPage(QWidget* parent) : QWidget(parent), ui(new Ui
 	//Load settings.
 	QSettings settings("settings.ini", QSettings::IniFormat, this);
 	settings.beginGroup("MangaUpdates");
-	QString username = settings.value("username").toString();
+	username = settings.value("username").toString();
 	token = settings.value("token").toString();
 	settings.endGroup();
 
@@ -39,7 +39,7 @@ MangaUpdatesPage::MangaUpdatesPage(QWidget* parent) : QWidget(parent), ui(new Ui
 MangaUpdatesPage::~MangaUpdatesPage() {
 	QSettings settings("settings.ini", QSettings::IniFormat, this);
 	settings.beginGroup("MangaUpdates");
-	settings.setValue("username", ui->usernameLabel->text());
+	settings.setValue("username", username);
 	settings.setValue("token", token);
 	settings.endGroup();
 
@@ -79,8 +79,9 @@ void MangaUpdatesPage::on_loginButton_clicked() {
 
 		if (reply->error() == QNetworkReply::NoError) {
 			token = reply_object["context"].toObject()["session_token"].toString();
+			username = data_object["username"].toString();
 
-			ui->usernameLabel->setText(data_object["username"].toString());
+			ui->usernameLabel->setText(username);
 			ui->stackedWidget->setCurrentIndex(1);
 			ui->getButton->setEnabled(true);
 		}
@@ -119,6 +120,7 @@ void MangaUpdatesPage::on_logoutButton_clicked() {
 
 		if (reply->error() == QNetworkReply::NoError) {
 			token = NULL;
+			username = NULL;
 
 			ui->stackedWidget->setCurrentIndex(0);
 			ui->getButton->setDisabled(true);

@@ -18,6 +18,7 @@ class MangaUpdatesPage : public QWidget {
 private:
 	Ui::MangaUpdatesPage* ui{ nullptr };
 	QNetworkAccessManager* network_access_manager{ nullptr };
+	QString username;
 	QString token;
 
 public:
