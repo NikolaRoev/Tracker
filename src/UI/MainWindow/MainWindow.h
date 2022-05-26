@@ -1,7 +1,5 @@
 #pragma once
-#include <QWidget>
-#include <QMainWindow>
-#include <QNetworkAccessManager>
+#include "pch.h"
 
 //==================================================================================================================================
 

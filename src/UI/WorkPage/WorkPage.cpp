@@ -1,15 +1,10 @@
+#include "pch.h"
 #include "WorkPage.h"
 #include "./ui_WorkPage.h"
 #include "DatabaseManager/DatabaseManager.h"
 #include "DatabaseManager/Work.h"
 #include "DatabaseManager/Creator.h"
 #include "SearchCreatorDialog/SearchCreatorDialog.h"
-
-#include <QWidget>
-#include <QTableWidgetItem>
-#include <QDateTime>
-#include <QMenu>
-#include <QMessageBox>
 
 //==================================================================================================================================
 //==================================================================================================================================

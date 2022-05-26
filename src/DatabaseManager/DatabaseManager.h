@@ -1,10 +1,7 @@
 #pragma once
+#include "pch.h"
 #include "Work.h"
 #include "Creator.h"
-
-#include <QWidget>
-#include <QString>
-#include <QVector>
 
 //==================================================================================================================================
 

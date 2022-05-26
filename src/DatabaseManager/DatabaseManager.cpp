@@ -1,14 +1,7 @@
+#include "pch.h"
 #include "DatabaseManager.h"
 #include "Work.h"
 #include "Creator.h"
-
-#include <QDebug>
-#include <QString>
-#include <QVector>
-#include <QSqlDatabase>
-#include <QSqlError>
-#include <QSqlQuery>
-#include <QMessageBox>
 
 //==================================================================================================================================
 //==================================================================================================================================

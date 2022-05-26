@@ -1,8 +1,5 @@
+#include "pch.h"
 #include "MainWindow/MainWindow.h"
-
-#include <QApplication>
-#include <QFile>
-#include <QtGlobal>
 
 //==================================================================================================================================
 

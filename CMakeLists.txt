@@ -22,6 +22,7 @@ qt_add_executable(Tracker
 	"resources/resources.rc"
 
 	"src/main.cpp"
+	"src/pch.h"
 
 
 	"src/DatabaseManager/DatabaseManager.h"
@@ -88,4 +89,14 @@ target_include_directories(Tracker
 	PRIVATE
 	"${CMAKE_SOURCE_DIR}/src/"
 	"${CMAKE_SOURCE_DIR}/src/UI/"
+)
+
+target_precompile_headers(Tracker
+	PRIVATE
+	"src/pch.h"
+)
+
+target_compile_options(Tracker
+	PRIVATE
+	"/W4"
 )

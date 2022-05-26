@@ -1,7 +1,5 @@
 #pragma once
-#include <QDialog>
-#include <QString>
-#include <QListWidgetItem>
+#include "pch.h"
 
 //==================================================================================================================================
 

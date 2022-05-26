@@ -1,23 +1,8 @@
+#include "pch.h"
 #include "MangaDexPage.h"
 #include "./ui_MangaDexPage.h"
 #include "DatabaseManager/DatabaseManager.h"
 #include "DatabaseManager/Work.h"
-
-#include <QWidget>
-#include <QString>
-#include <QNetworkAccessManager>
-#include <QNetworkRequest>
-#include <QNetworkReply>
-#include <QUrl>
-#include <QJsonObject>
-#include <QJsonDocument>
-#include <QByteArray>
-#include <QSettings>
-#include <QMessageBox>
-#include <QVector>
-#include <QHash>
-#include <QJsonArray>
-#include <QDesktopServices>
 
 //==================================================================================================================================
 //==================================================================================================================================

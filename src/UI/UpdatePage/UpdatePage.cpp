@@ -1,14 +1,9 @@
+#include "pch.h"
 #include "UpdatePage.h"
 #include "./ui_UpdatePage.h"
 #include "UpdateEntry/UpdateEntry.h"
 #include "DatabaseManager/DatabaseManager.h"
 #include "DatabaseManager/Work.h"
-
-#include <QWidget>
-#include <QString>
-#include <QLayoutItem>
-#include <QShortcut>
-#include <QKeySequence>
 
 //==================================================================================================================================
 //==================================================================================================================================

@@ -1,11 +1,8 @@
+#include "pch.h"
 #include "UpdateEntry.h"
 #include "./ui_UpdateEntry.h"
 #include "DatabaseManager/DatabaseManager.h"
 #include "DatabaseManager/Work.h"
-
-#include <QWidget>
-#include <QString>
-#include <QDateTime>
 
 //==================================================================================================================================
 //==================================================================================================================================

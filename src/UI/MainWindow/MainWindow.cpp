@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "MainWindow.h"
 #include "./ui_MainWindow.h"
 #include "DatabaseManager/DatabaseManager.h"
@@ -6,12 +7,6 @@
 #include "UpdatePage/UpdatePage.h"
 #include "BrowsePage/BrowsePage.h"
 #include "MangaUpdatesPage/MangaUpdatesPage.h"
-
-#include <QWidget>
-#include <QMainWindow>
-#include <QNetworkAccessManager>
-#include <QSettings>
-#include <QStatusBar>
 
 //==================================================================================================================================
 //==================================================================================================================================

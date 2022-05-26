@@ -1,10 +1,7 @@
+#include "pch.h"
 #include "SearchCreatorDialog.h"
 #include "./ui_SearchCreatorDialog.h"
 #include "DatabaseManager/DatabaseManager.h"
-
-#include <QDialog>
-#include <QString>
-#include <QListWidgetItem>
 
 //==================================================================================================================================
 //==================================================================================================================================

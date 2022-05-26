@@ -1,8 +1,5 @@
 #pragma once
-#include <QWidget>
-#include <QString>
-#include <QModelIndex>
-#include <QPoint>
+#include "pch.h"
 
 //==================================================================================================================================
 

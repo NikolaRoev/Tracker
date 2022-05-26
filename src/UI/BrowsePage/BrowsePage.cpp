@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "BrowsePage.h"
 #include "ui_BrowsePage.h"
 #include "DatabaseManager/DatabaseManager.h"
@@ -5,17 +6,6 @@
 #include "DatabaseManager/Creator.h"
 #include "WorkPage/WorkPage.h"
 #include "CreatorPage/CreatorPage.h"
-
-#include <QWidget>
-#include <QString>
-#include <QModelIndex>
-#include <QPoint>
-#include <QHeaderView>
-#include <QTableWidgetItem>
-#include <QVariant>
-#include <QMenu>
-#include <QMessageBox>
-#include <QCursor>
 
 //==================================================================================================================================
 //==================================================================================================================================

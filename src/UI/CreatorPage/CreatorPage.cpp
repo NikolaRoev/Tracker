@@ -1,11 +1,9 @@
+#include "pch.h"
 #include "CreatorPage.h"
 #include "./ui_CreatorPage.h"
 #include "DatabaseManager/DatabaseManager.h"
 #include "DatabaseManager/Work.h"
 #include "DatabaseManager/Creator.h"
-
-#include <QWidget>
-#include <QTableWidgetItem>
 
 //==================================================================================================================================
 //==================================================================================================================================

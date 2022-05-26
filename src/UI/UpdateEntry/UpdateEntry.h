@@ -1,8 +1,6 @@
 #pragma once
+#include "pch.h"
 #include "DatabaseManager/Work.h"
-
-#include <QWidget>
-#include <QString>
 
 //==================================================================================================================================
 
