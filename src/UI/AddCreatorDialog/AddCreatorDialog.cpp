@@ -20,7 +20,9 @@ AddCreatorDialog::~AddCreatorDialog() {
 //==================================================================================================================================
 
 void AddCreatorDialog::on_buttonBox_accepted() {
-	DatabaseManager::add_creator(ui->nameLineEdit->text());
+	if (!DatabaseManager::add_creator(ui->nameLineEdit->text())) {
+		QMessageBox::warning(this, "Database Error.", QString("Failed to add Creator [%1].").arg(ui->nameLineEdit->text()));
+	}
 }
 
 //==================================================================================================================================

@@ -23,7 +23,8 @@ SearchCreatorDialog::~SearchCreatorDialog() {
 void SearchCreatorDialog::on_filterLineEdit_textEdited(const QString& text) {
 	ui->listWidget->clear();
 
-	QVector<Creator> found_creators = DatabaseManager::search_creators(text);
+	QList<Creator> found_creators;
+	DatabaseManager::search_creators(found_creators, text);
 	for (const auto& creator : found_creators) {
 		QListWidgetItem* item = new QListWidgetItem(creator.name);
 		item->setData(Qt::UserRole, creator.id);

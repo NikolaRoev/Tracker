@@ -12,7 +12,7 @@
 //==================================================================================================================================
 
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
-	DatabaseManager::init(this);
+	DatabaseManager::init("database.db");
 	ui->setupUi(this);
 	network_access_manager = new QNetworkAccessManager(this);
 

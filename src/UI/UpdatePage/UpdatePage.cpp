@@ -37,7 +37,8 @@ void UpdatePage::populate(const QString& search) {
 	}
 
 	//Find works and populate the update list.
-	const auto found_works = DatabaseManager::search_works(search, "name", "Reading", NULL);
+	QList<Work> found_works;
+	DatabaseManager::search_works(found_works, search, "name", "Reading", NULL);
 	for (const auto& found_work : found_works) {
 		ui->contentsWidget->layout()->addWidget(new UpdateEntry(found_work, ui->scrollArea));
 	}

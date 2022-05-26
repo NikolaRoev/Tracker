@@ -10,7 +10,7 @@
 //==================================================================================================================================
 //==================================================================================================================================
 
-WorkPage::WorkPage(const int id, QWidget* parent) : id(id), QWidget(parent), ui(new Ui::WorkPage) {
+WorkPage::WorkPage(const int id, QWidget* parent) : QWidget(parent), ui(new Ui::WorkPage), id(id) {
 	ui->setupUi(this);
 	ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 	ui->tableWidget->horizontalHeader()->setDefaultAlignment(Qt::AlignLeft);
@@ -24,7 +24,8 @@ WorkPage::WorkPage(const int id, QWidget* parent) : id(id), QWidget(parent), ui(
 	ui->typeComboBox->setItemData(2, "Anthology");
 
 
-	Work work = DatabaseManager::get_work(id);
+	Work work;
+	DatabaseManager::get_work(work, id);
 	ui->idLabel->setText(QString::number(work.id));
 	ui->nameLineEdit->setText(work.name);
 	ui->statusComboBox->setCurrentText(work.status);
@@ -62,12 +63,14 @@ void WorkPage::on_nameLineEdit_textEdited(const QString& text) {
 //==================================================================================================================================
 
 void WorkPage::on_statusComboBox_currentIndexChanged(int index) {
+	Q_UNUSED(index);
 	DatabaseManager::update_work("status", id, ui->statusComboBox->currentData().toString());
 }
 
 //==================================================================================================================================
 
 void WorkPage::on_typeComboBox_currentIndexChanged(int index) {
+	Q_UNUSED(index);
 	DatabaseManager::update_work("type", id, ui->typeComboBox->currentData().toString());
 }
 
@@ -149,7 +152,8 @@ void WorkPage::on_creatorSelected(const int creator_id, const QString& name, con
 
 	ui->tableWidget->setRowCount(0);
 
-	Work work = DatabaseManager::get_work(id);
+	Work work;
+	DatabaseManager::get_work(work, id);
 	for (const auto& creator : work.creators) {
 		ui->tableWidget->insertRow(ui->tableWidget->rowCount());
 

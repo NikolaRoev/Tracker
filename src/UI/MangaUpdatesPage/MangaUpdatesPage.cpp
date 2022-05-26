@@ -181,7 +181,9 @@ void MangaUpdatesPage::on_getButton_clicked() {
 
 
 		if (reply->error() == QNetworkReply::NoError) {
-			auto database_works = DatabaseManager::search_works("", "name", NULL, NULL);
+			QList<Work> database_works;
+			DatabaseManager::search_works(database_works, "", "name", NULL, NULL);
+
 			QHash<QString, Work> table;
 			for (const auto& work : database_works) {
 				table.emplace(work.mu_id, work);

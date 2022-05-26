@@ -112,7 +112,7 @@ bool DatabaseManager::add_work(const Work& work) {
 	}
 	else {
 		QSqlError error = query.lastError();
-		qWarning() << QString("Failed to create Work [%1], with error [%2]: [%3]").arg(work.name).arg(error.type()).arg(error.text());
+		qWarning() << QString("Failed to add Work [%1], with error [%2]: [%3]").arg(work.name).arg(error.type()).arg(error.text());
 		return false;
 	}
 }
@@ -155,7 +155,7 @@ bool DatabaseManager::update_work(const QString& column, const int id, const QSt
 	else {
 		QSqlError error = query.lastError();
 		qWarning() << QString("Failed to update Column [%1] for Work [%2] to value [%3], with error [%4]: [%5]")
-							  .arg(id).arg(column).arg(value).arg(error.type()).arg(error.text());
+							  .arg(column).arg(id).arg(value).arg(error.type()).arg(error.text());
 		return false;
 	}
 }
@@ -227,7 +227,7 @@ bool DatabaseManager::get_work(Work& work, const int id) {
 
 //==================================================================================================================================
 
-QVector<Work> DatabaseManager::search_works(const QString& search, const QString& by, const QString& status, const QString& type) {
+bool DatabaseManager::search_works(QList<Work>& works, const QString& search, const QString& by, const QString& status, const QString& type) {
 	//Query text construction.
 	QString query_text;
 
@@ -283,10 +283,9 @@ QVector<Work> DatabaseManager::search_works(const QString& search, const QString
 
 
 	//Query execution.
-	QVector<Work> out;
 	if (query.exec()) {
 		while (query.next()) {
-			out.emplace_back(Work{
+			works.emplace_back(Work{
 				.id = query.value(0).toInt(),
 				.name = query.value(1).toString(),
 				.status = query.value(2).toString(),
@@ -298,22 +297,21 @@ QVector<Work> DatabaseManager::search_works(const QString& search, const QString
 				.mu_id = query.value(8).toString()
 			});
 		}
+
+		return true;
 	}
 	else {
-		qWarning() << query.lastError();
-		QMessageBox::warning(m_parent,
-			QString("Failed search for Work [%1] by [%2] with status [%3] and type [%4].").arg(search, by, status, type),
-			query.lastError().text());
+		QSqlError error = query.lastError();
+		qWarning() << QString("Failed to search for Works [%1], with error [%2]: [%3]")
+							  .arg(search).arg(error.type()).arg(error.text());
+		return false;
 	}
-
-
-	return out;
 }
 
 //==================================================================================================================================
 //==================================================================================================================================
 
-void DatabaseManager::add_creator(const QString& name) {
+bool DatabaseManager::add_creator(const QString& name) {
 	QSqlQuery query;
 	query.prepare(
 		"INSERT INTO creators (name) "
@@ -321,15 +319,19 @@ void DatabaseManager::add_creator(const QString& name) {
 	);
 	query.bindValue(":name", name);
 
-	if (!query.exec()) {
-		qWarning() << query.lastError();
-		QMessageBox::warning(m_parent, QString("Failed to add Creator [%1].").arg(name), query.lastError().text());
+	if (query.exec()) {
+		return true;
+	}
+	else {
+		QSqlError error = query.lastError();
+		qWarning() << QString("Failed to add Creator [%1], with error [%2]: [%3]").arg(name).arg(error.type()).arg(error.text());
+		return false;
 	}
 }
 
 //==================================================================================================================================
 
-void DatabaseManager::remove_creator(const int id) {
+bool DatabaseManager::remove_creator(const int id) {
 	QSqlQuery query;
 	query.prepare(
 		"DELETE FROM creators "
@@ -337,15 +339,19 @@ void DatabaseManager::remove_creator(const int id) {
 	);
 	query.bindValue(":id", id);
 
-	if (!query.exec()) {
-		qWarning() << query.lastError();
-		QMessageBox::warning(m_parent, QString("Failed to remove Creator [%1].").arg(id), query.lastError().text());
+	if (query.exec()) {
+		return true;
+	}
+	else {
+		QSqlError error = query.lastError();
+		qWarning() << QString("Failed to remove Creator [%1], with error [%2]: [%3]").arg(id).arg(error.type()).arg(error.text());
+		return false;
 	}
 }
 
 //==================================================================================================================================
 
-void DatabaseManager::update_creator(const QString& column, const int id, const QString& value) {
+bool DatabaseManager::update_creator(const QString& column, const int id, const QString& value) {
 	QSqlQuery query;
 	query.prepare(QString(
 		"UPDATE creators "
@@ -355,17 +361,20 @@ void DatabaseManager::update_creator(const QString& column, const int id, const 
 	query.bindValue(":value", value);
 	query.bindValue(":id", id);
 
-	if (!query.exec()) {
-		qWarning() << query.lastError();
-		QMessageBox::warning(m_parent,
-			QString("Failed to update Creator [%1] property [%2] to [%3].").arg(id).arg(column, value),
-			query.lastError().text());
+	if (query.exec()) {
+		return true;
+	}
+	else {
+		QSqlError error = query.lastError();
+		qWarning() << QString("Failed to update Column [%1] for Creator [%2] to value [%3], with error [%4]: [%5]")
+							  .arg(column).arg(id).arg(value).arg(error.type()).arg(error.text());
+		return false;
 	}
 }
 
 //==================================================================================================================================
 
-Creator DatabaseManager::get_creator(const int id) {
+bool DatabaseManager::get_creator(Creator& creator, const int id) {
 	//Select the Creator.
 	QSqlQuery query;
 	query.prepare(
@@ -375,16 +384,16 @@ Creator DatabaseManager::get_creator(const int id) {
 	);
 	query.bindValue(":id", id);
 
-	Creator out;
 	if (query.exec()) {
 		if (query.next()) {
-			out.id = id;
-			out.name = query.value(0).toString();
+			creator.id = id;
+			creator.name = query.value(0).toString();
 		}
 	}
 	else {
-		qWarning() << query.lastError();
-		QMessageBox::warning(m_parent, QString("Failed to get Creator [%1].").arg(id), query.lastError().text());
+		QSqlError error = query.lastError();
+		qWarning() << QString("Failed to get Creator [%1], with error [%2]: [%3]").arg(id).arg(error.type()).arg(error.text());
+		return false;
 	}
 
 	//Find all the associated Works.
@@ -399,11 +408,11 @@ Creator DatabaseManager::get_creator(const int id) {
 		"INNER JOIN current_works "
 		"ON works.id = current_works.id"
 	);
-	query.bindValue(":creator_id", out.id);
+	query.bindValue(":creator_id", creator.id);
 
 	if (query.exec()) {
 		while (query.next()) {
-			out.works.emplace_back(Work{
+			creator.works.emplace_back(Work{
 				.id = query.value(0).toInt(),
 				.name = query.value(1).toString(),
 				.status = query.value(2).toString(),
@@ -415,17 +424,19 @@ Creator DatabaseManager::get_creator(const int id) {
 		}
 	}
 	else {
-		qWarning() << query.lastError();
-		QMessageBox::warning(m_parent, QString("Failed to get Works for Creator [%1].").arg(id), query.lastError().text());
+		QSqlError error = query.lastError();
+		qWarning() << QString("Failed to get Works for Creator [%1], with error [%2]: [%3]")
+							  .arg(creator.name).arg(error.type()).arg(error.text());
+		return false;
 	}
 
 
-	return out;
+	return true;
 }
 
 //==================================================================================================================================
 
-QVector<Creator> DatabaseManager::search_creators(const QString& search) {
+bool DatabaseManager::search_creators(QList<Creator>& creators, const QString& search) {
 	QSqlQuery query;
 	query.prepare("SELECT id, name "
 				  "FROM creators "
@@ -433,26 +444,27 @@ QVector<Creator> DatabaseManager::search_creators(const QString& search) {
 	);
 	query.bindValue(":name", '%' + search + '%');
 
-	QVector<Creator> out;
 	if (query.exec()) {
 		while (query.next()) {
-			out.emplace_back(Creator{
+			creators.emplace_back(Creator{
 				.id = query.value(0).toInt(),
 				.name = query.value(1).toString()
 			});
 		}
+
+		return true;
 	}
 	else {
-		qWarning() << query.lastError();
-		QMessageBox::warning(m_parent, QString("Failed search for Creator [%1].").arg(search), query.lastError().text());
+		QSqlError error = query.lastError();
+		qWarning() << QString("Failed to search for Creators [%1], with error [%2]: [%3]")
+							  .arg(search).arg(error.type()).arg(error.text());
+		return false;
 	}
-
-	return out;
 }
 
 //==================================================================================================================================
 
-void DatabaseManager::attach_creator(const int work_id, const int creator_id, const QString& type) {
+bool DatabaseManager::attach_creator(const int work_id, const int creator_id, const QString& type) {
 	QSqlQuery query;
 	query.prepare(
 		"INSERT INTO work_creator (work_id, creator_id, type) "
@@ -462,17 +474,20 @@ void DatabaseManager::attach_creator(const int work_id, const int creator_id, co
 	query.bindValue(":creator_id", creator_id);
 	query.bindValue(":type", type);
 
-	if (!query.exec()) {
-		qWarning() << query.lastError();
-		QMessageBox::warning(m_parent,
-			QString("Failed to attach Creator [%1] to Work [%2] as type [%3].").arg(creator_id, work_id).arg(type),
-			query.lastError().text());
+	if (query.exec()) {
+		return true;
+	}
+	else {
+		QSqlError error = query.lastError();
+		qWarning() << QString("Failed to attach Creator [%1] to Work [%2] as [%3], with error [%4]: [%5]")
+							  .arg(creator_id).arg(work_id).arg(type).arg(error.type()).arg(error.text());
+		return false;
 	}
 }
 
 //==================================================================================================================================
 
-void DatabaseManager::detach_creator(const int work_id, const int creator_id) {
+bool DatabaseManager::detach_creator(const int work_id, const int creator_id) {
 	QSqlQuery query;
 	query.prepare(
 		"DELETE FROM work_creator "
@@ -481,11 +496,14 @@ void DatabaseManager::detach_creator(const int work_id, const int creator_id) {
 	query.bindValue(":work_id", work_id);
 	query.bindValue(":creator_id", creator_id);
 
-	if (!query.exec()) {
-		qWarning() << query.lastError();
-		QMessageBox::warning(m_parent,
-			QString("Failed to detach Creator [%1] to Work [%2]").arg(creator_id, work_id),
-			query.lastError().text());
+	if (query.exec()) {
+		return true;
+	}
+	else {
+		QSqlError error = query.lastError();
+		qWarning() << QString("Failed to detach Creator [%1] from Work [%2], with error [%3]: [%4]")
+							  .arg(creator_id).arg(work_id).arg(error.type()).arg(error.text());
+		return false;
 	}
 }
 

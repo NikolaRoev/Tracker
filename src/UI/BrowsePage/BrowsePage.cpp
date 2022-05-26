@@ -50,7 +50,8 @@ void BrowsePage::populate(const QString& search) {
 	ui->tableWidget->setRowCount(0);
 
 	if (ui->whatComboBox->currentIndex() == 0) {
-		QVector<Work> found_works = DatabaseManager::search_works(search,
+		QList<Work> found_works;
+		DatabaseManager::search_works(found_works, search,
 																  ui->byComboBox->currentData().toString(),
 																  ui->statusComboBox->currentData().toString(),
 																  ui->typeComboBox->currentData().toString());
@@ -71,7 +72,8 @@ void BrowsePage::populate(const QString& search) {
 		emit message(QString("Found %1 works.").arg(found_works.size()));
 	}
 	else {
-		QVector<Creator> found_creators = DatabaseManager::search_creators(search);
+		QList<Creator> found_creators;
+		DatabaseManager::search_creators(found_creators, search);
 
 		for (const auto& creator : found_creators) {
 			ui->tableWidget->insertRow(ui->tableWidget->rowCount());
@@ -174,18 +176,21 @@ void BrowsePage::on_whatComboBox_currentIndexChanged(int index) {
 //==================================================================================================================================
 
 void BrowsePage::on_statusComboBox_currentIndexChanged(int index) {
+	Q_UNUSED(index);
 	populate(ui->lineEdit->text());
 }
 
 //==================================================================================================================================
 
 void BrowsePage::on_typeComboBox_currentIndexChanged(int index) {
+	Q_UNUSED(index);
 	populate(ui->lineEdit->text());
 }
 
 //==================================================================================================================================
 
 void BrowsePage::on_byComboBox_currentIndexChanged(int index) {
+	Q_UNUSED(index);
 	populate(ui->lineEdit->text());
 }
 
