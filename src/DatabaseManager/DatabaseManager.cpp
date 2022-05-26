@@ -7,26 +7,24 @@
 //==================================================================================================================================
 //==================================================================================================================================
 
-QWidget* DatabaseManager::m_parent{ nullptr };
-
-//==================================================================================================================================
-//==================================================================================================================================
-//==================================================================================================================================
-
-void DatabaseManager::init(QWidget* parent) {
-	m_parent = parent;
+bool DatabaseManager::init(const QString& database_name) {
 	QSqlDatabase::addDatabase("QSQLITE");
 
 	QSqlDatabase db = QSqlDatabase::database();
-	db.setDatabaseName("database.db");
+	db.setDatabaseName(database_name);
 	if (!db.open()) {
-		qCritical() << db.lastError();
-		QMessageBox::critical(m_parent, "Failed to open Database.", db.lastError().text());
+		QSqlError error = db.lastError();
+		qCritical() << QString("Failed to open database [%1], with error [%2]: [%3]").arg(database_name).arg(error.type()).arg(error.text());
+		return false;
 	}
 
 	//Activate Foreign Keys. It seems Qt compiles SQLite with the Foreign Keys flag disabled.
 	QSqlQuery query;
-	query.exec("PRAGMA foreign_keys = ON");
+	if (!query.exec("PRAGMA foreign_keys = ON")) {
+		QSqlError error = query.lastError();
+		qCritical() << QString("Failed to turn on Foreign Keys, with error [%1]: [%2]").arg(error.type()).arg(error.text());
+		return false;
+	}
 
 	//Create the Works table.
 	query.prepare(
@@ -43,8 +41,9 @@ void DatabaseManager::init(QWidget* parent) {
 		")"
 	);
 	if (!query.exec()) {
-		qCritical() << query.lastError();
-		QMessageBox::critical(m_parent, "Failed to create Works Table.", query.lastError().text());
+		QSqlError error = query.lastError();
+		qCritical() << QString("Failed to create Works table, with error [%1]: [%2]").arg(error.type()).arg(error.text());
+		return false;
 	}
 
 	//Create the Creators table.
@@ -55,8 +54,9 @@ void DatabaseManager::init(QWidget* parent) {
 		")"
 	);
 	if (!query.exec()) {
-		qCritical() << query.lastError();
-		QMessageBox::critical(m_parent, "Failed to create Creators Table.", query.lastError().text());
+		QSqlError error = query.lastError();
+		qCritical() << QString("Failed to create Creators table, with error [%1]: [%2]").arg(error.type()).arg(error.text());
+		return false;
 	}
 
 	//Create the Work-Creator table.
@@ -71,9 +71,13 @@ void DatabaseManager::init(QWidget* parent) {
 		")"
 	);
 	if (!query.exec()) {
-		qCritical() << query.lastError();
-		QMessageBox::critical(m_parent, "Failed to create Work-Creator Table.", query.lastError().text());
+		QSqlError error = query.lastError();
+		qCritical() << QString("Failed to create Work-Creator table, with error [%1]: [%2]").arg(error.type()).arg(error.text());
+		return false;
 	}
+
+
+	return true;
 }
 
 //==================================================================================================================================
@@ -88,7 +92,7 @@ void DatabaseManager::deinit() {
 //==================================================================================================================================
 //==================================================================================================================================
 
-void DatabaseManager::add_work(const Work& work) {
+bool DatabaseManager::add_work(const Work& work) {
 	QSqlQuery query;
 	query.prepare(
 		"INSERT INTO works (name, status, type, chapter, updated, added, md_id, mu_id) "
@@ -103,15 +107,19 @@ void DatabaseManager::add_work(const Work& work) {
 	query.bindValue(":md_id", work.md_id);
 	query.bindValue(":mu_id", work.mu_id);
 
-	if (!query.exec()) {
-		qWarning() << query.lastError();
-		QMessageBox::warning(m_parent, QString("Failed to add Work [%1].").arg(work.name), query.lastError().text());
+	if (query.exec()) {
+		return true;
+	}
+	else {
+		QSqlError error = query.lastError();
+		qWarning() << QString("Failed to create Work [%1], with error [%2]: [%3]").arg(work.name).arg(error.type()).arg(error.text());
+		return false;
 	}
 }
 
 //==================================================================================================================================
 
-void DatabaseManager::remove_work(const int id) {
+bool DatabaseManager::remove_work(const int id) {
 	QSqlQuery query;
 	query.prepare(
 		"DELETE FROM works "
@@ -119,15 +127,19 @@ void DatabaseManager::remove_work(const int id) {
 	);
 	query.bindValue(":id", id);
 
-	if (!query.exec()) {
-		qWarning() << query.lastError();
-		QMessageBox::warning(m_parent, QString("Failed to remove Work [%1].").arg(id), query.lastError().text());
+	if (query.exec()) {
+		return true;
+	}
+	else {
+		QSqlError error = query.lastError();
+		qWarning() << QString("Failed to remove Work [%1], with error [%2]: [%3]").arg(id).arg(error.type()).arg(error.text());
+		return false;
 	}
 }
 
 //==================================================================================================================================
 
-void DatabaseManager::update_work(const QString& column, const int id, const QString& value) {
+bool DatabaseManager::update_work(const QString& column, const int id, const QString& value) {
 	QSqlQuery query;
 	query.prepare(QString(
 		"UPDATE works "
@@ -137,17 +149,20 @@ void DatabaseManager::update_work(const QString& column, const int id, const QSt
 	query.bindValue(":value", value);
 	query.bindValue(":id", id);
 
-	if (!query.exec()) {
-		qWarning() << query.lastError();
-		QMessageBox::warning(m_parent,
-			QString("Failed to update Work [%1] property [%2] to [%3].").arg(id).arg(column, value),
-			query.lastError().text());
+	if (query.exec()) {
+		return true;
+	}
+	else {
+		QSqlError error = query.lastError();
+		qWarning() << QString("Failed to update Column [%1] for Work [%2] to value [%3], with error [%4]: [%5]")
+							  .arg(id).arg(column).arg(value).arg(error.type()).arg(error.text());
+		return false;
 	}
 }
 
 //==================================================================================================================================
 
-Work DatabaseManager::get_work(const int id) {
+bool DatabaseManager::get_work(Work& work, const int id) {
 	//Select the Work.
 	QSqlQuery query;
 	query.prepare(
@@ -157,23 +172,23 @@ Work DatabaseManager::get_work(const int id) {
 	);
 	query.bindValue(":id", id);
 
-	Work out;
 	if (query.exec()) {
 		if (query.next()) {
-			out.id = id;
-			out.name = query.value(0).toString();
-			out.status = query.value(1).toString();
-			out.type = query.value(2).toString();
-			out.chapter = query.value(3).toString();
-			out.updated = query.value(4).toString();
-			out.added = query.value(5).toString();
-			out.md_id = query.value(6).toString();
-			out.mu_id = query.value(7).toString();
+			work.id = id;
+			work.name = query.value(0).toString();
+			work.status = query.value(1).toString();
+			work.type = query.value(2).toString();
+			work.chapter = query.value(3).toString();
+			work.updated = query.value(4).toString();
+			work.added = query.value(5).toString();
+			work.md_id = query.value(6).toString();
+			work.mu_id = query.value(7).toString();
 		}
 	}
 	else {
-		qWarning() << query.lastError();
-		QMessageBox::warning(m_parent, QString("Failed to get Work [%1].").arg(id), query.lastError().text());
+		QSqlError error = query.lastError();
+		qWarning() << QString("Failed to get Work [%1], with error [%2]: [%3]").arg(id).arg(error.type()).arg(error.text());
+		return false;
 	}
 
 	//Find all the associated Creators.
@@ -188,11 +203,11 @@ Work DatabaseManager::get_work(const int id) {
 		"INNER JOIN current_creators "
 		"ON creators.id = current_creators.id"
 	);
-	query.bindValue(":work_id", out.id);
+	query.bindValue(":work_id", work.id);
 
 	if (query.exec()) {
 		while (query.next()) {
-			out.creators.emplace_back(Creator{
+			work.creators.emplace_back(Creator{
 				.id = query.value(0).toInt(),
 				.name = query.value(1).toString(),
 				.type = query.value(2).toString()
@@ -200,12 +215,14 @@ Work DatabaseManager::get_work(const int id) {
 		}
 	}
 	else {
-		qWarning() << query.lastError();
-		QMessageBox::warning(m_parent, QString("Failed to get Creators for Work [%1].").arg(id), query.lastError().text());
+		QSqlError error = query.lastError();
+		qWarning() << QString("Failed to get Creators for Work [%1], with error [%2]: [%3]")
+							  .arg(work.name).arg(error.type()).arg(error.text());
+		return false;
 	}
 
 
-	return out;
+	return true;
 }
 
 //==================================================================================================================================
