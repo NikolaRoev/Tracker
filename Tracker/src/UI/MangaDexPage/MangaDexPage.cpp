@@ -9,7 +9,11 @@
 //==================================================================================================================================
 
 void MangaDexPage::validate() {
-
+	QJsonDocument jdocHeader = QJsonDocument::fromJson( QByteArray::fromBase64( QString("eyJ0eXAiOiJyZWZyZXNoIiwiaXNzIjoibWFuZ2FkZXgub3JnIiwiYXVkIjoibWFuZ2FkZXgub3JnIiwiaWF0IjoxNjUzNjY1NTA0LCJuYmYiOjE2NTM2NjU1MDQsImV4cCI6MTY1NjI1NzUwNCwidWlkIjoiYTJhMTIxZWUtZWE1My00ZTRhLTg0MTEtM2UzOTM4MzdmYjI5Iiwic2lkIjoiODUwOTAyYmMtYTEzNi00MmM4LWEzMDgtMDMyZWQ5OGQxMDBhIn0").toUtf8() ) );
+	QJsonObject jobjHeader = jdocHeader.object();
+	qDebug() << jobjHeader;
+	QString szFull=QDateTime::fromSecsSinceEpoch(jobjHeader["exp"].toInteger()).toString("dddd d MMMM yyyy hh:mm:ss");
+	qDebug() << szFull;
 }
 
 //==================================================================================================================================
@@ -26,7 +30,8 @@ MangaDexPage::MangaDexPage(QWidget* parent) : QWidget(parent), ui(new Ui::MangaD
 	//Load settings.
 	QSettings settings("settings.ini", QSettings::IniFormat, this);
 	settings.beginGroup("MangaDex");
-	token = settings.value("token").toString();
+	session_token = settings.value("session_token").toString();
+	refresh_token = settings.value("refresh_token").toString();
 	settings.endGroup();
 }
 
@@ -35,7 +40,8 @@ MangaDexPage::MangaDexPage(QWidget* parent) : QWidget(parent), ui(new Ui::MangaD
 MangaDexPage::~MangaDexPage() {
 	QSettings settings("settings.ini", QSettings::IniFormat, this);
 	settings.beginGroup("MangaDex");
-	settings.setValue("token", token);
+	settings.setValue("session_token", session_token);
+	settings.setValue("refresh_token", refresh_token);
 	settings.endGroup();
 
 	delete ui;

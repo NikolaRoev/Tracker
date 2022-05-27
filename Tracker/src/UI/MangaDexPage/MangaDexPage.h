@@ -16,7 +16,8 @@ class MangaDexPage : public QWidget {
 private:
 	Ui::MangaDexPage* ui{ nullptr };
 	QNetworkAccessManager* network_access_manager{ nullptr };
-	QString token;
+	QString session_token;
+	QString refresh_token;
 
 
 	void validate();

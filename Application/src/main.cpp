@@ -11,7 +11,6 @@ int main(int argc, char* argv[]) {
 					   "%{if-fatal}Fatal%{endif}]"
 					   "[%{time hh:mm:ss.zzz}][%{file}:%{line}][%{function}]:\n%{message}");
 
-
 	QApplication app(argc, argv);
 
 	QFile file(":/stylesheets/stylesheets/stylesheet.qss");
