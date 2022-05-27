@@ -1,12 +1,17 @@
 #pragma once
 #include <QTest>
 
+#include "DatabaseManager/DatabaseManager.h"
+#include "DatabaseManager/Work.h"
+#include "DatabaseManager/Creator.h"
+
 class DatabaseManagerTest: public QObject {
 	Q_OBJECT
 private slots:
 	void initTestCase()
 	{
-		qDebug("Called before everything else.");
+		DatabaseManager::init("test.db");
+		qDebug("Called before everything.");
 	}
 
 	void firstTest()

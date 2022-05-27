@@ -19,9 +19,10 @@ find_package(Qt6
 	Test
 )
 
-add_subdirectory(src)
+add_subdirectory(Tracker)
+add_subdirectory(Application)
 
 if (BUILD_TESTS)
 	enable_testing()
-	add_subdirectory(test)
+	add_subdirectory(tests)
 endif()
