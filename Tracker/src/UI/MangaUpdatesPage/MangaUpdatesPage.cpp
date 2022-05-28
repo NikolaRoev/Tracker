@@ -162,6 +162,22 @@ void MangaUpdatesPage::on_logoutButton_clicked() {
 
 //==================================================================================================================================
 
+void MangaUpdatesPage::on_openButton_clicked() {
+	QModelIndexList indexes = ui->tableWidget->selectionModel()->selectedRows();
+
+	for (const auto& index : indexes) {
+		if (QVariant data = index.data(Qt::UserRole); data.isValid()) {
+			QString link = QString("https://www.mangaupdates.com/series/%1").arg(data.toString());
+			if (!QDesktopServices::openUrl(QUrl(link))) {
+				qDebug() << QString("Failed to open MangaUpdates link [%1].").arg(link);
+				QMessageBox::warning(this, "Failed to open MangaUpdates link.", link);
+			}
+		}
+	}
+}
+
+//==================================================================================================================================
+
 void MangaUpdatesPage::on_getButton_clicked() {
 	//Clear table items.
 	ui->tableWidget->setRowCount(0);
@@ -232,7 +248,7 @@ void MangaUpdatesPage::on_getButton_clicked() {
 
 //==================================================================================================================================
 
-void MangaUpdatesPage::on_tableWidget_clicked(const QModelIndex& index) {
+void MangaUpdatesPage::on_tableWidget_doubleClicked(const QModelIndex& index) {
 	if (QVariant data = ui->tableWidget->item(index.row(), 0)->data(Qt::UserRole); data.isValid()) {
 		QString link = QString("https://www.mangaupdates.com/series/%1").arg(data.toString());
 		if (!QDesktopServices::openUrl(QUrl(link))) {

@@ -217,6 +217,13 @@
         </spacer>
        </item>
        <item>
+        <widget class="QPushButton" name="openButton">
+         <property name="text">
+          <string>Open All</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QPushButton" name="getButton">
          <property name="enabled">
           <bool>false</bool>
@@ -237,9 +244,6 @@
        <family>Consolas</family>
       </font>
      </property>
-     <property name="focusPolicy">
-      <enum>Qt::NoFocus</enum>
-     </property>
      <property name="editTriggers">
       <set>QAbstractItemView::NoEditTriggers</set>
      </property>
@@ -247,7 +251,7 @@
       <bool>true</bool>
      </property>
      <property name="selectionMode">
-      <enum>QAbstractItemView::SingleSelection</enum>
+      <enum>QAbstractItemView::MultiSelection</enum>
      </property>
      <property name="selectionBehavior">
       <enum>QAbstractItemView::SelectRows</enum>
