@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.23)
 
 project(Tracker CXX)
 
+option(BUILD_APP "Build the Tracker Application." ON)
 option(BUILD_TESTS "Build tests for Tracker." ON)
 
 set(CMAKE_CXX_STANDARD 23)
@@ -21,7 +22,10 @@ find_package(Qt6
 )
 
 add_subdirectory(Tracker)
-add_subdirectory(Application)
+
+if (BUILD_APP)
+	add_subdirectory(Application)
+endif()
 
 if (BUILD_TESTS)
 	enable_testing()

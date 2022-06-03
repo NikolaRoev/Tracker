@@ -28,5 +28,5 @@ jobs:
         run: |
             mkdir build
             cd build
-			cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=OFF ..
+            cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_APP=ON -DBUILD_TESTS=OFF ..
             cmake --build . --config Release

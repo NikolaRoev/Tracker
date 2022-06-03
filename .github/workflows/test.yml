@@ -7,7 +7,7 @@ on:
 jobs:
   test:
     runs-on: windows-latest
-	  steps:
+    steps:
       - uses: actions/checkout@v3
       - name: Cache Qt
         id: cache-qt
@@ -28,7 +28,7 @@ jobs:
         run: |
             mkdir build
             cd build
-            cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=ON ..
+            cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_APP=OFF -DBUILD_TESTS=ON ..
             cmake --build . --config Release
             cd tests
       - name: DatabaseManagerTest
