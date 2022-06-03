@@ -32,3 +32,4 @@ jobs:
 			  		cmake -G"NMake Makefiles" -DCMAKE_BUILD_TYPE=Release ..
 			  		set cl=/MP
 			  		nmake /S /NOLOGO
+						
