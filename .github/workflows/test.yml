@@ -32,7 +32,7 @@ jobs:
             cmake --build . --config Release
             cp Tracker/Release/Tracker.lib tests/Release
       - name: Run DatabaseManagerTest
+        working-directory: build/tests/Release
         run: |
-          cd tests/Release
-          windeployqt DatabaseManagerTest.exe --release --no-translations --no-compiler-runtime
-          DatabaseManagerTest.exe
+            windeployqt DatabaseManagerTest.exe --release --no-translations --no-compiler-runtime
+            DatabaseManagerTest.exe
