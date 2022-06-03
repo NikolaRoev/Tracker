@@ -1,13 +1,13 @@
-name: Build
+name: Test
 on:
   push:
     branches:
       - master
 
 jobs:
-  build:
+  test:
     runs-on: windows-latest
-    steps:
+	  steps:
       - uses: actions/checkout@v3
       - name: Cache Qt
         id: cache-qt
@@ -24,9 +24,14 @@ jobs:
           arch: "win64_msvc2019_64"
           dir: "${{ github.workspace }}/qt/"
           cached: ${{ steps.cache-qt.outputs.cache-hit }}
-      - name: Build
+      - name: Build Tests
         run: |
             mkdir build
             cd build
-			cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=OFF ..
+            cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=ON ..
             cmake --build . --config Release
+            cd tests
+      - name: DatabaseManagerTest
+        run: |
+          windeployqt DatabaseManagerTest.exe --release --no-translations --no-compiler-runtime
+          DatabaseManagerTest.exe
