@@ -31,8 +31,8 @@ jobs:
             cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_APP=OFF -DBUILD_TESTS=ON ..
             cmake --build . --config Release
             cp Tracker/Release/Tracker.lib tests/Release
-            cd tests/Release
-      - name: DatabaseManagerTest
+      - name: Run DatabaseManagerTest
         run: |
+          cd tests/Release
           windeployqt DatabaseManagerTest.exe --release --no-translations --no-compiler-runtime
           DatabaseManagerTest.exe
