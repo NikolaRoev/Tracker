@@ -1,6 +1,5 @@
 #pragma once
 #include <QTest>
-#include <iostream>
 
 #include "DatabaseManager/DatabaseManager.h"
 #include "DatabaseManager/Work.h"
@@ -13,8 +12,6 @@ class DatabaseManagerTest: public QObject {
 private slots:
 	void initTestCase() {
 		QVERIFY(DatabaseManager::init("test.db"));
-
-		std::cout << "44444444444444444";
 	}
 
 	void cleanup() {
