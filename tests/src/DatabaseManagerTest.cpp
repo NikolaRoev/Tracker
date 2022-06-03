@@ -16,7 +16,7 @@ private slots:
 
 	void cleanup() {
 		QSqlQuery query;
-		QVERIFY(!query.exec("DELETE FROM works"));
+		QVERIFY(query.exec("DELETE FROM works"));
 		QVERIFY(query.exec("DELETE FROM creators"));
 		QVERIFY(query.exec("DELETE FROM work_creator"));
 	}
