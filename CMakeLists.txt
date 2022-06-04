@@ -21,10 +21,10 @@ find_package(Qt6
 	Test
 )
 
-add_subdirectory(Tracker)
+add_subdirectory(Tracker-lib)
 
 if (BUILD_APP)
-	add_subdirectory(Application)
+	add_subdirectory(Tracker-app)
 endif()
 
 if (BUILD_TESTS)

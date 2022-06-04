@@ -1,4 +1,4 @@
-qt_add_library(Tracker STATIC
+qt_add_library(Tracker-lib STATIC
 	"${CMAKE_SOURCE_DIR}/resources/resources.qrc"
 
 	"src/pch.h"
@@ -55,7 +55,7 @@ qt_add_library(Tracker STATIC
 	"src/UI/SearchCreatorDialog/SearchCreatorDialog.ui"
 )
 
-target_link_libraries(Tracker
+target_link_libraries(Tracker-lib
 	PUBLIC
 	Qt6::Core
 	Qt6::Widgets
@@ -64,18 +64,23 @@ target_link_libraries(Tracker
 	Qt6::Sql
 )
 
-target_include_directories(Tracker
+target_include_directories(Tracker-lib
 	PUBLIC
 	"src/"
 	"src/UI/"
 )
 
-target_precompile_headers(Tracker
+target_precompile_headers(Tracker-lib
 	PUBLIC
 	"src/pch.h"
 )
 
-target_compile_options(Tracker
+target_compile_options(Tracker-lib
 	PUBLIC
 	"/W4"
+)
+
+set_target_properties(Tracker-lib
+	PROPERTIES
+	OUTPUT_NAME Tracker
 )

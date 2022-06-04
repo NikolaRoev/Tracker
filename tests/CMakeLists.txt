@@ -7,5 +7,5 @@ add_test(DatabaseManagerTest DatabaseManagerTest)
 target_link_libraries(DatabaseManagerTest
 	PRIVATE
 	Qt6::Test
-	Tracker
+	Tracker-lib
 )
