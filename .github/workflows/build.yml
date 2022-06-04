@@ -30,24 +30,14 @@ jobs:
             cd build
             cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_APP=ON -DBUILD_TESTS=OFF ..
             cmake --build . --config Release
-            windeployqt Tracker-app/Release/Tracker.exe --release --no-translations --no-compiler-runtime --dir Tracker/
-            cp Tracker-app/Release/Tracker.exe Tracker/
-            7z a tracker-windows-x64.zip Tracker/
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: tracker-windows-x64.zip
-          path: build/tracker-windows-x64.zip
+            windeployqt Tracker-app/Release/Tracker.exe --release --no-translations --no-compiler-runtime --dir tracker-windows-x64/
+            cp Tracker-app/Release/Tracker.exe tracker-windows-x64/
   release:
     needs: build
     runs-on: windows-latest
     steps:
-      - uses: actions/download-artifact@v3
-        with:
-          name: tracker-windows-x64.zip
-          path: build/
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          files: build/tracker-windows-x64.zip
-          tag_name: "latest"
+          files: build/tracker-windows-x64/
+          name: latest
