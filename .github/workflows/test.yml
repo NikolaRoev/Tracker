@@ -30,7 +30,6 @@ jobs:
             cd build
             cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_APP=OFF -DBUILD_TESTS=ON ..
             cmake --build . --config Release
-            cp Tracker/Release/Tracker.lib tests/Release
       - name: Run DatabaseManagerTest
         working-directory: build/tests/Release
         run: |
