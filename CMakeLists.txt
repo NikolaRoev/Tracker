@@ -4,6 +4,7 @@ project(Tracker CXX)
 
 option(BUILD_APP "Build the Tracker Application." ON)
 option(BUILD_TESTS "Build tests for Tracker." ON)
+option(BUILD_BENCHMARKS "Build benchmarks for Tracker." ON)
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
@@ -30,4 +31,8 @@ endif()
 if (BUILD_TESTS)
 	enable_testing()
 	add_subdirectory(tests)
+endif()
+
+if (BUILD_BENCHMARKS)
+	add_subdirectory(benchmarks)
 endif()
