@@ -57,4 +57,3 @@ jobs:
           files: tracker-windows-x64.zip
           name: latest
           tag_name: latest
-          token: ${{ secrets.GITHUB_TOKEN }}
