@@ -1,4 +1,4 @@
-name: Test
+name: Benchmark
 on:
   push:
     branches:
@@ -24,15 +24,15 @@ jobs:
           arch: "win64_msvc2019_64"
           dir: "${{ github.workspace }}/qt/"
           cached: ${{ steps.cache-qt.outputs.cache-hit }}
-      - name: Build Tests
+      - name: Build Benchmarks
         run: |
             mkdir build
             cd build
-            cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_APP=OFF -DBUILD_TESTS=ON -DBUILD_BENCHMARKS=OFF ..
+            cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_APP=OFF -DBUILD_TESTS=OFF -DBUILD_BENCHMARKS=ON ..
             cmake --build . --config Release
-      - name: Run DatabaseManagerTest
-        working-directory: build/tests/Release
+      - name: Run DatabaseManagerBenchmark
+        working-directory: build/benchmarks/Release
         run: |
-            windeployqt DatabaseManagerTest.exe --release --no-translations --no-compiler-runtime
-            ./DatabaseManagerTest.exe -o results.txt,txt
+            windeployqt DatabaseManagerBenchmark.exe --release --no-translations --no-compiler-runtime
+            ./DatabaseManagerBenchmark.exe -o results.txt,txt
             more results.txt
