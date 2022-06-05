@@ -33,6 +33,8 @@ MangaDexPage::MangaDexPage(QWidget* parent) : QWidget(parent), ui(new Ui::MangaD
 	session_token = settings.value("session_token").toString();
 	refresh_token = settings.value("refresh_token").toString();
 	settings.endGroup();
+
+	validate();
 }
 
 //==================================================================================================================================
@@ -45,15 +47,6 @@ MangaDexPage::~MangaDexPage() {
 	settings.endGroup();
 
 	delete ui;
-}
-
-//==================================================================================================================================
-//==================================================================================================================================
-
-void MangaDexPage::setup(QNetworkAccessManager* network_access_manager) {
-	this->network_access_manager = network_access_manager;
-
-	validate();
 }
 
 //==================================================================================================================================

@@ -9,6 +9,9 @@ qt_add_library(Tracker-lib STATIC
 	"src/DatabaseManager/Work.h"
 	"src/DatabaseManager/Creator.h"
 
+	"src/RequestsManager/RequestsManager.h"
+	"src/RequestsManager/RequestsManager.cpp"
+
 
 	"src/UI/MainWindow/MainWindow.h"
 	"src/UI/MainWindow/MainWindow.cpp"

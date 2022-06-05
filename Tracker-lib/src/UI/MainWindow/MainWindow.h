@@ -15,7 +15,6 @@ class MainWindow : public QMainWindow {
 	Q_OBJECT
 private:
 	Ui::MainWindow *ui{ nullptr };
-	QNetworkAccessManager* network_access_manager{ nullptr };
 
 public:
 	MainWindow(QWidget* parent = nullptr);

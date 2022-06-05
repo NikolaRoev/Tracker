@@ -15,7 +15,6 @@ class MangaDexPage : public QWidget {
 	Q_OBJECT
 private:
 	Ui::MangaDexPage* ui{ nullptr };
-	QNetworkAccessManager* network_access_manager{ nullptr };
 	QString session_token;
 	QString refresh_token;
 
@@ -25,8 +24,6 @@ private:
 public:
 	MangaDexPage(QWidget* parent = nullptr);
 	~MangaDexPage();
-
-	void setup(QNetworkAccessManager* network_access_manager);
 
 private slots:
 	void on_loginButton_clicked();

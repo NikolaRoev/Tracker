@@ -2,6 +2,7 @@
 #include "MainWindow.h"
 #include "./ui_MainWindow.h"
 #include "DatabaseManager/DatabaseManager.h"
+#include "RequestsManager/RequestsManager.h"
 #include "AddWorkDialog/AddWorkDialog.h"
 #include "AddCreatorDialog/AddCreatorDialog.h"
 #include "UpdatePage/UpdatePage.h"
@@ -13,13 +14,9 @@
 
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
 	DatabaseManager::init("database.db");
+	RequestsManager::init(this);
 	ui->setupUi(this);
-	network_access_manager = new QNetworkAccessManager(this);
 
-
-	//Set the QNetworkAccessManager dependency to the pages.
-	MangaUpdatesPage* mangaupdates_page = static_cast<MangaUpdatesPage*>(ui->mainStackedWidget->widget(4));
-	mangaupdates_page->setup(network_access_manager);
 
 	//Connect the signals for the Status Bar.
 	connect(ui->updatePage, &UpdatePage::message, ui->statusBar, &QStatusBar::showMessage);

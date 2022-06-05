@@ -3,6 +3,7 @@
 #include "./ui_MangaUpdatesPage.h"
 #include "DatabaseManager/DatabaseManager.h"
 #include "DatabaseManager/Work.h"
+#include "RequestsManager/RequestsManager.h"
 
 //==================================================================================================================================
 //==================================================================================================================================
@@ -14,7 +15,7 @@ void MangaUpdatesPage::validate() {
 		request.setRawHeader("Authorization", token.toUtf8());
 
 
-		QNetworkReply* reply = network_access_manager->get(request);
+		QNetworkReply* reply = RequestsManager::get()->get(request);
 
 		QObject::connect(reply, &QNetworkReply::finished, this, [=](){
 			QByteArray contents = reply->readAll();
@@ -57,6 +58,8 @@ MangaUpdatesPage::MangaUpdatesPage(QWidget* parent) : QWidget(parent), ui(new Ui
 	settings.beginGroup("MangaUpdates");
 	token = settings.value("token").toString();
 	settings.endGroup();
+
+	validate();
 }
 
 //==================================================================================================================================
@@ -68,15 +71,6 @@ MangaUpdatesPage::~MangaUpdatesPage() {
 	settings.endGroup();
 
 	delete ui;
-}
-
-//==================================================================================================================================
-//==================================================================================================================================
-
-void MangaUpdatesPage::setup(QNetworkAccessManager* network_access_manager) {
-	this->network_access_manager = network_access_manager;
-
-	validate();
 }
 
 //==================================================================================================================================
@@ -95,7 +89,7 @@ void MangaUpdatesPage::on_loginButton_clicked() {
 	data_object["password"] = ui->passwordLineEdit->text();
 
 
-	QNetworkReply* reply = network_access_manager->put(request, QJsonDocument(data_object).toJson());
+	QNetworkReply* reply = RequestsManager::get()->put(request, QJsonDocument(data_object).toJson());
 
 	QObject::connect(reply, &QNetworkReply::finished, this, [=](){
 		QByteArray contents = reply->readAll();
@@ -132,7 +126,7 @@ void MangaUpdatesPage::on_logoutButton_clicked() {
 	request.setRawHeader("Authorization", token.toUtf8());
 
 
-	QNetworkReply* reply = network_access_manager->post(request, QByteArray());
+	QNetworkReply* reply = RequestsManager::get()->post(request, QByteArray());
 
 	QObject::connect(reply, &QNetworkReply::finished, this, [=](){
 		QByteArray contents = reply->readAll();
@@ -189,7 +183,7 @@ void MangaUpdatesPage::on_getButton_clicked() {
 	request.setRawHeader("Authorization", token.toUtf8());
 
 
-	QNetworkReply* reply = network_access_manager->get(request);
+	QNetworkReply* reply = RequestsManager::get()->get(request);
 
 	QObject::connect(reply, &QNetworkReply::finished, this, [=](){
 		QByteArray contents = reply->readAll();
