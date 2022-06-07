@@ -28,11 +28,11 @@ jobs:
         run: |
             mkdir build
             cd build
-            cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_APP=OFF -DBUILD_TESTS=ON -DBUILD_BENCHMARKS=OFF ..
-            cmake --build . --config Release
+            cmake -DCMAKE_BUILD_TYPE=Debug -DBUILD_APP=OFF -DBUILD_TESTS=ON -DBUILD_BENCHMARKS=OFF ..
+            cmake --build . --config Debug
       - name: Run DatabaseManagerTest
         working-directory: build/tests/Release
         run: |
-            windeployqt DatabaseManagerTest.exe --release --no-translations --no-compiler-runtime
+            windeployqt DatabaseManagerTest.exe --debug --no-translations --no-compiler-runtime
             ./DatabaseManagerTest.exe -o results.txt,txt
             more results.txt

@@ -28,7 +28,7 @@ jobs:
         run: |
             mkdir build
             cd build
-            cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_APP=ON -DBUILD_TESTS=OFF -DBUILD_BENCHMARKS=OFF ..
+            cmake -G "Visual Studio 17 2022" -A x64 -DCMAKE_BUILD_TYPE=Release -DBUILD_APP=ON -DBUILD_TESTS=OFF -DBUILD_BENCHMARKS=OFF ..
             cmake --build . --config Release
             windeployqt Tracker-app/Release/Tracker.exe --release --no-translations --no-compiler-runtime --dir Tracker/
             cp Tracker-app/Release/Tracker.exe Tracker/
