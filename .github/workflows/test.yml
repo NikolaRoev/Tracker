@@ -31,7 +31,7 @@ jobs:
             cmake -DCMAKE_BUILD_TYPE=Debug -DBUILD_APP=OFF -DBUILD_TESTS=ON -DBUILD_BENCHMARKS=OFF ..
             cmake --build . --config Debug
       - name: Run DatabaseManagerTest
-        working-directory: build/tests/Release
+        working-directory: build/tests/Debug
         run: |
             windeployqt DatabaseManagerTest.exe --debug --no-translations --no-compiler-runtime
             ./DatabaseManagerTest.exe
