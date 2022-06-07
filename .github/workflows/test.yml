@@ -34,5 +34,4 @@ jobs:
         working-directory: build/tests/Release
         run: |
             windeployqt DatabaseManagerTest.exe --debug --no-translations --no-compiler-runtime
-            ./DatabaseManagerTest.exe -o results.txt,txt
-            more results.txt
+            ./DatabaseManagerTest.exe
