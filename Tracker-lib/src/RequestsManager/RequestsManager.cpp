@@ -14,9 +14,22 @@ void RequestsManager::init(QObject* parent) {
 }
 
 //==================================================================================================================================
+//==================================================================================================================================
 
-QNetworkAccessManager* RequestsManager::get() {
-	return manager;
+QNetworkReply* RequestsManager::get(const QNetworkRequest& request) {
+	return manager->get(request);
+}
+
+//==================================================================================================================================
+
+QNetworkReply* RequestsManager::post(const QNetworkRequest& request, const QByteArray& data) {
+	return manager->post(request, data);
+}
+
+//==================================================================================================================================
+
+QNetworkReply* RequestsManager::put(const QNetworkRequest& request, const QByteArray& data) {
+	return manager->put(request, data);
 }
 
 //==================================================================================================================================

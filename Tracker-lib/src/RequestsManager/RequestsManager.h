@@ -9,7 +9,10 @@ private:
 
 public:
 	static void init(QObject* parent = nullptr);
-	static QNetworkAccessManager* get();
+
+	static QNetworkReply* get(const QNetworkRequest& request);
+	static QNetworkReply* post(const QNetworkRequest& request, const QByteArray& data = NULL);
+	static QNetworkReply* put(const QNetworkRequest& request, const QByteArray& data = NULL);
 };
 
 //==================================================================================================================================

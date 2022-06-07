@@ -15,7 +15,7 @@ void MangaUpdatesPage::validate() {
 		request.setRawHeader("Authorization", token.toUtf8());
 
 
-		QNetworkReply* reply = RequestsManager::get()->get(request);
+		QNetworkReply* reply = RequestsManager::get(request);
 
 		QObject::connect(reply, &QNetworkReply::finished, this, [=](){
 			QByteArray contents = reply->readAll();
@@ -89,7 +89,7 @@ void MangaUpdatesPage::on_loginButton_clicked() {
 	data_object["password"] = ui->passwordLineEdit->text();
 
 
-	QNetworkReply* reply = RequestsManager::get()->put(request, QJsonDocument(data_object).toJson());
+	QNetworkReply* reply = RequestsManager::put(request, QJsonDocument(data_object).toJson());
 
 	QObject::connect(reply, &QNetworkReply::finished, this, [=](){
 		QByteArray contents = reply->readAll();
@@ -126,7 +126,7 @@ void MangaUpdatesPage::on_logoutButton_clicked() {
 	request.setRawHeader("Authorization", token.toUtf8());
 
 
-	QNetworkReply* reply = RequestsManager::get()->post(request, QByteArray());
+	QNetworkReply* reply = RequestsManager::post(request);
 
 	QObject::connect(reply, &QNetworkReply::finished, this, [=](){
 		QByteArray contents = reply->readAll();
@@ -183,7 +183,7 @@ void MangaUpdatesPage::on_getButton_clicked() {
 	request.setRawHeader("Authorization", token.toUtf8());
 
 
-	QNetworkReply* reply = RequestsManager::get()->get(request);
+	QNetworkReply* reply = RequestsManager::get(request);
 
 	QObject::connect(reply, &QNetworkReply::finished, this, [=](){
 		QByteArray contents = reply->readAll();
