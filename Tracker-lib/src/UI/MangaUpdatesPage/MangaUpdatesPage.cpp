@@ -13,11 +13,10 @@ void MangaUpdatesPage::validate() {
 	if (!token.isEmpty()) {
 		QNetworkRequest request(QUrl("https://api.mangaupdates.com/v1/account/profile"));
 		request.setRawHeader("Authorization", token.toUtf8());
-
-
 		QNetworkReply* reply = RequestsManager::get(request);
 
-		QObject::connect(reply, &QNetworkReply::finished, this, [=](){
+
+		QObject::connect(reply, &QNetworkReply::finished, this, [this, reply](){
 			QByteArray contents = reply->readAll();
 			QJsonObject object = QJsonDocument::fromJson(contents).object();
 
@@ -83,15 +82,13 @@ void MangaUpdatesPage::on_loginButton_clicked() {
 
 	QNetworkRequest request(QUrl("https://api.mangaupdates.com/v1/account/login"));
 	request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-
 	QJsonObject data_object;
 	data_object["username"] = ui->usernameLineEdit->text();
 	data_object["password"] = ui->passwordLineEdit->text();
-
-
 	QNetworkReply* reply = RequestsManager::put(request, QJsonDocument(data_object).toJson());
 
-	QObject::connect(reply, &QNetworkReply::finished, this, [=](){
+
+	QObject::connect(reply, &QNetworkReply::finished, this, [this, reply](){
 		QByteArray contents = reply->readAll();
 		QJsonObject reply_object = QJsonDocument::fromJson(contents).object();
 
@@ -124,11 +121,10 @@ void MangaUpdatesPage::on_logoutButton_clicked() {
 
 	QNetworkRequest request(QUrl("https://api.mangaupdates.com/v1/account/logout"));
 	request.setRawHeader("Authorization", token.toUtf8());
-
-
 	QNetworkReply* reply = RequestsManager::post(request);
 
-	QObject::connect(reply, &QNetworkReply::finished, this, [=](){
+
+	QObject::connect(reply, &QNetworkReply::finished, this, [this, reply](){
 		QByteArray contents = reply->readAll();
 		QJsonObject object = QJsonDocument::fromJson(contents).object();
 
@@ -160,8 +156,8 @@ void MangaUpdatesPage::on_openButton_clicked() {
 	QModelIndexList indexes = ui->tableWidget->selectionModel()->selectedRows();
 
 	for (const auto& index : indexes) {
-		if (QVariant data = index.data(Qt::UserRole); data.isValid()) {
-			QString link = QString("https://www.mangaupdates.com/series/%1").arg(data.toString());
+		if (QVariant user_data = index.data(Qt::UserRole); user_data.isValid()) {
+			QString link = QString("https://www.mangaupdates.com/series/%1").arg(user_data.toString());
 			if (!QDesktopServices::openUrl(QUrl(link))) {
 				qDebug() << QString("Failed to open MangaUpdates link [%1].").arg(link);
 				QMessageBox::warning(this, "Failed to open MangaUpdates link.", link);
@@ -173,19 +169,16 @@ void MangaUpdatesPage::on_openButton_clicked() {
 //==================================================================================================================================
 
 void MangaUpdatesPage::on_getButton_clicked() {
-	//Clear table items.
 	ui->tableWidget->setRowCount(0);
-
 	ui->getButton->setDisabled(true);
 
 
 	QNetworkRequest request(QUrl("https://api.mangaupdates.com/v1/releases/days?include_metadata=true"));
 	request.setRawHeader("Authorization", token.toUtf8());
-
-
 	QNetworkReply* reply = RequestsManager::get(request);
 
-	QObject::connect(reply, &QNetworkReply::finished, this, [=](){
+
+	QObject::connect(reply, &QNetworkReply::finished, this, [this, reply](){
 		QByteArray contents = reply->readAll();
 		QJsonObject object = QJsonDocument::fromJson(contents).object();
 
@@ -243,8 +236,8 @@ void MangaUpdatesPage::on_getButton_clicked() {
 //==================================================================================================================================
 
 void MangaUpdatesPage::on_tableWidget_doubleClicked(const QModelIndex& index) {
-	if (QVariant data = ui->tableWidget->item(index.row(), 0)->data(Qt::UserRole); data.isValid()) {
-		QString link = QString("https://www.mangaupdates.com/series/%1").arg(data.toString());
+	if (QVariant user_data = ui->tableWidget->item(index.row(), 0)->data(Qt::UserRole); user_data.isValid()) {
+		QString link = QString("https://www.mangaupdates.com/series/%1").arg(user_data.toString());
 		if (!QDesktopServices::openUrl(QUrl(link))) {
 			qDebug() << QString("Failed to open MangaUpdates link [%1].").arg(link);
 			QMessageBox::warning(this, "Failed to open MangaUpdates link.", link);
