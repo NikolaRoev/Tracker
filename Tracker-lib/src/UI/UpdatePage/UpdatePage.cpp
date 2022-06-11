@@ -14,6 +14,9 @@ UpdatePage::UpdatePage(QWidget *parent) : QWidget(parent), ui(new Ui::UpdatePage
 	//Align the update layout to top so the populated entries look nice.
 	ui->contentsWidget->layout()->setAlignment(Qt::AlignTop);
 
+	//Focus on the Search Line Edit.
+	setFocusProxy(ui->lineEdit);
+
 	//Add a shortcut that selects all text in the search bar and focuses it.
 	QShortcut* shortcut = new QShortcut(QKeySequence(Qt::CTRL | Qt::Key_F), this);
 	connect(shortcut, &QShortcut::activated, ui->lineEdit, [&](){ ui->lineEdit->selectAll(); ui->lineEdit->setFocus(); });

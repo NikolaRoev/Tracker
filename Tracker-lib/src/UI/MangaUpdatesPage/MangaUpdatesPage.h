@@ -16,7 +16,6 @@ class MangaUpdatesPage : public QWidget {
 private:
 	Ui::MangaUpdatesPage* ui{ nullptr };
 	QString token;
-	int stop_release_id{};
 
 
 	void validate();

@@ -30,7 +30,7 @@ private slots:
 
 	//Main window.
 	//Selection.
-	void on_listWidget_currentRowChanged(int currentRow);
+	void on_tabWidget_currentChanged(int index);
 };
 
 //==================================================================================================================================

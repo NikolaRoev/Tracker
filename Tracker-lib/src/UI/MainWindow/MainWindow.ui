@@ -20,83 +20,46 @@
    <string>Tracker</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../../../resources/resources.qrc">
+   <iconset resource="../../../../resources/resources.qrc">
     <normaloff>:/icons/icons/icon.ico</normaloff>:/icons/icons/icon.ico</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="0,1">
+   <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="0">
     <property name="spacing">
      <number>5</number>
     </property>
     <property name="leftMargin">
-     <number>7</number>
+     <number>5</number>
     </property>
     <property name="topMargin">
-     <number>7</number>
+     <number>0</number>
     </property>
     <property name="rightMargin">
-     <number>7</number>
+     <number>5</number>
     </property>
     <property name="bottomMargin">
-     <number>7</number>
+     <number>0</number>
     </property>
     <item>
-     <widget class="QListWidget" name="listWidget">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="verticalScrollBarPolicy">
-       <enum>Qt::ScrollBarAlwaysOff</enum>
-      </property>
-      <property name="horizontalScrollBarPolicy">
-       <enum>Qt::ScrollBarAlwaysOff</enum>
-      </property>
-      <property name="sizeAdjustPolicy">
-       <enum>QAbstractScrollArea::AdjustToContents</enum>
-      </property>
-      <property name="editTriggers">
-       <set>QAbstractItemView::NoEditTriggers</set>
-      </property>
-      <item>
-       <property name="text">
-        <string>Update</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Browse</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>Reddit</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>MangaDex</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>MangaUpdates</string>
-       </property>
-      </item>
-     </widget>
-    </item>
-    <item>
-     <widget class="QStackedWidget" name="mainStackedWidget">
+     <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
        <number>0</number>
       </property>
-      <widget class="UpdatePage" name="updatePage"/>
-      <widget class="BrowsePage" name="browsePage"/>
-      <widget class="QWidget" name="redditPage"/>
-      <widget class="QWidget" name="mdPage"/>
-      <widget class="MangaUpdatesPage" name="muPage"/>
+      <widget class="UpdatePage" name="updatePage">
+       <attribute name="title">
+        <string>Update</string>
+       </attribute>
+      </widget>
+      <widget class="BrowsePage" name="browsePage">
+       <attribute name="title">
+        <string>Browse</string>
+       </attribute>
+      </widget>
+      <widget class="MangaUpdatesPage" name="muPage">
+       <attribute name="title">
+        <string>Manga Updates</string>
+       </attribute>
+      </widget>
      </widget>
     </item>
    </layout>
@@ -195,10 +158,11 @@
   </customwidget>
  </customwidgets>
  <tabstops>
-  <tabstop>listWidget</tabstop>
+  <tabstop>tabWidget</tabstop>
  </tabstops>
  <resources>
-  <include location="../../../resources/resources.qrc"/>
+  <include location="../../../../resources/resources.qrc"/>
+  <include location="../../../../resources/resources.qrc"/>
  </resources>
  <connections/>
 </ui>

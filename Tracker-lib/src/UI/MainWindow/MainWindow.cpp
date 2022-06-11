@@ -23,11 +23,11 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
 	connect(ui->browsePage, &BrowsePage::message, ui->statusBar, &QStatusBar::showMessage);
 
 	//Set default focus to the Update Search Bar.
-	//As 'listWidget' is first in the tab order it gets focused when the application starts.
-	ui->listWidget->setFocusProxy(ui->updatePage);
+	//As 'tabWidget' is first in the tab order it gets focused when the application starts.
+	ui->tabWidget->setFocusProxy(ui->updatePage);
 
-	//Preselect the Update section, populating the Update entries.
-	ui->listWidget->setCurrentRow(0);
+	//Populate the Update entries.
+	emit ui->tabWidget->currentChanged(0);
 
 
 	//Load settings.
@@ -64,7 +64,7 @@ void MainWindow::on_actionExit_triggered() {
 void MainWindow::on_actionAdd_Work_triggered() {
 	AddWorkDialog* dialog = new AddWorkDialog(this);
 	if (int result = dialog->exec(); result == QDialog::Accepted) {
-		on_listWidget_currentRowChanged(ui->listWidget->currentRow());
+		on_tabWidget_currentChanged(ui->tabWidget->currentIndex());
 	}
 }
 
@@ -73,17 +73,15 @@ void MainWindow::on_actionAdd_Work_triggered() {
 void MainWindow::on_actionAdd_Creator_triggered() {
 	AddCreatorDialog* dialog = new AddCreatorDialog(this);
 	if (int result = dialog->exec(); result == QDialog::Accepted) {
-		on_listWidget_currentRowChanged(ui->listWidget->currentRow());
+		on_tabWidget_currentChanged(ui->tabWidget->currentIndex());
 	}
 }
 
 //==================================================================================================================================
 //==================================================================================================================================
 
-void MainWindow::on_listWidget_currentRowChanged(int currentRow) {
-	ui->mainStackedWidget->setCurrentIndex(currentRow);
-
-	switch (currentRow) {
+void MainWindow::on_tabWidget_currentChanged(int index) {
+	switch (index) {
 		case 0: ui->updatePage->populate(""); break;
 		case 1: ui->browsePage->populate(""); break;
 	}

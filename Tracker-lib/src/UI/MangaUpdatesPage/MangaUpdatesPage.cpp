@@ -57,7 +57,6 @@ MangaUpdatesPage::MangaUpdatesPage(QWidget* parent) : QWidget(parent), ui(new Ui
 	QSettings settings("settings.ini", QSettings::IniFormat, this);
 	settings.beginGroup("MangaUpdates");
 	token = settings.value("token").toString();
-	stop_release_id = settings.value("stop_release_id").toInt();
 	settings.endGroup();
 
 	validate();
@@ -69,7 +68,6 @@ MangaUpdatesPage::~MangaUpdatesPage() {
 	QSettings settings("settings.ini", QSettings::IniFormat, this);
 	settings.beginGroup("MangaUpdates");
 	settings.setValue("token", token);
-	settings.setValue("stop_release_id", stop_release_id);
 	settings.endGroup();
 
 	delete ui;
@@ -203,11 +201,6 @@ void MangaUpdatesPage::on_getButton_clicked() {
 				QJsonObject user_list = metadata["user_list"].toObject();
 
 
-				if (stop_release_id == record["id"].toInt()) {
-					break;
-				}
-
-
 				QString id = QString::number(series["series_id"].toInteger(), 36);
 				if (table.contains(id)) {
 					ui->tableWidget->insertRow(ui->tableWidget->rowCount());
@@ -222,11 +215,6 @@ void MangaUpdatesPage::on_getButton_clicked() {
 						new QTableWidgetItem(QString("v.%1 c.%2").arg(record["volume"].toString(), record["chapter"].toString())));
 					ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 3, new QTableWidgetItem(table[id].chapter));
 				}
-			}
-
-
-			if (!releases.empty()) {
-				stop_release_id = releases.first().toObject()["record"].toObject()["id"].toInt();
 			}
 		}
 		else {
