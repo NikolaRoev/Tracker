@@ -65,8 +65,13 @@ void MangaDexPage::on_logoutButton_clicked() {
 
 //==================================================================================================================================
 
+void MangaDexPage::on_openButton_clicked() {
+
+}
+
+//==================================================================================================================================
+
 void MangaDexPage::on_getButton_clicked() {
-	//Clear table items.
 	ui->tableWidget->setRowCount(0);
 
 
@@ -74,7 +79,7 @@ void MangaDexPage::on_getButton_clicked() {
 
 //==================================================================================================================================
 
-void MangaDexPage::on_tableWidget_clicked(const QModelIndex& index) {
+void MangaDexPage::on_tableWidget_doubleClicked(const QModelIndex& index) {
 
 }
 

@@ -29,8 +29,9 @@ private slots:
 	void on_loginButton_clicked();
 	void on_logoutButton_clicked();
 
+	void on_openButton_clicked();
 	void on_getButton_clicked();
-	void on_tableWidget_clicked(const QModelIndex& index);
+	void on_tableWidget_doubleClicked(const QModelIndex& index);
 };
 
 //==================================================================================================================================

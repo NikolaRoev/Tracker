@@ -217,6 +217,13 @@
         </spacer>
        </item>
        <item>
+        <widget class="QPushButton" name="openButton">
+         <property name="text">
+          <string>Open All</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QPushButton" name="getButton">
          <property name="enabled">
           <bool>false</bool>
@@ -286,5 +293,38 @@
   </layout>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>usernameLineEdit</sender>
+   <signal>returnPressed()</signal>
+   <receiver>loginButton</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>180</x>
+     <y>22</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>237</x>
+     <y>106</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>passwordLineEdit</sender>
+   <signal>returnPressed()</signal>
+   <receiver>loginButton</receiver>
+   <slot>click()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>180</x>
+     <y>55</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>237</x>
+     <y>106</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>
