@@ -32,6 +32,13 @@ private slots:
 	void on_openButton_clicked();
 	void on_getButton_clicked();
 	void on_tableWidget_doubleClicked(const QModelIndex& index);
+
+	void on_login(const QString& username);
+	void on_logout();
+
+signals:
+	void login(const QString& username);
+	void logout();
 };
 
 //==================================================================================================================================

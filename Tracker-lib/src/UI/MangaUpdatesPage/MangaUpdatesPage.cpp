@@ -22,9 +22,7 @@ void MangaUpdatesPage::validate() {
 
 
 			if (reply->error() == QNetworkReply::NoError) {
-				ui->usernameLabel->setText(object["username"].toString());
-				ui->stackedWidget->setCurrentIndex(1);
-				ui->getButton->setEnabled(true);
+				emit login(object["username"].toString());
 			}
 			else {
 				qDebug() << QString("Error [%1][%2]: %3.")
@@ -46,6 +44,9 @@ void MangaUpdatesPage::validate() {
 
 MangaUpdatesPage::MangaUpdatesPage(QWidget* parent) : QWidget(parent), ui(new Ui::MangaUpdatesPage) {
 	ui->setupUi(this);
+
+	connect(this, &MangaUpdatesPage::login, this, &MangaUpdatesPage::on_login);
+	connect(this, &MangaUpdatesPage::logout, this, &MangaUpdatesPage::on_logout);
 
 	//Set resize mode for the Table Widget.
 	ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
@@ -134,8 +135,7 @@ void MangaUpdatesPage::on_logoutButton_clicked() {
 		if (reply->error() == QNetworkReply::NoError) {
 			token = NULL;
 
-			ui->stackedWidget->setCurrentIndex(0);
-			ui->getButton->setDisabled(true);
+			emit logout();
 		}
 		else {
 			qDebug() << QString("Error [%1][%2]: %3.")
@@ -254,6 +254,24 @@ void MangaUpdatesPage::on_tableWidget_doubleClicked(const QModelIndex& index) {
 			QMessageBox::warning(this, "Failed to open MangaUpdates link.", link);
 		}
 	}
+}
+
+//==================================================================================================================================
+//==================================================================================================================================
+
+void MangaUpdatesPage::on_login(const QString& username) {
+	ui->stackedWidget->setCurrentIndex(1);
+	ui->usernameLabel->setText(username);
+	ui->openButton->setEnabled(true);
+	ui->getButton->setEnabled(true);
+}
+
+//==================================================================================================================================
+
+void MangaUpdatesPage::on_logout() {
+	ui->stackedWidget->setCurrentIndex(0);
+	ui->openButton->setDisabled(true);
+	ui->getButton->setDisabled(true);
 }
 
 //==================================================================================================================================
