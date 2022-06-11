@@ -3,17 +3,100 @@
 #include "./ui_MangaDexPage.h"
 #include "DatabaseManager/DatabaseManager.h"
 #include "DatabaseManager/Work.h"
+#include "RequestsManager/RequestsManager.h"
 
 //==================================================================================================================================
 //==================================================================================================================================
 //==================================================================================================================================
 
-void MangaDexPage::validate() {
-	QJsonDocument jdocHeader = QJsonDocument::fromJson( QByteArray::fromBase64( QString("eyJ0eXAiOiJyZWZyZXNoIiwiaXNzIjoibWFuZ2FkZXgub3JnIiwiYXVkIjoibWFuZ2FkZXgub3JnIiwiaWF0IjoxNjUzNjY1NTA0LCJuYmYiOjE2NTM2NjU1MDQsImV4cCI6MTY1NjI1NzUwNCwidWlkIjoiYTJhMTIxZWUtZWE1My00ZTRhLTg0MTEtM2UzOTM4MzdmYjI5Iiwic2lkIjoiODUwOTAyYmMtYTEzNi00MmM4LWEzMDgtMDMyZWQ5OGQxMDBhIn0").toUtf8() ) );
+
+/*
+ * 	QJsonDocument jdocHeader = QJsonDocument::fromJson( QByteArray::fromBase64( QString("eyJ0eXAiOiJyZWZyZXNoIiwiaXNzIjoibWFuZ2FkZXgub3JnIiwiYXVkIjoibWFuZ2FkZXgub3JnIiwiaWF0IjoxNjUzNjY1NTA0LCJuYmYiOjE2NTM2NjU1MDQsImV4cCI6MTY1NjI1NzUwNCwidWlkIjoiYTJhMTIxZWUtZWE1My00ZTRhLTg0MTEtM2UzOTM4MzdmYjI5Iiwic2lkIjoiODUwOTAyYmMtYTEzNi00MmM4LWEzMDgtMDMyZWQ5OGQxMDBhIn0").toUtf8() ) );
 	QJsonObject jobjHeader = jdocHeader.object();
 	qDebug() << jobjHeader;
 	QString szFull=QDateTime::fromSecsSinceEpoch(jobjHeader["exp"].toInteger()).toString("dddd d MMMM yyyy hh:mm:ss");
 	qDebug() << szFull;
+ *
+*/
+
+//==================================================================================================================================
+//==================================================================================================================================
+
+void MangaDexPage::refresh() {
+	if (!refresh_token.isEmpty()) {
+		QNetworkRequest request(QUrl("https://api.mangadex.org/auth/refresh"));
+		request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+		QJsonObject data_object;
+		data_object["token"] = refresh_token;
+		QNetworkReply* reply = RequestsManager::put(request, QJsonDocument(data_object).toJson());
+
+
+		QObject::connect(reply, &QNetworkReply::finished, this, [this, reply](){
+			QByteArray contents = reply->readAll();
+			QJsonObject object = QJsonDocument::fromJson(contents).object();
+
+
+			if (reply->error() == QNetworkReply::NoError) {
+				session_token = object["token"].toObject()["session"].toString();
+
+				//TO DO:
+			}
+			else {
+				qDebug() << QString("Error [%1][%2]: %3.")
+								.arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt())
+								.arg(reply->error())
+								.arg(contents);
+
+				QJsonObject errors = object["errors"].toObject();
+				QMessageBox::warning(this, "Failed to refresh MangaDex session token.",
+									 QString("%1: %2.").arg(errors["title"].toString(), errors["detail"].toString()));
+			}
+
+
+			reply->deleteLater();
+		});
+	}
+}
+
+//==================================================================================================================================
+
+void MangaDexPage::validate() {
+	if (!session_token.isEmpty()) {
+		QNetworkRequest request(QUrl("https://api.mangadex.org/auth/check"));
+		request.setRawHeader("Authorization", session_token.toUtf8());
+		QNetworkReply* reply = RequestsManager::get(request);
+
+
+		QObject::connect(reply, &QNetworkReply::finished, this, [this, reply](){
+			QByteArray contents = reply->readAll();
+			QJsonObject object = QJsonDocument::fromJson(contents).object();
+
+
+			bool result{ false };
+			if (reply->error() == QNetworkReply::NoError) {
+				result = object["isAuthenticated"].toBool();
+			}
+			else {
+				qDebug() << QString("Error [%1][%2]: %3.")
+								.arg(reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt())
+								.arg(reply->error())
+								.arg(contents);
+
+				QMessageBox::warning(this, "Failed to validate MangaDex token.", contents);
+			}
+
+
+			if (result) {
+				//TO DO: Allow the program to continue.
+			}
+			else {
+				refresh();
+			}
+
+
+			reply->deleteLater();
+		});
+	}
 }
 
 //==================================================================================================================================

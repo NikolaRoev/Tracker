@@ -19,6 +19,7 @@ private:
 	QString refresh_token;
 
 
+	void refresh();
 	void validate();
 
 public:
