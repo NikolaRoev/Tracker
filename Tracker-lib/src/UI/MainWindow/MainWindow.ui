@@ -43,7 +43,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <widget class="UpdatePage" name="updatePage">
        <attribute name="title">
@@ -55,9 +55,9 @@
         <string>Browse</string>
        </attribute>
       </widget>
-      <widget class="MangaUpdatesPage" name="muPage">
+      <widget class="ReleasesPage" name="releasesPage">
        <attribute name="title">
-        <string>Manga Updates</string>
+        <string>Releases</string>
        </attribute>
       </widget>
      </widget>
@@ -151,9 +151,9 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>MangaUpdatesPage</class>
+   <class>ReleasesPage</class>
    <extends>QWidget</extends>
-   <header>MangaUpdatesPage/MangaUpdatesPage.h</header>
+   <header>ReleasesPage/ReleasesPage.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

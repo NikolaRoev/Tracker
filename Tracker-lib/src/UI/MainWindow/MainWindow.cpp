@@ -7,7 +7,6 @@
 #include "AddCreatorDialog/AddCreatorDialog.h"
 #include "UpdatePage/UpdatePage.h"
 #include "BrowsePage/BrowsePage.h"
-#include "MangaUpdatesPage/MangaUpdatesPage.h"
 
 //==================================================================================================================================
 //==================================================================================================================================
