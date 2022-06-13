@@ -6,6 +6,8 @@
 #include "DatabaseManager/Creator.h"
 #include "WorkPage/WorkPage.h"
 #include "CreatorPage/CreatorPage.h"
+#include "AddWorkDialog/AddWorkDialog.h"
+#include "AddCreatorDialog/AddCreatorDialog.h"
 
 //==================================================================================================================================
 //==================================================================================================================================
@@ -52,9 +54,9 @@ void BrowsePage::populate(const QString& search) {
 	if (ui->whatComboBox->currentIndex() == 0) {
 		QList<Work> found_works;
 		DatabaseManager::search_works(found_works, search,
-																  ui->byComboBox->currentData().toString(),
-																  ui->statusComboBox->currentData().toString(),
-																  ui->typeComboBox->currentData().toString());
+									  ui->byComboBox->currentData().toString(),
+									  ui->statusComboBox->currentData().toString(),
+									  ui->typeComboBox->currentData().toString());
 
 		for (const auto& work : found_works) {
 			ui->tableWidget->insertRow(ui->tableWidget->rowCount());
@@ -116,6 +118,25 @@ void BrowsePage::on_forwardToolButton_clicked() {
 
 void BrowsePage::on_homeToolButton_clicked() {
 	ui->stackedWidget->setCurrentIndex(0);
+}
+
+//==================================================================================================================================
+//==================================================================================================================================
+
+void BrowsePage::on_addWorkToolButton_clicked() {
+	AddWorkDialog* dialog = new AddWorkDialog(this);
+	if (int result = dialog->exec(); result == QDialog::Accepted) {
+		populate(ui->lineEdit->text());
+	}
+}
+
+//==================================================================================================================================
+
+void BrowsePage::on_addCreatorToolButton_clicked() {
+	AddCreatorDialog* dialog = new AddCreatorDialog(this);
+	if (int result = dialog->exec(); result == QDialog::Accepted) {
+		populate(ui->lineEdit->text());
+	}
 }
 
 //==================================================================================================================================

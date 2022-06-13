@@ -26,7 +26,7 @@ AddWorkDialog::~AddWorkDialog() {
 //==================================================================================================================================
 //==================================================================================================================================
 
-void AddWorkDialog::on_buttonBox_accepted() {
+void AddWorkDialog::on_addButton_clicked() {
 	Work work;
 	work.name = ui->nameLineEdit->text();
 	work.status = ui->statusComboBox->currentData().toString();
@@ -40,7 +40,12 @@ void AddWorkDialog::on_buttonBox_accepted() {
 	work.md_id = ui->mdLineEdit->text();
 	work.mu_id = ui->muLineEdit->text();
 
-	DatabaseManager::add_work(work);
+	if (QString error = DatabaseManager::add_work(work); error.isNull()) {
+		accept();
+	}
+	else {
+		QMessageBox::warning(this, "Failed to add Work.", error);
+	}
 }
 
 //==================================================================================================================================

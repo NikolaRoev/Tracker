@@ -21,15 +21,6 @@ public:
 	~MainWindow();
 
 private slots:
-	//Menu Bar.
-	//File.
-	void on_actionExit_triggered();
-	//Edit.
-	void on_actionAdd_Work_triggered();
-	void on_actionAdd_Creator_triggered();
-
-	//Main window.
-	//Selection.
 	void on_tabWidget_currentChanged(int index);
 };
 

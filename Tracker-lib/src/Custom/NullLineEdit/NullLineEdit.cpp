@@ -1,30 +1,37 @@
-#include "pch.h"
-#include "AddCreatorDialog.h"
-#include "./ui_AddCreatorDialog.h"
-#include "DatabaseManager/DatabaseManager.h"
+#include "NullLineEdit.h"
+#include <QLineEdit>
+#include <QString>
 
 //==================================================================================================================================
 //==================================================================================================================================
 
-AddCreatorDialog::AddCreatorDialog(QWidget* parent) : QDialog(parent), ui(new Ui::AddCreatorDialog) {
-	ui->setupUi(this);
-}
+NullLineEdit::NullLineEdit(QWidget* parent) : QLineEdit(parent)
+{
 
-//==================================================================================================================================
-
-AddCreatorDialog::~AddCreatorDialog() {
-	delete ui;
 }
 
 //==================================================================================================================================
 //==================================================================================================================================
 
-void AddCreatorDialog::on_addButton_clicked() {
-	if (QString error = DatabaseManager::add_creator(ui->nameLineEdit->text()); error.isNull()) {
-		accept();
+QString NullLineEdit::text() const {
+	QString text = QLineEdit::text();
+
+	if (text == "NULL") {
+		return NULL;
 	}
 	else {
-		QMessageBox::warning(this, "Failed to add Creator.", error);
+		return text;
+	}
+}
+
+//==================================================================================================================================
+
+void NullLineEdit::setText(const QString& text) {
+	if (text.isNull()) {
+		QLineEdit::setText("NULL");
+	}
+	else {
+		QLineEdit::setText(text);
 	}
 }
 

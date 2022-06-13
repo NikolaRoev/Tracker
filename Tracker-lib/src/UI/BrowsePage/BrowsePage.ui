@@ -30,7 +30,7 @@
     <number>0</number>
    </property>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
+    <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="0,0,0,1,0">
      <property name="spacing">
       <number>5</number>
      </property>
@@ -40,7 +40,7 @@
         <bool>false</bool>
        </property>
        <property name="icon">
-        <iconset resource="../../../resources/resources.qrc">
+        <iconset resource="../../../../resources/resources.qrc">
          <normaloff>:/icons/icons/left-arrow.png</normaloff>:/icons/icons/left-arrow.png</iconset>
        </property>
       </widget>
@@ -51,7 +51,7 @@
         <bool>false</bool>
        </property>
        <property name="icon">
-        <iconset resource="../../../resources/resources.qrc">
+        <iconset resource="../../../../resources/resources.qrc">
          <normaloff>:/icons/icons/right-arrow.png</normaloff>:/icons/icons/right-arrow.png</iconset>
        </property>
       </widget>
@@ -62,7 +62,7 @@
         <bool>false</bool>
        </property>
        <property name="icon">
-        <iconset resource="../../../resources/resources.qrc">
+        <iconset resource="../../../../resources/resources.qrc">
          <normaloff>:/icons/icons/house.png</normaloff>:/icons/icons/house.png</iconset>
        </property>
       </widget>
@@ -79,6 +79,39 @@
         </size>
        </property>
       </spacer>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,1">
+       <property name="spacing">
+        <number>5</number>
+       </property>
+       <item>
+        <widget class="QToolButton" name="addWorkToolButton">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>Add Work</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="addCreatorToolButton">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>Add Creator</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
     </layout>
    </item>
@@ -259,9 +292,6 @@
            <bold>false</bold>
           </font>
          </property>
-         <property name="focusPolicy">
-          <enum>Qt::NoFocus</enum>
-         </property>
          <property name="contextMenuPolicy">
           <enum>Qt::CustomContextMenu</enum>
          </property>
@@ -315,7 +345,8 @@
   </layout>
  </widget>
  <resources>
-  <include location="../../../resources/resources.qrc"/>
+  <include location="../../../../resources/resources.qrc"/>
+  <include location="../../../../resources/resources.qrc"/>
  </resources>
  <connections/>
 </ui>

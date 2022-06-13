@@ -3,8 +3,6 @@
 #include "./ui_MainWindow.h"
 #include "DatabaseManager/DatabaseManager.h"
 #include "RequestsManager/RequestsManager.h"
-#include "AddWorkDialog/AddWorkDialog.h"
-#include "AddCreatorDialog/AddCreatorDialog.h"
 #include "UpdatePage/UpdatePage.h"
 #include "BrowsePage/BrowsePage.h"
 
@@ -49,31 +47,6 @@ MainWindow::~MainWindow() {
 
 	DatabaseManager::deinit();
 	delete ui;
-}
-
-//==================================================================================================================================
-//==================================================================================================================================
-
-void MainWindow::on_actionExit_triggered() {
-	QApplication::exit();
-}
-
-//==================================================================================================================================
-
-void MainWindow::on_actionAdd_Work_triggered() {
-	AddWorkDialog* dialog = new AddWorkDialog(this);
-	if (int result = dialog->exec(); result == QDialog::Accepted) {
-		on_tabWidget_currentChanged(ui->tabWidget->currentIndex());
-	}
-}
-
-//==================================================================================================================================
-
-void MainWindow::on_actionAdd_Creator_triggered() {
-	AddCreatorDialog* dialog = new AddCreatorDialog(this);
-	if (int result = dialog->exec(); result == QDialog::Accepted) {
-		on_tabWidget_currentChanged(ui->tabWidget->currentIndex());
-	}
 }
 
 //==================================================================================================================================

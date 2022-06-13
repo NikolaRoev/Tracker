@@ -27,6 +27,9 @@ private slots:
 	void on_forwardToolButton_clicked();
 	void on_homeToolButton_clicked();
 
+	void on_addWorkToolButton_clicked();
+	void on_addCreatorToolButton_clicked();
+
 	void on_stackedWidget_currentChanged(int index);
 	void on_lineEdit_textEdited(const QString& text);
 	void on_whatComboBox_currentIndexChanged(int index);

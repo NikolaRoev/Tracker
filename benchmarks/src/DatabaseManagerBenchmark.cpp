@@ -11,7 +11,7 @@ class DatabaseManagerBenchmark: public QObject {
 	Q_OBJECT
 private slots:
 	void initTestCase() {
-		QVERIFY(DatabaseManager::init("test.db"));
+		//QVERIFY(DatabaseManager::init("test.db"));
 	}
 
 	void cleanup() {

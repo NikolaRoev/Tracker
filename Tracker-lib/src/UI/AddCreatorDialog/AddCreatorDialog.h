@@ -21,7 +21,7 @@ public:
 	~AddCreatorDialog();
 
 private slots:
-	void on_buttonBox_accepted();
+	void on_addButton_clicked();
 };
 
 //==================================================================================================================================
