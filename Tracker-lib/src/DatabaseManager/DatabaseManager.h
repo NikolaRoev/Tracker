@@ -17,7 +17,7 @@ namespace DatabaseManager {
 	QString search_works(QList<Work>& works, const QString& search, const QString& by, const QString& status, const QString& type);
 
 	//Creator.
-	QString add_creator(const QString& name);
+	QString add_creator(const Creator& creator);
 	QString remove_creator(const int id);
 	QString update_creator(const QString& column, const int id, const QString& value);
 	QString get_creator(Creator& creator, const int id);

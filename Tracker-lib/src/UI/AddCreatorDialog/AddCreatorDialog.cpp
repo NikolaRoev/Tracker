@@ -20,7 +20,10 @@ AddCreatorDialog::~AddCreatorDialog() {
 //==================================================================================================================================
 
 void AddCreatorDialog::on_addButton_clicked() {
-	if (QString error = DatabaseManager::add_creator(ui->nameLineEdit->text()); error.isNull()) {
+	Creator creator;
+	creator.name = ui->nameLineEdit->text();
+
+	if (QString error = DatabaseManager::add_creator(creator); error.isNull()) {
 		accept();
 	}
 	else {

@@ -298,20 +298,20 @@ QString DatabaseManager::search_works(QList<Work>& works, const QString& search,
 //==================================================================================================================================
 //==================================================================================================================================
 
-QString DatabaseManager::add_creator(const QString& name) {
+QString DatabaseManager::add_creator(const Creator& creator) {
 	QSqlQuery query;
 	query.prepare(
 		"INSERT INTO creators (name) "
 		"VALUES (:name)"
 	);
-	query.bindValue(":name", name);
+	query.bindValue(":name", creator.name);
 
 	if (query.exec()) {
 		return {};
 	}
 	else {
 		QSqlError error = query.lastError();
-		return QString("Failed to add Creator [%1], with error [%2]: [%3]").arg(name).arg(error.type()).arg(error.text());
+		return QString("Failed to add Creator [%1], with error [%2]: [%3]").arg(creator.name).arg(error.type()).arg(error.text());
 	}
 }
 
