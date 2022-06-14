@@ -33,9 +33,7 @@ QString DatabaseManager::init(const QString& database_name) {
 		"   type		TEXT CHECK (type IN ('Series', 'One Shot', 'Anthology')) NOT NULL, "
 		"   chapter		TEXT, "
 		"   updated		TEXT, "
-		"	added		TEXT, "
-		"	md_id		TEXT UNIQUE, "
-		"	mu_id		TEXT UNIQUE"
+		"	added		TEXT"
 		")"
 	);
 	if (!query.exec()) {
@@ -90,8 +88,8 @@ void DatabaseManager::deinit() {
 QString DatabaseManager::add_work(const Work& work) {
 	QSqlQuery query;
 	query.prepare(
-		"INSERT INTO works (name, status, type, chapter, updated, added, md_id, mu_id) "
-		"VALUES (:name, :status, :type, :chapter, :updated, :added, :md_id, :mu_id)"
+		"INSERT INTO works (name, status, type, chapter, updated, added) "
+		"VALUES (:name, :status, :type, :chapter, :updated, :added)"
 	);
 	query.bindValue(":name", work.name);
 	query.bindValue(":status", work.status);
@@ -99,8 +97,6 @@ QString DatabaseManager::add_work(const Work& work) {
 	query.bindValue(":chapter", work.chapter);
 	query.bindValue(":updated", work.updated);
 	query.bindValue(":added", work.added);
-	query.bindValue(":md_id", work.md_id);
-	query.bindValue(":mu_id", work.mu_id);
 
 	if (query.exec()) {
 		return {};
@@ -158,7 +154,7 @@ QString DatabaseManager::get_work(Work& work, const int id) {
 	//Select the Work.
 	QSqlQuery query;
 	query.prepare(
-		"SELECT name, status, type, chapter, updated, added, md_id, mu_id "
+		"SELECT name, status, type, chapter, updated, added "
 		"FROM works "
 		"WHERE id = (:id)"
 	);
@@ -173,8 +169,6 @@ QString DatabaseManager::get_work(Work& work, const int id) {
 			work.chapter = query.value(3).toString();
 			work.updated = query.value(4).toString();
 			work.added = query.value(5).toString();
-			work.md_id = query.value(6).toString();
-			work.mu_id = query.value(7).toString();
 		}
 	}
 	else {
@@ -233,7 +227,7 @@ QString DatabaseManager::search_works(QList<Work>& works, const QString& search,
 			"	INNER JOIN current_creators "
 			"	ON current_creators.id = work_creator.creator_id"
 			") "
-			"SELECT works.id, works.name, works.status, works.type, works.chapter, works.updated, works.added, works.md_id, works.mu_id "
+			"SELECT works.id, works.name, works.status, works.type, works.chapter, works.updated, works.added "
 			"FROM works "
 			"INNER JOIN current_works "
 			"ON current_works.work_id = works.id "
@@ -242,7 +236,7 @@ QString DatabaseManager::search_works(QList<Work>& works, const QString& search,
 	}
 	else {
 		query_text = QString(
-			"SELECT id, name, status, type, chapter, updated, added, md_id, mu_id "
+			"SELECT id, name, status, type, chapter, updated, added "
 			"FROM works "
 			"WHERE %1 LIKE (:search)"
 		).arg(by);
@@ -281,9 +275,7 @@ QString DatabaseManager::search_works(QList<Work>& works, const QString& search,
 				.type = query.value(3).toString(),
 				.chapter = query.value(4).toString(),
 				.updated = query.value(5).toString(),
-				.added = query.value(6).toString(),
-				.md_id = query.value(7).toString(),
-				.mu_id = query.value(8).toString()
+				.added = query.value(6).toString()
 			});
 		}
 

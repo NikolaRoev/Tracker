@@ -37,9 +37,6 @@ void AddWorkDialog::on_addButton_clicked() {
 	work.updated = date_time;
 	work.added = date_time;
 
-	work.md_id = ui->mdLineEdit->text();
-	work.mu_id = ui->muLineEdit->text();
-
 	if (QString error = DatabaseManager::add_work(work); error.isNull()) {
 		accept();
 	}

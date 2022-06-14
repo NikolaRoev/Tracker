@@ -45,9 +45,6 @@ qt_add_library(Tracker-lib STATIC
 	"src/UI/SearchCreatorDialog/SearchCreatorDialog.h"
 	"src/UI/SearchCreatorDialog/SearchCreatorDialog.cpp"
 	"src/UI/SearchCreatorDialog/SearchCreatorDialog.ui"
-
-	"src/Custom/NullLineEdit/NullLineEdit.h"
-	"src/Custom/NullLineEdit/NullLineEdit.cpp"
 )
 
 target_link_libraries(Tracker-lib
