@@ -31,8 +31,6 @@ private slots:
 		work.chapter = "chapter";
 		work.updated = "updated";
 		work.added = "added";
-		work.md_id = "md_id";
-		work.mu_id = "mu_id";
 		//QVERIFY(DatabaseManager::add_work(work));
 
 		QSqlQuery query;

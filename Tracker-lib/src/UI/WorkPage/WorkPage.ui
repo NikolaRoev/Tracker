@@ -152,56 +152,6 @@
        </property>
       </widget>
      </item>
-     <item row="7" column="0">
-      <widget class="QLabel" name="label_2">
-       <property name="text">
-        <string>MD Id:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="7" column="1">
-      <widget class="NullLineEdit" name="mdLineEdit"/>
-     </item>
-     <item row="8" column="0">
-      <widget class="QLabel" name="label_4">
-       <property name="text">
-        <string>MU Id:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="8" column="1">
-      <widget class="NullLineEdit" name="muLineEdit"/>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="1,0">
-     <property name="spacing">
-      <number>5</number>
-     </property>
-     <item>
-      <spacer name="horizontalSpacer">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QPushButton" name="applyButton">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="text">
-        <string>Apply</string>
-       </property>
-      </widget>
-     </item>
     </layout>
    </item>
    <item>
@@ -275,13 +225,6 @@
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>NullLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>NullLineEdit/NullLineEdit.h</header>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

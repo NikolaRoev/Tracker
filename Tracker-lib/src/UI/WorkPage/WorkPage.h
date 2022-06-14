@@ -1,6 +1,5 @@
 #pragma once
 #include "pch.h"
-#include "DatabaseManager/Work.h"
 
 //==================================================================================================================================
 
@@ -16,24 +15,17 @@ class WorkPage : public QWidget {
 	Q_OBJECT
 private:
 	Ui::WorkPage* ui{ nullptr };
-	Work work{};
-
-
-	bool pending_change();
+	int id{};
 
 public:
 	WorkPage(const int id, QWidget* parent = nullptr);
 	~WorkPage();
 
 private slots:
-	void on_nameLineEdit_textEdited(const QString&);
-	void on_statusComboBox_currentIndexChanged(int);
-	void on_typeComboBox_currentIndexChanged(int);
-	void on_chapterLineEdit_textEdited(const QString&);
-	void on_mdLineEdit_textEdited(const QString&);
-	void on_muLineEdit_textEdited(const QString&);
-
-	void on_applyButton_clicked();
+	void on_nameLineEdit_textEdited(const QString& text);
+	void on_statusComboBox_currentIndexChanged(int index);
+	void on_typeComboBox_currentIndexChanged(int index);
+	void on_chapterLineEdit_textEdited(const QString& text);
 
 	void on_addPushButton_clicked();
 	void on_tableWidget_clicked(const QModelIndex& index);

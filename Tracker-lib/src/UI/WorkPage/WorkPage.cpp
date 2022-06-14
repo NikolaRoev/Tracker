@@ -10,33 +10,7 @@
 //==================================================================================================================================
 //==================================================================================================================================
 
-bool WorkPage::pending_change() {
-	if (work.name != ui->nameLineEdit->text()) {
-		return true;
-	}
-	if (work.status != ui->statusComboBox->currentData().toString()) {
-		return true;
-	}
-	if (work.type != ui->typeComboBox->currentData().toString()) {
-		return true;
-	}
-	if (work.chapter != ui->chapterLineEdit->text()) {
-		return true;
-	}
-	if (work.md_id != ui->mdLineEdit->text()) {
-		return true;
-	}
-	if (work.mu_id != ui->muLineEdit->text()) {
-		return true;
-	}
-
-	return false;
-}
-
-//==================================================================================================================================
-//==================================================================================================================================
-
-WorkPage::WorkPage(const int id, QWidget* parent) : QWidget(parent), ui(new Ui::WorkPage) {
+WorkPage::WorkPage(const int id, QWidget* parent) : QWidget(parent), ui(new Ui::WorkPage), id(id) {
 	ui->setupUi(this);
 	ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 	ui->tableWidget->horizontalHeader()->setDefaultAlignment(Qt::AlignLeft);
@@ -50,6 +24,7 @@ WorkPage::WorkPage(const int id, QWidget* parent) : QWidget(parent), ui(new Ui::
 	ui->typeComboBox->setItemData(2, "Anthology");
 
 
+	Work work;
 	DatabaseManager::get_work(work, id);
 	ui->idLabel->setText(QString::number(work.id));
 	ui->nameLineEdit->setText(work.name);
@@ -58,8 +33,6 @@ WorkPage::WorkPage(const int id, QWidget* parent) : QWidget(parent), ui(new Ui::
 	ui->chapterLineEdit->setText(work.chapter);
 	ui->updatedLabel->setText(work.updated);
 	ui->addedLabel->setText(work.added);
-	ui->mdLineEdit->setText(work.md_id);
-	ui->muLineEdit->setText(work.mu_id);
 
 	for (const auto& creator : work.creators) {
 		ui->tableWidget->insertRow(ui->tableWidget->rowCount());
@@ -81,118 +54,32 @@ WorkPage::~WorkPage() {
 //==================================================================================================================================
 //==================================================================================================================================
 
-void WorkPage::on_nameLineEdit_textEdited(const QString&) {
-	ui->applyButton->setEnabled(pending_change());
+void WorkPage::on_nameLineEdit_textEdited(const QString& text) {
+	DatabaseManager::update_work("name", id, text);
 }
 
 //==================================================================================================================================
 
-void WorkPage::on_statusComboBox_currentIndexChanged(int) {
-	ui->applyButton->setEnabled(pending_change());
+void WorkPage::on_statusComboBox_currentIndexChanged(int index) {
+	Q_UNUSED(index);
+	DatabaseManager::update_work("status", id, ui->statusComboBox->currentData().toString());
 }
 
 //==================================================================================================================================
 
-void WorkPage::on_typeComboBox_currentIndexChanged(int) {
-	ui->applyButton->setEnabled(pending_change());
+void WorkPage::on_typeComboBox_currentIndexChanged(int index) {
+	Q_UNUSED(index);
+	DatabaseManager::update_work("type", id, ui->typeComboBox->currentData().toString());
 }
 
 //==================================================================================================================================
 
-void WorkPage::on_chapterLineEdit_textEdited(const QString&) {
-	ui->applyButton->setEnabled(pending_change());
-}
+void WorkPage::on_chapterLineEdit_textEdited(const QString& text) {
+	DatabaseManager::update_work("chapter", id, text);
 
-//==================================================================================================================================
-
-void WorkPage::on_mdLineEdit_textEdited(const QString&) {
-	ui->applyButton->setEnabled(pending_change());
-}
-
-//==================================================================================================================================
-
-void WorkPage::on_muLineEdit_textEdited(const QString&) {
-	ui->applyButton->setEnabled(pending_change());
-}
-
-//==================================================================================================================================
-//==================================================================================================================================
-
-void WorkPage::on_applyButton_clicked() {
-	ui->applyButton->setDisabled(true);
-
-	//Name.
-	QString name = ui->nameLineEdit->text();
-	if (work.name != name) {
-		if (QString error = DatabaseManager::update_work("name", work.id, name); error.isNull()) {
-			work.name = name;
-		}
-		else {
-			QMessageBox::warning(this, "Failed to update Work name.", error);
-		}
-	}
-
-	//Status.
-	QString status = ui->statusComboBox->currentData().toString();
-	if (work.status != status) {
-		if (QString error = DatabaseManager::update_work("status", work.id, status); error.isNull()) {
-			work.status = status;
-		}
-		else {
-			QMessageBox::warning(this, "Failed to update Work status.", error);
-		}
-	}
-
-	//Type.
-	QString type = ui->typeComboBox->currentData().toString();
-	if (work.type != type) {
-		if (QString error = DatabaseManager::update_work("type", work.id, type); error.isNull()) {
-			work.type = type;
-		}
-		else {
-			QMessageBox::warning(this, "Failed to update Work type.", error);
-		}
-	}
-
-	//Chapter.
-	QString chapter = ui->chapterLineEdit->text();
-	if (work.chapter != chapter) {
-		if (QString error = DatabaseManager::update_work("chapter", work.id, chapter); error.isNull()) {
-			work.chapter = chapter;
-
-			QString date_time = QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss");
-			if (error = DatabaseManager::update_work("updated", work.id, date_time); error.isNull()) {
-				work.updated = date_time;
-				ui->updatedLabel->setText(date_time);
-			}
-			else {
-				QMessageBox::warning(this, "Failed to update Work datetime updated.", error);
-			}
-		}
-		else {
-			QMessageBox::warning(this, "Failed to update Work chapter.", error);
-		}
-	}
-
-	//MangaDex ID.
-	QString md_id = ui->mdLineEdit->text();
-	if (work.md_id != md_id) {
-		if (QString error = DatabaseManager::update_work("md_id", work.id, md_id); error.isNull()) {
-		}
-		else {
-			QMessageBox::warning(this, "Failed to update Work MangaDex ID.", error);
-		}
-	}
-
-	//MangaUpdates ID.
-	QString mu_id = ui->muLineEdit->text();
-	if (work.mu_id != mu_id) {
-		if (QString error = DatabaseManager::update_work("mu_id", work.id, mu_id); error.isNull()) {
-		}
-		else {
-			QMessageBox::warning(this, "Failed to update Work MangaUpdates ID.", error);
-		}
-	}
+	QString date_time = QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss");
+	DatabaseManager::update_work("updated", id, date_time);
+	ui->updatedLabel->setText(date_time);
 }
 
 //==================================================================================================================================
@@ -224,7 +111,7 @@ void WorkPage::on_tableWidget_customContextMenuRequested(const QPoint& pos) {
 												  QMessageBox::No);
 
 				if (result == QMessageBox::Yes) {
-					DatabaseManager::detach_creator(work.id, data.toInt());
+					DatabaseManager::detach_creator(id, data.toInt());
 					ui->tableWidget->removeRow(item->row());
 				}
 			});
@@ -237,11 +124,12 @@ void WorkPage::on_tableWidget_customContextMenuRequested(const QPoint& pos) {
 //==================================================================================================================================
 
 void WorkPage::on_creatorSelected(const int creator_id, const QString& name, const QString& type) {
-	DatabaseManager::attach_creator(work.id, creator_id, type);
+	DatabaseManager::attach_creator(id, creator_id, type);
 
 	ui->tableWidget->setRowCount(0);
 
-	DatabaseManager::get_work(work, work.id);
+	Work work;
+	DatabaseManager::get_work(work, id);
 	for (const auto& creator : work.creators) {
 		ui->tableWidget->insertRow(ui->tableWidget->rowCount());
 
