@@ -9,9 +9,6 @@ qt_add_library(Tracker-lib STATIC
 	"src/DatabaseManager/Work.h"
 	"src/DatabaseManager/Creator.h"
 
-	"src/RequestsManager/RequestsManager.h"
-	"src/RequestsManager/RequestsManager.cpp"
-
 
 	"src/UI/MainWindow/MainWindow.h"
 	"src/UI/MainWindow/MainWindow.cpp"
@@ -28,14 +25,6 @@ qt_add_library(Tracker-lib STATIC
 	"src/UI/BrowsePage/BrowsePage.h"
 	"src/UI/BrowsePage/BrowsePage.cpp"
 	"src/UI/BrowsePage/BrowsePage.ui"
-
-	"src/UI/ReleasesPage/ReleasesPage.h"
-	"src/UI/ReleasesPage/ReleasesPage.cpp"
-	"src/UI/ReleasesPage/ReleasesPage.ui"
-
-	"src/UI/ReleaseEntry/ReleaseEntry.h"
-	"src/UI/ReleaseEntry/ReleaseEntry.cpp"
-	"src/UI/ReleaseEntry/ReleaseEntry.ui"
 
 	"src/UI/AddWorkDialog/AddWorkDialog.h"
 	"src/UI/AddWorkDialog/AddWorkDialog.cpp"

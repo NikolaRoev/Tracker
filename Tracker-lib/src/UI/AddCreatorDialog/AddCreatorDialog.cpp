@@ -27,6 +27,7 @@ void AddCreatorDialog::on_addButton_clicked() {
 		accept();
 	}
 	else {
+		qWarning() << error;
 		QMessageBox::warning(this, "Failed to add Creator.", error);
 	}
 }

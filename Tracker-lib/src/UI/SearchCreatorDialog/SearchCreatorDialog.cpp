@@ -24,11 +24,16 @@ void SearchCreatorDialog::on_filterLineEdit_textEdited(const QString& text) {
 	ui->listWidget->clear();
 
 	QList<Creator> found_creators;
-	DatabaseManager::search_creators(found_creators, text);
-	for (const auto& creator : found_creators) {
-		QListWidgetItem* item = new QListWidgetItem(creator.name);
-		item->setData(Qt::UserRole, creator.id);
-		ui->listWidget->addItem(item);
+	if (QString error = DatabaseManager::search_creators(found_creators, text); error.isNull()){
+		for (const auto& creator : found_creators) {
+			QListWidgetItem* item = new QListWidgetItem(creator.name);
+			item->setData(Qt::UserRole, creator.id);
+			ui->listWidget->addItem(item);
+		}
+	}
+	else {
+		qWarning() << error;
+		QMessageBox::warning(this, "Failed to search for Creators.", error);
 	}
 }
 
