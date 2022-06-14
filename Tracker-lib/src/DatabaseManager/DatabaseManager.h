@@ -23,7 +23,7 @@ namespace DatabaseManager {
 	QString get_creator(Creator& creator, const int id);
 	QString search_creators(QList<Creator>& creators, const QString& search);
 	QString attach_creator(const int work_id, const int creator_id, const QString& type);
-	QString detach_creator(const int work_id, const int creator_id);
+	QString detach_creator(const int work_id, const int creator_id, const QString& type);
 };
 
 //==================================================================================================================================

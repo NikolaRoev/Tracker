@@ -39,14 +39,10 @@ void SearchCreatorDialog::on_filterLineEdit_textEdited(const QString& text) {
 
 //==================================================================================================================================
 
-void SearchCreatorDialog::on_listWidget_itemSelectionChanged() {
-	auto selected_items = ui->listWidget->selectedItems();
-	if (selected_items.isEmpty()) {
-		ui->typeLineEdit->setDisabled(true);
-	}
-	else {
-		ui->typeLineEdit->setEnabled(true);
-	}
+void SearchCreatorDialog::on_listWidget_itemDoubleClicked(QListWidgetItem* item) {
+	emit creatorSelected(item->data(Qt::UserRole).toInt(), item->text());
+	accept();
+	//TO DO: Check if the attachment succeeded here, remove signals/slots.
 }
 
 //==================================================================================================================================
@@ -54,7 +50,7 @@ void SearchCreatorDialog::on_listWidget_itemSelectionChanged() {
 void SearchCreatorDialog::on_buttonBox_accepted() {
 	auto selected_items = ui->listWidget->selectedItems();
 	if (!selected_items.isEmpty()) {
-		emit creatorSelected(selected_items.first()->data(Qt::UserRole).toInt(), ui->typeLineEdit->text());
+		emit creatorSelected(selected_items.first()->data(Qt::UserRole).toInt(), selected_items.first()->text());
 	}
 }
 

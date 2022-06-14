@@ -22,11 +22,11 @@ public:
 
 private slots:
 	void on_filterLineEdit_textEdited(const QString& text);
-	void on_listWidget_itemSelectionChanged();
+	void on_listWidget_itemDoubleClicked(QListWidgetItem* item);
 	void on_buttonBox_accepted();
 
 signals:
-	void creatorSelected(const int id, const QString& type);
+	void creatorSelected(const int id, const QString& name);
 };
 
 //==================================================================================================================================

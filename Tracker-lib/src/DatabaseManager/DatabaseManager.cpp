@@ -58,8 +58,8 @@ QString DatabaseManager::init(const QString& database_name) {
 		"CREATE TABLE IF NOT EXISTS work_creator ("
 		"	work_id		INTEGER NOT NULL, "
 		"	creator_id	INTEGER NOT NULL, "
-		"	type		TEXT NOT NULL, "
-		"	PRIMARY KEY (work_id, creator_id), "
+		"	type		TEXT CHECK (type IN ('Author', 'Artist')) NOT NULL, "
+		"	PRIMARY KEY (work_id, creator_id, type), "
 		"	FOREIGN KEY (work_id) REFERENCES works (id) ON DELETE CASCADE, "
 		"	FOREIGN KEY (creator_id) REFERENCES creators (id) ON DELETE CASCADE"
 		")"
@@ -458,22 +458,23 @@ QString DatabaseManager::attach_creator(const int work_id, const int creator_id,
 
 //==================================================================================================================================
 
-QString DatabaseManager::detach_creator(const int work_id, const int creator_id) {
+QString DatabaseManager::detach_creator(const int work_id, const int creator_id, const QString& type) {
 	QSqlQuery query;
 	query.prepare(
 		"DELETE FROM work_creator "
-		"WHERE work_id = (:work_id) AND creator_id = (:creator_id)"
+		"WHERE work_id = (:work_id) AND creator_id = (:creator_id) AND type = (:type)"
 	);
 	query.bindValue(":work_id", work_id);
 	query.bindValue(":creator_id", creator_id);
+	query.bindValue(":type", type);
 
 	if (query.exec()) {
 		return {};
 	}
 	else {
 		QSqlError error = query.lastError();
-		return QString("Failed to detach Creator [%1] from Work [%2], with error [%3]: [%4]")
-					  .arg(creator_id).arg(work_id).arg(error.type()).arg(error.text());;
+		return QString("Failed to detach Creator [%1] from Work [%2] as [%3], with error [%4]: [%5]")
+					  .arg(creator_id).arg(work_id).arg(type).arg(error.type()).arg(error.text());;
 	}
 }
 
