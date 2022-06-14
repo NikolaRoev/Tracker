@@ -218,12 +218,12 @@ void BrowsePage::on_byComboBox_currentIndexChanged(int index) {
 //==================================================================================================================================
 
 void BrowsePage::on_tableWidget_clicked(const QModelIndex& index) {
-	if (QVariant data = ui->tableWidget->item(index.row(), 0)->data(Qt::UserRole); data.isValid()) {
+	if (QVariant user_data = ui->tableWidget->item(index.row(), 0)->data(Qt::UserRole); user_data.isValid()) {
 		if (ui->whatComboBox->currentIndex() == 0) {
-			on_workClicked(data.toInt());
+			on_workClicked(user_data.toInt());
 		}
 		else {
-			on_creatorClicked(data.toInt());
+			on_creatorClicked(user_data.toInt());
 		}
 	}
 }
@@ -232,7 +232,7 @@ void BrowsePage::on_tableWidget_clicked(const QModelIndex& index) {
 
 void BrowsePage::on_tableWidget_customContextMenuRequested(const QPoint& pos) {
 	if (QTableWidgetItem* item = ui->tableWidget->itemAt(pos); item) {
-		if (QVariant data = item->data(Qt::UserRole); data.isValid()) {
+		if (QVariant user_data = item->data(Qt::UserRole); user_data.isValid()) {
 			QMenu menu(ui->tableWidget);
 			menu.addAction("Remove", [&](){
 				int result = QMessageBox::warning(this,
@@ -243,10 +243,10 @@ void BrowsePage::on_tableWidget_customContextMenuRequested(const QPoint& pos) {
 
 				if (result == QMessageBox::Yes) {
 					if (ui->whatComboBox->currentIndex() == 0) {
-						DatabaseManager::remove_work(data.toInt());
+						DatabaseManager::remove_work(user_data.toInt());
 					}
 					else {
-						DatabaseManager::remove_creator(data.toInt());
+						DatabaseManager::remove_creator(user_data.toInt());
 					}
 
 					ui->tableWidget->removeRow(item->row());

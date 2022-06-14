@@ -26,7 +26,7 @@ private slots:
 	void on_buttonBox_accepted();
 
 signals:
-	void creatorSelected(const int id, const QString& name, const QString& type);
+	void creatorSelected(const int id, const QString& type);
 };
 
 //==================================================================================================================================

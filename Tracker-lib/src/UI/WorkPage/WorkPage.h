@@ -31,7 +31,7 @@ private slots:
 	void on_tableWidget_clicked(const QModelIndex& index);
 	void on_tableWidget_customContextMenuRequested(const QPoint& pos);
 
-	void on_creatorSelected(const int creator_id, const QString& name, const QString& type);
+	void on_creatorSelected(const int creator_id, const QString& type);
 
 signals:
 	void creatorClicked(const int id);

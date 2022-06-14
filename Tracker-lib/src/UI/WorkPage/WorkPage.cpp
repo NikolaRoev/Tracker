@@ -101,7 +101,7 @@ void WorkPage::on_tableWidget_clicked(const QModelIndex& index) {
 
 void WorkPage::on_tableWidget_customContextMenuRequested(const QPoint& pos) {
 	if (QTableWidgetItem* item = ui->tableWidget->itemAt(pos); item) {
-		if (QVariant data = item->data(Qt::UserRole); data.isValid()) {
+		if (QVariant user_data = item->data(Qt::UserRole); user_data.isValid()) {
 			QMenu menu(ui->tableWidget);
 			menu.addAction("Remove", [&](){
 				int result = QMessageBox::warning(this,
@@ -111,7 +111,7 @@ void WorkPage::on_tableWidget_customContextMenuRequested(const QPoint& pos) {
 												  QMessageBox::No);
 
 				if (result == QMessageBox::Yes) {
-					DatabaseManager::detach_creator(id, data.toInt());
+					DatabaseManager::detach_creator(id, user_data.toInt());
 					ui->tableWidget->removeRow(item->row());
 				}
 			});
@@ -123,7 +123,7 @@ void WorkPage::on_tableWidget_customContextMenuRequested(const QPoint& pos) {
 //==================================================================================================================================
 //==================================================================================================================================
 
-void WorkPage::on_creatorSelected(const int creator_id, const QString& name, const QString& type) {
+void WorkPage::on_creatorSelected(const int creator_id, const QString& type) {
 	DatabaseManager::attach_creator(id, creator_id, type);
 
 	ui->tableWidget->setRowCount(0);
