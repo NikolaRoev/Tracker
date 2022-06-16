@@ -7,11 +7,10 @@
 //==================================================================================================================================
 //==================================================================================================================================
 
-bool DatabaseManager::init(const QString& database_name) {
+bool DatabaseManager::init(const QString& name) {
 	QSqlDatabase::addDatabase("QSQLITE");
-
 	QSqlDatabase db = QSqlDatabase::database();
-	db.setDatabaseName(database_name);
+	db.setDatabaseName(name);
 	if (!db.open()) {
 		qCritical() << db.lastError();
 		return false;
@@ -150,7 +149,6 @@ bool DatabaseManager::update_work(const QString& column, const int id, const QSt
 //==================================================================================================================================
 
 bool DatabaseManager::get_work(Work& work, const int id) {
-	//Select the Work.
 	QSqlQuery query;
 	query.prepare(
 		"SELECT name, status, type, chapter, updated, added "
@@ -177,25 +175,21 @@ bool DatabaseManager::get_work(Work& work, const int id) {
 
 	//Find all the associated Creators.
 	query.prepare(
-		"WITH current_creators AS ("
+		"WITH found_creators AS ("
 		"	SELECT creator_id AS id, type "
 		"	FROM work_creator "
 		"	WHERE work_id = (:work_id)"
 		") "
-		"SELECT current_creators.id, creators.name, current_creators.type "
+		"SELECT found_creators.id, creators.name, found_creators.type "
 		"FROM creators "
-		"INNER JOIN current_creators "
-		"ON creators.id = current_creators.id"
+		"INNER JOIN found_creators "
+		"ON creators.id = found_creators.id"
 	);
 	query.bindValue(":work_id", work.id);
 
 	if (query.exec()) {
 		while (query.next()) {
-			work.creators.emplace_back(Creator{
-				.id = query.value(0).toInt(),
-				.name = query.value(1).toString(),
-				.type = query.value(2).toString()
-			});
+			work.creators.emplace_back(query.value(0).toInt(), query.value(1).toString(), query.value(2).toString());
 		}
 	}
 	else {
@@ -210,26 +204,24 @@ bool DatabaseManager::get_work(Work& work, const int id) {
 //==================================================================================================================================
 
 bool DatabaseManager::search_works(QList<Work>& works, const QString& search, const QString& by, const QString& status, const QString& type) {
-	//Query text construction.
 	QString query_text;
-
 	if (by == "creator") {
 		query_text = QString(
-			"WITH current_creators AS ("
-			"	SELECT id, name "
+			"WITH found_creators AS ("
+			"	SELECT id "
 			"	FROM creators "
 			"	WHERE name LIKE (:search)"
 			"), "
-			"current_works AS ("
+			"matched_works AS ("
 			"	SELECT DISTINCT work_id "
 			"	FROM work_creator "
-			"	INNER JOIN current_creators "
-			"	ON current_creators.id = work_creator.creator_id"
+			"	INNER JOIN found_creators "
+			"	ON work_creator.creator_id = found_creators.id"
 			") "
 			"SELECT works.id, works.name, works.status, works.type, works.chapter, works.updated, works.added "
 			"FROM works "
-			"INNER JOIN current_works "
-			"ON current_works.work_id = works.id "
+			"INNER JOIN matched_works "
+			"ON works.id = matched_works.work_id "
 			"WHERE 1 = 1"
 		);
 	}
@@ -250,10 +242,9 @@ bool DatabaseManager::search_works(QList<Work>& works, const QString& search, co
 	}
 
 
-	//Query preparation.
 	QSqlQuery query;
 	query.prepare(query_text);
-	query.bindValue(":search", '%' + search + '%');
+	query.bindValue(":search", QString("%%1%").arg(search));
 
 	if (!status.isNull()) {
 		query.bindValue(":status", status);
@@ -264,18 +255,17 @@ bool DatabaseManager::search_works(QList<Work>& works, const QString& search, co
 	}
 
 
-	//Query execution.
 	if (query.exec()) {
 		while (query.next()) {
-			works.emplace_back(Work{
-				.id = query.value(0).toInt(),
-				.name = query.value(1).toString(),
-				.status = query.value(2).toString(),
-				.type = query.value(3).toString(),
-				.chapter = query.value(4).toString(),
-				.updated = query.value(5).toString(),
-				.added = query.value(6).toString()
-			});
+			works.emplace_back(
+				query.value(0).toInt(),
+				query.value(1).toString(),
+				query.value(2).toString(),
+				query.value(3).toString(),
+				query.value(4).toString(),
+				query.value(5).toString(),
+				query.value(6).toString()
+			);
 		}
 
 		return true;
@@ -349,7 +339,6 @@ bool DatabaseManager::update_creator(const QString& column, const int id, const 
 //==================================================================================================================================
 
 bool DatabaseManager::get_creator(Creator& creator, const int id) {
-	//Select the Creator.
 	QSqlQuery query;
 	query.prepare(
 		"SELECT name "
@@ -371,15 +360,15 @@ bool DatabaseManager::get_creator(Creator& creator, const int id) {
 
 	//Find all the associated Works.
 	query.prepare(
-		"WITH current_works AS ("
+		"WITH matched_works AS ("
 		"	SELECT DISTINCT work_id AS id "
 		"	FROM work_creator "
 		"	WHERE creator_id = (:creator_id)"
 		") "
-		"SELECT current_works.id, works.name, works.status, works.type, works.chapter, works.updated, works.added "
+		"SELECT works.id, works.name, works.status, works.type, works.chapter, works.updated, works.added "
 		"FROM works "
-		"INNER JOIN current_works "
-		"ON works.id = current_works.id"
+		"INNER JOIN matched_works "
+		"ON works.id = matched_works.id"
 	);
 	query.bindValue(":creator_id", creator.id);
 
@@ -413,14 +402,11 @@ bool DatabaseManager::search_creators(QList<Creator>& creators, const QString& s
 				  "FROM creators "
 				  "WHERE name LIKE (:name)"
 	);
-	query.bindValue(":name", '%' + search + '%');
+	query.bindValue(":name", QString("%%1%").arg(search));
 
 	if (query.exec()) {
 		while (query.next()) {
-			creators.emplace_back(Creator{
-				.id = query.value(0).toInt(),
-				.name = query.value(1).toString()
-			});
+			creators.emplace_back(query.value(0).toInt(), query.value(1).toString());
 		}
 
 		return true;

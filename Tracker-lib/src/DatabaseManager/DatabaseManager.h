@@ -6,7 +6,7 @@
 //==================================================================================================================================
 
 namespace DatabaseManager {
-	bool init(const QString& database_name);
+	bool init(const QString& name);
 	void deinit();
 
 	//Work.
