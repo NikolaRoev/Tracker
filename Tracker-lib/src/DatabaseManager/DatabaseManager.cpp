@@ -374,15 +374,15 @@ bool DatabaseManager::get_creator(Creator& creator, const int id) {
 
 	if (query.exec()) {
 		while (query.next()) {
-			creator.works.emplace_back(Work{
-				.id = query.value(0).toInt(),
-				.name = query.value(1).toString(),
-				.status = query.value(2).toString(),
-				.type = query.value(3).toString(),
-				.chapter = query.value(4).toString(),
-				.updated = query.value(5).toString(),
-				.added = query.value(6).toString()
-			});
+			creator.works.emplace_back(
+				query.value(0).toInt(),
+				query.value(1).toString(),
+				query.value(2).toString(),
+				query.value(3).toString(),
+				query.value(4).toString(),
+				query.value(5).toString(),
+				query.value(6).toString()
+			);
 		}
 	}
 	else {

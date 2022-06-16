@@ -1,5 +1,6 @@
 #pragma once
 #include "pch.h"
+#include "DatabaseManager/Work.h"
 
 //==================================================================================================================================
 
@@ -21,7 +22,10 @@ public:
 	~AddWorkDialog();
 
 private slots:
-	void on_addButton_clicked();
+	void on_buttonBox_accepted();
+
+signals:
+	void workAdded(const Work& work);
 };
 
 //==================================================================================================================================

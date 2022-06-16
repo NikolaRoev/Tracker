@@ -1,5 +1,6 @@
 #pragma once
 #include "pch.h"
+#include "DatabaseManager/Creator.h"
 
 //==================================================================================================================================
 
@@ -21,7 +22,10 @@ public:
 	~AddCreatorDialog();
 
 private slots:
-	void on_addButton_clicked();
+	void on_buttonBox_accepted();
+
+signals:
+	void creatorAdded(const Creator& creator);
 };
 
 //==================================================================================================================================

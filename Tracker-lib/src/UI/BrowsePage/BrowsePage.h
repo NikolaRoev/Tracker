@@ -1,5 +1,7 @@
 #pragma once
 #include "pch.h"
+#include "DatabaseManager/Work.h"
+#include "DatabaseManager/Creator.h"
 
 //==================================================================================================================================
 
@@ -41,6 +43,8 @@ private slots:
 
 	void on_workClicked(const int id);
 	void on_creatorClicked(const int id);
+	void on_workAdded(const Work& work);
+	void on_creatorAdded(const Creator& creator);
 
 signals:
 	void message(const QString& message, int timeout = 0);

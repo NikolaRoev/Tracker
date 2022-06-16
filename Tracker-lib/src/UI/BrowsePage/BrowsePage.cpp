@@ -123,18 +123,16 @@ void BrowsePage::on_homeToolButton_clicked() {
 
 void BrowsePage::on_addWorkToolButton_clicked() {
 	AddWorkDialog* dialog = new AddWorkDialog(this);
-	if (int result = dialog->exec(); result == QDialog::Accepted) {
-		populate(ui->lineEdit->text());
-	}
+	connect(dialog, &AddWorkDialog::workAdded, this, &BrowsePage::on_workAdded);
+	dialog->exec();
 }
 
 //==================================================================================================================================
 
 void BrowsePage::on_addCreatorToolButton_clicked() {
 	AddCreatorDialog* dialog = new AddCreatorDialog(this);
-	if (int result = dialog->exec(); result == QDialog::Accepted) {
-		populate(ui->lineEdit->text());
-	}
+	connect(dialog, &AddCreatorDialog::creatorAdded, this, &BrowsePage::on_creatorAdded);
+	dialog->exec();
 }
 
 //==================================================================================================================================
@@ -298,6 +296,28 @@ void BrowsePage::on_creatorClicked(const int id) {
 
 	ui->stackedWidget->addWidget(creator_page);
 	ui->stackedWidget->setCurrentIndex(ui->stackedWidget->count() - 1);
+}
+
+//==================================================================================================================================
+
+void BrowsePage::on_workAdded(const Work& work) {
+	if (DatabaseManager::add_work(work)) {
+		populate(ui->lineEdit->text());
+	}
+	else {
+		QMessageBox::warning(this, "Database Error.", "Failed to add Work.");
+	}
+}
+
+//==================================================================================================================================
+
+void BrowsePage::on_creatorAdded(const Creator& creator) {
+	if (DatabaseManager::add_creator(creator)) {
+		populate(ui->lineEdit->text());
+	}
+	else {
+		QMessageBox::warning(this, "Database Error.", "Failed to add Creator.");
+	}
 }
 
 //==================================================================================================================================

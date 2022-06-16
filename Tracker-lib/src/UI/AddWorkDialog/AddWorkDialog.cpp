@@ -1,7 +1,8 @@
 #include "pch.h"
 #include "AddWorkDialog.h"
 #include "./ui_AddWorkDialog.h"
-#include "DatabaseManager/DatabaseManager.h"
+#include "DatabaseManager/Work.h"
+#include "DatabaseManager/Creator.h"
 
 //==================================================================================================================================
 //==================================================================================================================================
@@ -26,7 +27,7 @@ AddWorkDialog::~AddWorkDialog() {
 //==================================================================================================================================
 //==================================================================================================================================
 
-void AddWorkDialog::on_addButton_clicked() {
+void AddWorkDialog::on_buttonBox_accepted() {
 	Work work;
 	work.name = ui->nameLineEdit->text();
 	work.status = ui->statusComboBox->currentData().toString();
@@ -37,13 +38,9 @@ void AddWorkDialog::on_addButton_clicked() {
 	work.updated = date_time;
 	work.added = date_time;
 
-	if (DatabaseManager::add_work(work)) {
-		accept();
-	}
-	else {
-		QMessageBox::warning(this, "Database Error.", "Failed to add Work.");
-	}
+	emit workAdded(work);
 }
 
 //==================================================================================================================================
 //==================================================================================================================================
+

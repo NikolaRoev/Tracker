@@ -1,7 +1,8 @@
 #include "pch.h"
 #include "AddCreatorDialog.h"
 #include "./ui_AddCreatorDialog.h"
-#include "DatabaseManager/DatabaseManager.h"
+#include "DatabaseManager/Creator.h"
+#include "DatabaseManager/Work.h"
 
 //==================================================================================================================================
 //==================================================================================================================================
@@ -19,16 +20,11 @@ AddCreatorDialog::~AddCreatorDialog() {
 //==================================================================================================================================
 //==================================================================================================================================
 
-void AddCreatorDialog::on_addButton_clicked() {
+void AddCreatorDialog::on_buttonBox_accepted() {
 	Creator creator;
 	creator.name = ui->nameLineEdit->text();
 
-	if (DatabaseManager::add_creator(creator)) {
-		accept();
-	}
-	else {
-		QMessageBox::warning(this, "Database Error.", "Failed to add Creator.");
-	}
+	emit creatorAdded(creator);
 }
 
 //==================================================================================================================================
