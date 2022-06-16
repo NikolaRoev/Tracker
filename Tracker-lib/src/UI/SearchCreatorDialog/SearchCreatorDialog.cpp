@@ -32,7 +32,7 @@ void SearchCreatorDialog::on_filterLineEdit_textEdited(const QString& text) {
 		}
 	}
 	else {
-		QMessageBox::warning(this, "Database Error.", "Failed to search for Creators.");
+		QMessageBox::warning(this, "Database Error", "Failed to search for Creators.");
 	}
 }
 
@@ -40,8 +40,6 @@ void SearchCreatorDialog::on_filterLineEdit_textEdited(const QString& text) {
 
 void SearchCreatorDialog::on_listWidget_itemDoubleClicked(QListWidgetItem* item) {
 	emit creatorSelected(item->data(Qt::UserRole).toInt(), item->text());
-	accept();
-	//TO DO: Check if the attachment succeeded here, remove signals/slots.
 }
 
 //==================================================================================================================================

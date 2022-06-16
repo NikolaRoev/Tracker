@@ -305,7 +305,7 @@ void BrowsePage::on_workAdded(const Work& work) {
 		populate(ui->lineEdit->text());
 	}
 	else {
-		QMessageBox::warning(this, "Database Error.", "Failed to add Work.");
+		QMessageBox::warning(this, "Database Error", "Failed to add Work.");
 	}
 }
 
@@ -316,7 +316,7 @@ void BrowsePage::on_creatorAdded(const Creator& creator) {
 		populate(ui->lineEdit->text());
 	}
 	else {
-		QMessageBox::warning(this, "Database Error.", "Failed to add Creator.");
+		QMessageBox::warning(this, "Database Error", "Failed to add Creator.");
 	}
 }
 
