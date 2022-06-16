@@ -24,7 +24,7 @@ void SearchCreatorDialog::on_filterLineEdit_textEdited(const QString& text) {
 	ui->listWidget->clear();
 
 	QList<Creator> found_creators;
-	if (QString error = DatabaseManager::search_creators(found_creators, text); error.isNull()){
+	if (DatabaseManager::search_creators(found_creators, text)){
 		for (const auto& creator : found_creators) {
 			QListWidgetItem* item = new QListWidgetItem(creator.name);
 			item->setData(Qt::UserRole, creator.id);
@@ -32,8 +32,7 @@ void SearchCreatorDialog::on_filterLineEdit_textEdited(const QString& text) {
 		}
 	}
 	else {
-		qWarning() << error;
-		QMessageBox::warning(this, "Failed to search for Creators.", error);
+		QMessageBox::warning(this, "Database Error.", "Failed to search for Creators.");
 	}
 }
 

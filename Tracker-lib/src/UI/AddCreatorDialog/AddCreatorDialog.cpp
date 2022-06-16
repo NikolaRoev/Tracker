@@ -23,12 +23,11 @@ void AddCreatorDialog::on_addButton_clicked() {
 	Creator creator;
 	creator.name = ui->nameLineEdit->text();
 
-	if (QString error = DatabaseManager::add_creator(creator); error.isNull()) {
+	if (DatabaseManager::add_creator(creator)) {
 		accept();
 	}
 	else {
-		qWarning() << error;
-		QMessageBox::warning(this, "Failed to add Creator.", error);
+		QMessageBox::warning(this, "Database Error.", "Failed to add Creator.");
 	}
 }
 

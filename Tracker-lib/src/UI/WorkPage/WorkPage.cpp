@@ -166,28 +166,26 @@ void WorkPage::on_artistsListWidget_customContextMenuRequested(const QPoint& pos
 //==================================================================================================================================
 
 void WorkPage::on_authorSelected(const int author_id, const QString& name) {
-	if (QString error = DatabaseManager::attach_creator(id, author_id, "Author"); error.isNull()) {
+	if (DatabaseManager::attach_creator(id, author_id, "Author")) {
 		QListWidgetItem* item = new QListWidgetItem(name);
 		item->setData(Qt::UserRole, author_id);
 		ui->authorsListWidget->addItem(item);
 	}
 	else {
-		qWarning() << error;
-		QMessageBox::warning(this, "Failed to attach Author.", error);
+		QMessageBox::warning(this, "Database Error.", "Failed to attach Author.");
 	}
 }
 
 //==================================================================================================================================
 
 void WorkPage::on_artistSelected(const int artist_id, const QString& name) {
-	if (QString error = DatabaseManager::attach_creator(id, artist_id, "Artist"); error.isNull()) {
+	if (DatabaseManager::attach_creator(id, artist_id, "Artist")) {
 		QListWidgetItem* item = new QListWidgetItem(name);
 		item->setData(Qt::UserRole, artist_id);
 		ui->artistsListWidget->addItem(item);
 	}
 	else {
-		qWarning() << error;
-		QMessageBox::warning(this, "Failed to attach Artist.", error);
+		QMessageBox::warning(this, "Database Error.", "Failed to attach Artist.");
 	}
 }
 

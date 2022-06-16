@@ -37,12 +37,11 @@ void AddWorkDialog::on_addButton_clicked() {
 	work.updated = date_time;
 	work.added = date_time;
 
-	if (QString error = DatabaseManager::add_work(work); error.isNull()) {
+	if (DatabaseManager::add_work(work)) {
 		accept();
 	}
 	else {
-		qWarning() << error;
-		QMessageBox::warning(this, "Failed to add Work.", error);
+		QMessageBox::warning(this, "Database Error.", "Failed to add Work.");
 	}
 }
 
