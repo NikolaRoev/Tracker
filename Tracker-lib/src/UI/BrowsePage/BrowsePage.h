@@ -45,6 +45,8 @@ private slots:
 	void on_creatorClicked(const int id);
 	void on_workAdded(const Work& work);
 	void on_creatorAdded(const Creator& creator);
+	void on_workRemoved(const int id);
+	void on_creatorRemoved(const int id);
 
 signals:
 	void message(const QString& message, int timeout = 0);

@@ -57,6 +57,15 @@ WorkPage::~WorkPage() {
 //==================================================================================================================================
 //==================================================================================================================================
 
+void WorkPage::on_removeButton_clicked() {
+	int result = QMessageBox::question(this,"Removing", QString("Remove Work: %1?").arg(ui->nameLineEdit->text()));
+	if (result == QMessageBox::Yes) {
+		emit workRemoved(id);
+	}
+}
+
+//==================================================================================================================================
+
 void WorkPage::on_nameLineEdit_textEdited(const QString& text) {
 	DatabaseManager::update_work("name", id, text);
 }

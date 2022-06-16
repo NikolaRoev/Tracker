@@ -22,6 +22,7 @@ public:
 	~WorkPage();
 
 private slots:
+	void on_removeButton_clicked();
 	void on_nameLineEdit_textEdited(const QString& text);
 	void on_statusComboBox_currentIndexChanged(int index);
 	void on_typeComboBox_currentIndexChanged(int index);
@@ -39,6 +40,7 @@ private slots:
 
 signals:
 	void creatorClicked(const int id);
+	void workRemoved(const int id);
 };
 
 //==================================================================================================================================

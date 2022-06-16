@@ -17,7 +17,7 @@ CreatorPage::CreatorPage(const int id, QWidget* parent) : QWidget(parent), ui(ne
 	Creator creator;
 	DatabaseManager::get_creator(creator, id);
 	ui->idLabel->setText(QString::number(creator.id));
-	ui->lineEdit->setText(creator.name);
+	ui->nameLineEdit->setText(creator.name);
 
 	for (const auto& work : creator.works) {
 		ui->tableWidget->insertRow(ui->tableWidget->rowCount());
@@ -42,7 +42,16 @@ CreatorPage::~CreatorPage() {
 //==================================================================================================================================
 //==================================================================================================================================
 
-void CreatorPage::on_lineEdit_textEdited(const QString& text) {
+void CreatorPage::on_removeButton_clicked() {
+	int result = QMessageBox::question(this, "Removing", QString("Remove Creator: %1?").arg(ui->nameLineEdit->text()));
+	if (result == QMessageBox::Yes) {
+		emit creatorRemoved(id);
+	}
+}
+
+//==================================================================================================================================
+
+void CreatorPage::on_nameLineEdit_textEdited(const QString& text) {
 	DatabaseManager::update_creator("name", id, text);
 }
 

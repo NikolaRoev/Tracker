@@ -22,11 +22,13 @@ public:
 	~CreatorPage();
 
 private slots:
-	void on_lineEdit_textEdited(const QString& text);
+	void on_removeButton_clicked();
+	void on_nameLineEdit_textEdited(const QString& text);
 	void on_tableWidget_clicked(const QModelIndex &index);
 
 signals:
 	void workClicked(const int id);
+	void creatorRemoved(const int id);
 };
 
 //==================================================================================================================================

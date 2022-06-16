@@ -231,11 +231,9 @@ void BrowsePage::on_tableWidget_customContextMenuRequested(const QPoint& pos) {
 		if (QVariant user_data = item->data(Qt::UserRole); user_data.isValid()) {
 			QMenu menu(ui->tableWidget);
 			menu.addAction("Remove", [&](){
-				int result = QMessageBox::warning(this,
+				int result = QMessageBox::question(this,
 												  "Removing",
-												  QString("Are you sure you want to remove \"%1\"?").arg(item->text()),
-												  QMessageBox::Yes,
-												  QMessageBox::No);
+												  QString("Are you sure you want to remove \"%1\"?").arg(item->text()));
 
 				if (result == QMessageBox::Yes) {
 					if (ui->whatComboBox->currentIndex() == 0) {
@@ -271,6 +269,7 @@ void BrowsePage::on_workClicked(const int id) {
 
 	WorkPage* work_page = new WorkPage(id);
 	connect(work_page, &WorkPage::creatorClicked, this, &BrowsePage::on_creatorClicked);
+	connect(work_page, &WorkPage::workRemoved, this, &BrowsePage::on_workRemoved);
 
 	ui->stackedWidget->addWidget(work_page);
 	ui->stackedWidget->setCurrentIndex(ui->stackedWidget->count() - 1);
@@ -293,6 +292,7 @@ void BrowsePage::on_creatorClicked(const int id) {
 
 	CreatorPage* creator_page = new CreatorPage(id);
 	connect(creator_page, &CreatorPage::workClicked, this, &BrowsePage::on_workClicked);
+	connect(creator_page, &CreatorPage::creatorRemoved, this, &BrowsePage::on_creatorRemoved);
 
 	ui->stackedWidget->addWidget(creator_page);
 	ui->stackedWidget->setCurrentIndex(ui->stackedWidget->count() - 1);
@@ -317,6 +317,40 @@ void BrowsePage::on_creatorAdded(const Creator& creator) {
 	}
 	else {
 		QMessageBox::warning(this, "Database Error", "Failed to add Creator.");
+	}
+}
+
+//==================================================================================================================================
+
+void BrowsePage::on_workRemoved(const int id) {
+	if (DatabaseManager::remove_work(id)) {
+		while (ui->stackedWidget->count() > 1) {
+			QWidget* widget = ui->stackedWidget->widget(ui->stackedWidget->count() - 1);
+			ui->stackedWidget->removeWidget(widget);
+			delete widget;
+		}
+
+		ui->stackedWidget->setCurrentIndex(0);
+	}
+	else {
+		QMessageBox::warning(this, "Database Error", "Failed to remove Work.");
+	}
+}
+
+//==================================================================================================================================
+
+void BrowsePage::on_creatorRemoved(const int id) {
+	if (DatabaseManager::remove_creator(id)) {
+		while (ui->stackedWidget->count() > 1) {
+			QWidget* widget = ui->stackedWidget->widget(ui->stackedWidget->count() - 1);
+			ui->stackedWidget->removeWidget(widget);
+			delete widget;
+		}
+
+		ui->stackedWidget->setCurrentIndex(0);
+	}
+	else {
+		QMessageBox::warning(this, "Database Error", "Failed to remove Creator.");
 	}
 }
 
