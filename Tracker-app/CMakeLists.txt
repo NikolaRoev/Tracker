@@ -1,4 +1,4 @@
-qt_add_executable(Tracker-app
+qt_add_executable(Tracker-app WIN32
 	"${CMAKE_SOURCE_DIR}/resources/resources.qrc"
 	"${CMAKE_SOURCE_DIR}/resources/resources.rc"
 
