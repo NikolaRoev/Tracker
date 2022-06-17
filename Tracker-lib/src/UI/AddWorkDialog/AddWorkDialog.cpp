@@ -34,7 +34,7 @@ void AddWorkDialog::on_buttonBox_accepted() {
 	work.type = ui->typeComboBox->currentData().toString();
 	work.chapter = ui->chapterLineEdit->text();
 
-	QString date_time = QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss");
+	QString date_time = util::current_datetime();
 	work.updated = date_time;
 	work.added = date_time;
 

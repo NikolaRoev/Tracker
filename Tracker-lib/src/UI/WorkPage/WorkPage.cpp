@@ -89,7 +89,7 @@ void WorkPage::on_typeComboBox_currentIndexChanged(int index) {
 void WorkPage::on_chapterLineEdit_textEdited(const QString& text) {
 	DatabaseManager::update_work("chapter", id, text);
 
-	QString date_time = QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss");
+	QString date_time = util::current_datetime();
 	DatabaseManager::update_work("updated", id, date_time);
 	ui->updatedLabel->setText(date_time);
 }

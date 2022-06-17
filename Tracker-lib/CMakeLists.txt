@@ -45,6 +45,9 @@ qt_add_library(Tracker-lib STATIC
 	"src/UI/SearchCreatorDialog/SearchCreatorDialog.h"
 	"src/UI/SearchCreatorDialog/SearchCreatorDialog.cpp"
 	"src/UI/SearchCreatorDialog/SearchCreatorDialog.ui"
+
+	"src/Utility/Utility.h"
+	"src/Utility/Utility.cpp"
 )
 
 target_link_libraries(Tracker-lib
@@ -60,7 +63,7 @@ target_include_directories(Tracker-lib
 	PUBLIC
 	"src/"
 	"src/UI/"
-	"src/Custom/"
+	"src/Utility/"
 )
 
 target_precompile_headers(Tracker-lib
