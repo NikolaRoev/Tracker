@@ -1,7 +1,9 @@
 qt_add_library(Tracker-lib STATIC
-	"${CMAKE_SOURCE_DIR}/resources/resources.qrc"
-
 	"src/pch.h"
+
+
+	"src/Core/Core.h"
+	"src/Core/Core.cpp"
 
 
 	"src/DatabaseManager/DatabaseManager.h"
@@ -46,6 +48,7 @@ qt_add_library(Tracker-lib STATIC
 	"src/UI/SearchCreatorDialog/SearchCreatorDialog.cpp"
 	"src/UI/SearchCreatorDialog/SearchCreatorDialog.ui"
 
+
 	"src/Utility/Utility.h"
 	"src/Utility/Utility.cpp"
 )
@@ -62,6 +65,7 @@ target_link_libraries(Tracker-lib
 target_include_directories(Tracker-lib
 	PUBLIC
 	"src/"
+	"src/Core/"
 	"src/UI/"
 	"src/Utility/"
 )
