@@ -2,6 +2,7 @@
 #include "DatabaseManager.h"
 #include "Work.h"
 #include "Creator.h"
+#include "AttachedCreator.h"
 
 //==================================================================================================================================
 //==================================================================================================================================
@@ -167,13 +168,19 @@ bool DatabaseManager::get_work(Work& work, const int id) {
 			work.updated = query.value(4).toString();
 			work.added = query.value(5).toString();
 		}
+
+		return true;
 	}
 	else {
 		qWarning() << query.lastError();
 		return false;
 	}
+}
 
-	//Find all the associated Creators.
+//==================================================================================================================================
+
+bool DatabaseManager::get_work_creators(QList<AttachedCreator>& creators, const int id) {
+	QSqlQuery query;
 	query.prepare(
 		"WITH found_creators AS ("
 		"	SELECT creator_id AS id, type "
@@ -185,20 +192,19 @@ bool DatabaseManager::get_work(Work& work, const int id) {
 		"INNER JOIN found_creators "
 		"ON creators.id = found_creators.id"
 	);
-	query.bindValue(":work_id", work.id);
+	query.bindValue(":work_id", id);
 
 	if (query.exec()) {
 		while (query.next()) {
-			work.creators.emplace_back(query.value(0).toInt(), query.value(1).toString(), query.value(2).toString());
+			creators.emplace_back(query.value(0).toInt(), query.value(1).toString(), query.value(2).toString());
 		}
+
+		return true;
 	}
 	else {
 		qWarning() << query.lastError();
 		return false;
 	}
-
-
-	return true;
 }
 
 //==================================================================================================================================
@@ -352,13 +358,19 @@ bool DatabaseManager::get_creator(Creator& creator, const int id) {
 			creator.id = id;
 			creator.name = query.value(0).toString();
 		}
+
+		return true;
 	}
 	else {
 		qWarning() << query.lastError();
 		return false;
 	}
+}
 
-	//Find all the associated Works.
+//==================================================================================================================================
+
+bool DatabaseManager::get_creator_works(QList<Work>& works, const int id) {
+	QSqlQuery query;
 	query.prepare(
 		"WITH matched_works AS ("
 		"	SELECT DISTINCT work_id AS id "
@@ -370,11 +382,11 @@ bool DatabaseManager::get_creator(Creator& creator, const int id) {
 		"INNER JOIN matched_works "
 		"ON works.id = matched_works.id"
 	);
-	query.bindValue(":creator_id", creator.id);
+	query.bindValue(":creator_id", id);
 
 	if (query.exec()) {
 		while (query.next()) {
-			creator.works.emplace_back(
+			works.emplace_back(
 				query.value(0).toInt(),
 				query.value(1).toString(),
 				query.value(2).toString(),
@@ -384,14 +396,13 @@ bool DatabaseManager::get_creator(Creator& creator, const int id) {
 				query.value(6).toString()
 			);
 		}
+
+		return true;
 	}
 	else {
 		qWarning() << query.lastError();
 		return false;
 	}
-
-
-	return true;
 }
 
 //==================================================================================================================================

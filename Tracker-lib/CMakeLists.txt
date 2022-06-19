@@ -10,6 +10,7 @@ qt_add_library(Tracker-lib STATIC
 	"src/DatabaseManager/DatabaseManager.cpp"
 	"src/DatabaseManager/Work.h"
 	"src/DatabaseManager/Creator.h"
+	"src/DatabaseManager/AttachedCreator.h"
 
 
 	"src/UI/MainWindow/MainWindow.h"

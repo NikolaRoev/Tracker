@@ -19,7 +19,9 @@ CreatorPage::CreatorPage(const int id, QWidget* parent) : QWidget(parent), ui(ne
 	ui->idLabel->setText(QString::number(creator.id));
 	ui->nameLineEdit->setText(creator.name);
 
-	for (const auto& work : creator.works) {
+	QList<Work> works;
+	DatabaseManager::get_creator_works(works, id);
+	for (const auto& work : works) {
 		ui->tableWidget->insertRow(ui->tableWidget->rowCount());
 
 		QTableWidgetItem* name_item = new QTableWidgetItem(work.name);

@@ -3,7 +3,7 @@
 #include "./ui_WorkPage.h"
 #include "DatabaseManager/DatabaseManager.h"
 #include "DatabaseManager/Work.h"
-#include "DatabaseManager/Creator.h"
+#include "DatabaseManager/AttachedCreator.h"
 #include "SearchCreatorDialog/SearchCreatorDialog.h"
 
 //==================================================================================================================================
@@ -31,7 +31,10 @@ WorkPage::WorkPage(const int id, QWidget* parent) : QWidget(parent), ui(new Ui::
 	ui->updatedLabel->setText(work.updated);
 	ui->addedLabel->setText(work.added);
 
-	for (const auto& creator : work.creators) {
+
+	QList<AttachedCreator> creators;
+	DatabaseManager::get_work_creators(creators, id);
+	for (const auto& creator : creators) {
 		QListWidgetItem* item = new QListWidgetItem(creator.name);
 		item->setData(Qt::UserRole, creator.id);
 
