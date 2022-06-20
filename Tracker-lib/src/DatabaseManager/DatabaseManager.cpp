@@ -167,14 +167,15 @@ bool DatabaseManager::get_work(Work& work, const int id) {
 			work.chapter = query.value(3).toString();
 			work.updated = query.value(4).toString();
 			work.added = query.value(5).toString();
-		}
 
-		return true;
+			return true;
+		}
 	}
 	else {
 		qWarning() << query.lastError();
-		return false;
 	}
+
+	return false;
 }
 
 //==================================================================================================================================
@@ -357,14 +358,15 @@ bool DatabaseManager::get_creator(Creator& creator, const int id) {
 		if (query.next()) {
 			creator.id = id;
 			creator.name = query.value(0).toString();
-		}
 
-		return true;
+			return true;
+		}
 	}
 	else {
 		qWarning() << query.lastError();
-		return false;
 	}
+
+	return false;
 }
 
 //==================================================================================================================================
