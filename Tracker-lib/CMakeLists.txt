@@ -59,20 +59,21 @@ target_link_libraries(Tracker-lib
 	Qt6::Core
 	Qt6::Widgets
 	Qt6::Gui
-	Qt6::Network
 	Qt6::Sql
 )
 
 target_include_directories(Tracker-lib
 	PUBLIC
 	"src/"
-	"src/Core/"
 	"src/UI/"
 	"src/Utility/"
+
+	INTERFACE
+	"src/Core/"
 )
 
 target_precompile_headers(Tracker-lib
-	PUBLIC
+	PRIVATE
 	"src/pch.h"
 )
 

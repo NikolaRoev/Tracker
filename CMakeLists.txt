@@ -17,7 +17,6 @@ find_package(Qt6
 	Core
 	Widgets
 	Gui
-	Network
 	Sql
 	Test
 )

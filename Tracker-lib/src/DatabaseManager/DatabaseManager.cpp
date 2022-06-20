@@ -183,15 +183,15 @@ bool DatabaseManager::get_work(Work& work, const int id) {
 bool DatabaseManager::get_work_creators(QList<AttachedCreator>& creators, const int id) {
 	QSqlQuery query;
 	query.prepare(
-		"WITH found_creators AS ("
+		"WITH attached_creators AS ("
 		"	SELECT creator_id AS id, type "
 		"	FROM work_creator "
 		"	WHERE work_id = (:work_id)"
 		") "
-		"SELECT found_creators.id, creators.name, found_creators.type "
+		"SELECT attached_creators.id, creators.name, attached_creators.type "
 		"FROM creators "
-		"INNER JOIN found_creators "
-		"ON creators.id = found_creators.id"
+		"INNER JOIN attached_creators "
+		"ON creators.id = attached_creators.id"
 	);
 	query.bindValue(":work_id", id);
 
@@ -374,15 +374,15 @@ bool DatabaseManager::get_creator(Creator& creator, const int id) {
 bool DatabaseManager::get_creator_works(QList<Work>& works, const int id) {
 	QSqlQuery query;
 	query.prepare(
-		"WITH matched_works AS ("
+		"WITH attached_works AS ("
 		"	SELECT DISTINCT work_id AS id "
 		"	FROM work_creator "
 		"	WHERE creator_id = (:creator_id)"
 		") "
 		"SELECT works.id, works.name, works.status, works.type, works.chapter, works.updated, works.added "
 		"FROM works "
-		"INNER JOIN matched_works "
-		"ON works.id = matched_works.id"
+		"INNER JOIN attached_works "
+		"ON works.id = attached_works.id"
 	);
 	query.bindValue(":creator_id", id);
 
