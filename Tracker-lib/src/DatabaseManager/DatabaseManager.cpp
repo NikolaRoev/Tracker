@@ -4,10 +4,6 @@
 #include "Creator.h"
 #include "AttachedCreator.h"
 
-//==================================================================================================================================
-//==================================================================================================================================
-//==================================================================================================================================
-
 bool DatabaseManager::init(const QString& name) {
 	QSqlDatabase::addDatabase("QSQLITE");
 	QSqlDatabase db = QSqlDatabase::database();
@@ -73,17 +69,11 @@ bool DatabaseManager::init(const QString& name) {
 	return true;
 }
 
-//==================================================================================================================================
-
 void DatabaseManager::deinit() {
 	QSqlDatabase db = QSqlDatabase::database();
 	db.close();
 	QSqlDatabase::removeDatabase("QSQLITE");
 }
-
-//==================================================================================================================================
-//==================================================================================================================================
-//==================================================================================================================================
 
 bool DatabaseManager::add_work(const Work& work) {
 	QSqlQuery query;
@@ -107,8 +97,6 @@ bool DatabaseManager::add_work(const Work& work) {
 	}
 }
 
-//==================================================================================================================================
-
 bool DatabaseManager::remove_work(const int id) {
 	QSqlQuery query;
 	query.prepare(
@@ -125,8 +113,6 @@ bool DatabaseManager::remove_work(const int id) {
 		return false;
 	}
 }
-
-//==================================================================================================================================
 
 bool DatabaseManager::update_work(const QString& column, const int id, const QString& value) {
 	QSqlQuery query;
@@ -146,8 +132,6 @@ bool DatabaseManager::update_work(const QString& column, const int id, const QSt
 		return false;
 	}
 }
-
-//==================================================================================================================================
 
 bool DatabaseManager::get_work(Work& work, const int id) {
 	QSqlQuery query;
@@ -178,8 +162,6 @@ bool DatabaseManager::get_work(Work& work, const int id) {
 	return false;
 }
 
-//==================================================================================================================================
-
 bool DatabaseManager::get_work_creators(QList<AttachedCreator>& creators, const int id) {
 	QSqlQuery query;
 	query.prepare(
@@ -207,8 +189,6 @@ bool DatabaseManager::get_work_creators(QList<AttachedCreator>& creators, const 
 		return false;
 	}
 }
-
-//==================================================================================================================================
 
 bool DatabaseManager::search_works(QList<Work>& works, const QString& search, const QString& by, const QString& status, const QString& type) {
 	QString query_text;
@@ -283,9 +263,6 @@ bool DatabaseManager::search_works(QList<Work>& works, const QString& search, co
 	}
 }
 
-//==================================================================================================================================
-//==================================================================================================================================
-
 bool DatabaseManager::add_creator(const Creator& creator) {
 	QSqlQuery query;
 	query.prepare(
@@ -303,8 +280,6 @@ bool DatabaseManager::add_creator(const Creator& creator) {
 	}
 }
 
-//==================================================================================================================================
-
 bool DatabaseManager::remove_creator(const int id) {
 	QSqlQuery query;
 	query.prepare(
@@ -321,8 +296,6 @@ bool DatabaseManager::remove_creator(const int id) {
 		return false;
 	}
 }
-
-//==================================================================================================================================
 
 bool DatabaseManager::update_creator(const QString& column, const int id, const QString& value) {
 	QSqlQuery query;
@@ -342,8 +315,6 @@ bool DatabaseManager::update_creator(const QString& column, const int id, const 
 		return false;
 	}
 }
-
-//==================================================================================================================================
 
 bool DatabaseManager::get_creator(Creator& creator, const int id) {
 	QSqlQuery query;
@@ -368,8 +339,6 @@ bool DatabaseManager::get_creator(Creator& creator, const int id) {
 
 	return false;
 }
-
-//==================================================================================================================================
 
 bool DatabaseManager::get_creator_works(QList<Work>& works, const int id) {
 	QSqlQuery query;
@@ -407,8 +376,6 @@ bool DatabaseManager::get_creator_works(QList<Work>& works, const int id) {
 	}
 }
 
-//==================================================================================================================================
-
 bool DatabaseManager::search_creators(QList<Creator>& creators, const QString& search) {
 	QSqlQuery query;
 	query.prepare("SELECT id, name "
@@ -430,8 +397,6 @@ bool DatabaseManager::search_creators(QList<Creator>& creators, const QString& s
 	}
 }
 
-//==================================================================================================================================
-
 bool DatabaseManager::attach_creator(const int work_id, const int creator_id, const QString& type) {
 	QSqlQuery query;
 	query.prepare(
@@ -451,8 +416,6 @@ bool DatabaseManager::attach_creator(const int work_id, const int creator_id, co
 	}
 }
 
-//==================================================================================================================================
-
 bool DatabaseManager::detach_creator(const int work_id, const int creator_id, const QString& type) {
 	QSqlQuery query;
 	query.prepare(
@@ -471,7 +434,3 @@ bool DatabaseManager::detach_creator(const int work_id, const int creator_id, co
 		return false;
 	}
 }
-
-//==================================================================================================================================
-//==================================================================================================================================
-//==================================================================================================================================
