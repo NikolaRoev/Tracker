@@ -20,7 +20,6 @@ bool DatabaseManager::init(const QString& name) {
 		return false;
 	}
 
-	//Create the Works table.
 	query.prepare(
 		"CREATE TABLE IF NOT EXISTS works ("
 		"	id			INTEGER PRIMARY KEY NOT NULL, "
@@ -37,7 +36,6 @@ bool DatabaseManager::init(const QString& name) {
 		return false;
 	}
 
-	//Create the Creators table.
 	query.prepare(
 		"CREATE TABLE IF NOT EXISTS creators ("
 		"	id		INTEGER PRIMARY KEY NOT NULL, "
@@ -49,7 +47,6 @@ bool DatabaseManager::init(const QString& name) {
 		return false;
 	}
 
-	//Create the Work-Creator table.
 	query.prepare(
 		"CREATE TABLE IF NOT EXISTS work_creator ("
 		"	work_id		INTEGER NOT NULL, "

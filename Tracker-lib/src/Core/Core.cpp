@@ -2,8 +2,6 @@
 #include "Core.h"
 #include "MainWindow/MainWindow.h"
 
-//==================================================================================================================================
-
 int Core::start(int& argc, char** argv) {
 	qSetMessagePattern(
 		"[%{if-debug}Debug%{endif}"
@@ -27,5 +25,3 @@ int Core::start(int& argc, char** argv) {
 	window.show();
 	return app.exec();
 }
-
-//==================================================================================================================================
