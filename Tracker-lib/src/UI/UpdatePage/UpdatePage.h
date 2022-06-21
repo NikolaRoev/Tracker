@@ -1,15 +1,11 @@
 #pragma once
 #include "pch.h"
 
-//==================================================================================================================================
-
 QT_BEGIN_NAMESPACE
 namespace Ui {
 	class UpdatePage;
 }
 QT_END_NAMESPACE
-
-//==================================================================================================================================
 
 class UpdatePage : public QWidget {
 	Q_OBJECT
@@ -24,9 +20,4 @@ public:
 
 private slots:
 	void on_lineEdit_textEdited(const QString& text);
-
-signals:
-	void message(const QString& message, int timeout = 0);
 };
-
-//==================================================================================================================================

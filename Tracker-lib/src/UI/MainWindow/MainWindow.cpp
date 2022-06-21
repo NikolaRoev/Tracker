@@ -5,17 +5,10 @@
 #include "UpdatePage/UpdatePage.h"
 #include "BrowsePage/BrowsePage.h"
 
-//==================================================================================================================================
-//==================================================================================================================================
-
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
 	DatabaseManager::init("database.db");
 	ui->setupUi(this);
 
-
-	//Connect the signals for the Status Bar.
-	connect(ui->updatePage, &UpdatePage::message, ui->statusBar, &QStatusBar::showMessage);
-	connect(ui->browsePage, &BrowsePage::message, ui->statusBar, &QStatusBar::showMessage);
 
 	//Set default focus to the Update Search Bar.
 	//As 'tabWidget' is first in the tab order it gets focused when the application starts.
@@ -33,8 +26,6 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
 	settings.endGroup();
 }
 
-//==================================================================================================================================
-
 MainWindow::~MainWindow() {
 	//Save settings.
 	QSettings settings("settings.ini", QSettings::IniFormat, this);
@@ -47,15 +38,9 @@ MainWindow::~MainWindow() {
 	delete ui;
 }
 
-//==================================================================================================================================
-//==================================================================================================================================
-
 void MainWindow::on_tabWidget_currentChanged(int index) {
 	switch (index) {
 		case 0: ui->updatePage->populate(""); break;
 		case 1: ui->browsePage->populate(""); break;
 	}
 }
-
-//==================================================================================================================================
-//==================================================================================================================================

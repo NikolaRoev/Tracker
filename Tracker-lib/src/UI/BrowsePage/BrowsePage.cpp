@@ -67,9 +67,6 @@ void BrowsePage::populate(const QString& search) {
 			ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 2, new QTableWidgetItem(work.updated));
 			ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 3, new QTableWidgetItem(work.added));
 		}
-
-		//Update the Status Bar.
-		emit message(QString("Found %1 works.").arg(found_works.size()));
 	}
 	else {
 		QList<Creator> found_creators;
@@ -83,9 +80,6 @@ void BrowsePage::populate(const QString& search) {
 
 			ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 0, name_item);
 		}
-
-		//Update the Status Bar.
-		emit message(QString("Found %1 creators.").arg(found_creators.size()));
 	}
 }
 
