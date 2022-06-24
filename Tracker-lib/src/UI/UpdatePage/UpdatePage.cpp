@@ -8,9 +8,6 @@
 UpdatePage::UpdatePage(QWidget *parent) : QWidget(parent), ui(new Ui::UpdatePage) {
 	ui->setupUi(this);
 
-	//Align the update list layout to top so the populated entries look nice.
-	ui->contentsWidget->layout()->setAlignment(Qt::AlignTop);
-
 	//Focus on the Search Line Edit.
 	setFocusProxy(ui->lineEdit);
 
@@ -24,18 +21,18 @@ UpdatePage::~UpdatePage() {
 }
 
 void UpdatePage::populate(const QString& search) {
-	//Clear the update list.
-	QLayoutItem* child{ nullptr };
-	while ((child = ui->contentsWidget->layout()->takeAt(0)) != nullptr) {
-		delete child->widget();
-		delete child;
-	}
+	ui->listWidget->clear();
 
 	//Find Works and populate the update list.
 	QList<Work> found_works;
 	DatabaseManager::search_works(found_works, search, "name", "Reading", NULL);
 	for (const auto& found_work : found_works) {
-		ui->contentsWidget->layout()->addWidget(new UpdateEntry(found_work, ui->scrollArea));
+		UpdateEntry* widget = new UpdateEntry(found_work, ui->listWidget);
+		QListWidgetItem* item = new QListWidgetItem;
+		item->setSizeHint(widget->sizeHint());
+
+		ui->listWidget->addItem(item);
+		ui->listWidget->setItemWidget(item, widget);
 	}
 }
 

@@ -53,62 +53,22 @@
     </widget>
    </item>
    <item>
-    <widget class="QScrollArea" name="scrollArea">
-     <property name="frameShape">
-      <enum>QFrame::NoFrame</enum>
+    <widget class="QListWidget" name="listWidget">
+     <property name="editTriggers">
+      <set>QAbstractItemView::NoEditTriggers</set>
      </property>
-     <property name="frameShadow">
-      <enum>QFrame::Plain</enum>
+     <property name="showDropIndicator" stdset="0">
+      <bool>false</bool>
      </property>
-     <property name="lineWidth">
-      <number>0</number>
+     <property name="spacing">
+      <number>10</number>
      </property>
-     <property name="verticalScrollBarPolicy">
-      <enum>Qt::ScrollBarAsNeeded</enum>
-     </property>
-     <property name="horizontalScrollBarPolicy">
-      <enum>Qt::ScrollBarAlwaysOff</enum>
-     </property>
-     <property name="widgetResizable">
-      <bool>true</bool>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-     <widget class="QWidget" name="contentsWidget">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>895</width>
-        <height>528</height>
-       </rect>
-      </property>
-      <layout class="QVBoxLayout" name="verticalLayout_2">
-       <property name="spacing">
-        <number>15</number>
-       </property>
-       <property name="leftMargin">
-        <number>7</number>
-       </property>
-       <property name="topMargin">
-        <number>7</number>
-       </property>
-       <property name="rightMargin">
-        <number>7</number>
-       </property>
-       <property name="bottomMargin">
-        <number>7</number>
-       </property>
-      </layout>
-     </widget>
     </widget>
    </item>
   </layout>
  </widget>
  <tabstops>
   <tabstop>lineEdit</tabstop>
-  <tabstop>scrollArea</tabstop>
  </tabstops>
  <resources/>
  <connections/>
