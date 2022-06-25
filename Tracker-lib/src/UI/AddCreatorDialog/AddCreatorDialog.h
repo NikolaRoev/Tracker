@@ -2,15 +2,11 @@
 #include "pch.h"
 #include "DatabaseManager/Creator.h"
 
-//==================================================================================================================================
-
 QT_BEGIN_NAMESPACE
 namespace Ui {
 	class AddCreatorDialog;
 }
 QT_END_NAMESPACE
-
-//==================================================================================================================================
 
 class AddCreatorDialog : public QDialog {
 	Q_OBJECT
@@ -27,5 +23,3 @@ private slots:
 signals:
 	void creatorAdded(const Creator& creator);
 };
-
-//==================================================================================================================================

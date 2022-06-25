@@ -5,9 +5,6 @@
 #include "DatabaseManager/Work.h"
 #include "DatabaseManager/Creator.h"
 
-//==================================================================================================================================
-//==================================================================================================================================
-
 CreatorPage::CreatorPage(const int id, QWidget* parent) : QWidget(parent), ui(new Ui::CreatorPage), id(id) {
 	ui->setupUi(this);
 	ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
@@ -35,14 +32,9 @@ CreatorPage::CreatorPage(const int id, QWidget* parent) : QWidget(parent), ui(ne
 	}
 }
 
-//==================================================================================================================================
-
 CreatorPage::~CreatorPage() {
 	delete ui;
 }
-
-//==================================================================================================================================
-//==================================================================================================================================
 
 void CreatorPage::on_removeButton_clicked() {
 	int result = QMessageBox::question(this, "Removing", QString("Remove Creator: %1?").arg(ui->nameLineEdit->text()));
@@ -51,17 +43,10 @@ void CreatorPage::on_removeButton_clicked() {
 	}
 }
 
-//==================================================================================================================================
-
 void CreatorPage::on_nameLineEdit_textEdited(const QString& text) {
 	DatabaseManager::update_creator("name", id, text);
 }
 
-//==================================================================================================================================
-
 void CreatorPage::on_tableWidget_clicked(const QModelIndex& index) {
 	emit workClicked(ui->tableWidget->item(index.row(), 0)->data(Qt::UserRole).toInt());
 }
-
-//==================================================================================================================================
-//==================================================================================================================================
