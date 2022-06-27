@@ -1,11 +1,12 @@
 #include "pch.h"
 #include "UpdatePage.h"
 #include "./ui_UpdatePage.h"
+#include "Page.h"
 #include "UpdateEntry.h"
 #include "DatabaseManager/DatabaseManager.h"
 #include "DatabaseManager/Work.h"
 
-UpdatePage::UpdatePage(QWidget *parent) : QWidget(parent), ui(new Ui::UpdatePage) {
+UpdatePage::UpdatePage(QWidget* parent) : Page(parent), ui(new Ui::UpdatePage) {
 	ui->setupUi(this);
 
 	//Focus on the Search Line Edit.
@@ -20,12 +21,11 @@ UpdatePage::~UpdatePage() {
 	delete ui;
 }
 
-void UpdatePage::populate(const QString& search) {
+void UpdatePage::populate() {
 	ui->listWidget->clear();
 
-	//Find Works and populate the update list.
 	QList<Work> found_works;
-	DatabaseManager::search_works(found_works, search, "name", "Reading", NULL);
+	DatabaseManager::search_works(found_works, ui->lineEdit->text(), "name", "Reading", NULL);
 	for (const auto& found_work : found_works) {
 		UpdateEntry* widget = new UpdateEntry(found_work, ui->listWidget);
 		QListWidgetItem* item = new QListWidgetItem;
@@ -36,6 +36,6 @@ void UpdatePage::populate(const QString& search) {
 	}
 }
 
-void UpdatePage::on_lineEdit_textEdited(const QString& text) {
-	populate(text);
+void UpdatePage::on_lineEdit_textEdited(const QString&) {
+	populate();
 }

@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "BrowsePage.h"
 #include "ui_BrowsePage.h"
+#include "Page.h"
 #include "DatabaseManager/DatabaseManager.h"
 #include "DatabaseManager/Work.h"
 #include "DatabaseManager/Creator.h"
@@ -9,19 +10,13 @@
 #include "AddWorkDialog.h"
 #include "AddCreatorDialog.h"
 
-//==================================================================================================================================
-//==================================================================================================================================
-//==================================================================================================================================
-
-BrowsePage::BrowsePage(QWidget* parent) : QWidget(parent), ui(new Ui::BrowsePage) {
+BrowsePage::BrowsePage(QWidget* parent) : Page(parent), ui(new Ui::BrowsePage) {
 	ui->setupUi(this);
 
-	//Set resize mode for the Table Widget.
 	ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 	ui->tableWidget->horizontalHeader()->setDefaultAlignment(Qt::AlignLeft);
 	ui->tableWidget->verticalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
 
-	//Set the various Combo Box Items Data.
 	ui->statusComboBox->setItemData(0, "");
 	ui->statusComboBox->setItemData(1, "Reading");
 	ui->statusComboBox->setItemData(2, "Completed");
@@ -36,56 +31,52 @@ BrowsePage::BrowsePage(QWidget* parent) : QWidget(parent), ui(new Ui::BrowsePage
 	ui->byComboBox->setItemData(2, "creator");
 }
 
-//==================================================================================================================================
-
 BrowsePage::~BrowsePage() {
 	delete ui;
 }
 
-//==================================================================================================================================
-//==================================================================================================================================
+void BrowsePage::populate() {
+	if (ui->stackedWidget->currentIndex() == 0) {
+		ui->tableWidget->setRowCount(0);
 
-void BrowsePage::populate(const QString& search) {
-	//Clear table items.
-	ui->tableWidget->setRowCount(0);
+		if (ui->whatComboBox->currentIndex() == 0) {
+			QList<Work> found_works;
+			DatabaseManager::search_works(found_works,
+										  ui->lineEdit->text(),
+										  ui->byComboBox->currentData().toString(),
+										  ui->statusComboBox->currentData().toString(),
+										  ui->typeComboBox->currentData().toString());
 
-	if (ui->whatComboBox->currentIndex() == 0) {
-		QList<Work> found_works;
-		DatabaseManager::search_works(found_works, search,
-									  ui->byComboBox->currentData().toString(),
-									  ui->statusComboBox->currentData().toString(),
-									  ui->typeComboBox->currentData().toString());
+			for (const auto& work : found_works) {
+				ui->tableWidget->insertRow(ui->tableWidget->rowCount());
 
-		for (const auto& work : found_works) {
-			ui->tableWidget->insertRow(ui->tableWidget->rowCount());
+				QTableWidgetItem* name_item = new QTableWidgetItem(work.name);
+				name_item->setData(Qt::UserRole, work.id);
 
-			QTableWidgetItem* name_item = new QTableWidgetItem(work.name);
-			name_item->setData(Qt::UserRole, work.id);
+				ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 0, name_item);
+				ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 1, new QTableWidgetItem(work.chapter));
+				ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 2, new QTableWidgetItem(work.updated));
+				ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 3, new QTableWidgetItem(work.added));
+			}
+		}
+		else {
+			QList<Creator> found_creators;
+			DatabaseManager::search_creators(found_creators, ui->lineEdit->text());
 
-			ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 0, name_item);
-			ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 1, new QTableWidgetItem(work.chapter));
-			ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 2, new QTableWidgetItem(work.updated));
-			ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 3, new QTableWidgetItem(work.added));
+			for (const auto& creator : found_creators) {
+				ui->tableWidget->insertRow(ui->tableWidget->rowCount());
+
+				QTableWidgetItem* name_item = new QTableWidgetItem(creator.name);
+				name_item->setData(Qt::UserRole, creator.id);
+
+				ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 0, name_item);
+			}
 		}
 	}
 	else {
-		QList<Creator> found_creators;
-		DatabaseManager::search_creators(found_creators, search);
-
-		for (const auto& creator : found_creators) {
-			ui->tableWidget->insertRow(ui->tableWidget->rowCount());
-
-			QTableWidgetItem* name_item = new QTableWidgetItem(creator.name);
-			name_item->setData(Qt::UserRole, creator.id);
-
-			ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 0, name_item);
-		}
+		dynamic_cast<Page*>(ui->stackedWidget->currentWidget())->populate();
 	}
 }
-
-//==================================================================================================================================
-//==================================================================================================================================
-//==================================================================================================================================
 
 void BrowsePage::on_backToolButton_clicked() {
 	int previous = ui->stackedWidget->currentIndex() - 1;
@@ -94,8 +85,6 @@ void BrowsePage::on_backToolButton_clicked() {
 		ui->stackedWidget->setCurrentIndex(previous);
 	}
 }
-
-//==================================================================================================================================
 
 void BrowsePage::on_forwardToolButton_clicked() {
 	int current = ui->stackedWidget->currentIndex();
@@ -106,14 +95,9 @@ void BrowsePage::on_forwardToolButton_clicked() {
 	}
 }
 
-//==================================================================================================================================
-
 void BrowsePage::on_homeToolButton_clicked() {
 	ui->stackedWidget->setCurrentIndex(0);
 }
-
-//==================================================================================================================================
-//==================================================================================================================================
 
 void BrowsePage::on_addWorkToolButton_clicked() {
 	AddWorkDialog* dialog = new AddWorkDialog(this);
@@ -121,45 +105,27 @@ void BrowsePage::on_addWorkToolButton_clicked() {
 	dialog->exec();
 }
 
-//==================================================================================================================================
-
 void BrowsePage::on_addCreatorToolButton_clicked() {
 	AddCreatorDialog* dialog = new AddCreatorDialog(this);
 	connect(dialog, &AddCreatorDialog::creatorAdded, this, &BrowsePage::on_creatorAdded);
 	dialog->exec();
 }
 
-//==================================================================================================================================
-//==================================================================================================================================
-
 void BrowsePage::on_stackedWidget_currentChanged(int index) {
-	if (index == 0) {
-		ui->backToolButton->setDisabled(true);
-		ui->homeToolButton->setDisabled(true);
-	}
-	else {
-		ui->backToolButton->setEnabled(true);
-		ui->homeToolButton->setEnabled(true);
-	}
+	//Enable the Home and Back buttons if we are not on the Home Page.
+	ui->backToolButton->setEnabled(index);
+	ui->homeToolButton->setEnabled(index);
 
+	//Enable the forward button if we are not on the last Page.
 	int last = ui->stackedWidget->count() - 1;
-	if (index == last) {
-		ui->forwardToolButton->setDisabled(true);
-	}
-	else {
-		ui->forwardToolButton->setEnabled(true);
-	}
+	ui->forwardToolButton->setEnabled(index != last);
 
-	populate(ui->lineEdit->text());
+	populate();
 }
 
-//==================================================================================================================================
-
-void BrowsePage::on_lineEdit_textEdited(const QString& text) {
-	populate(text);
+void BrowsePage::on_lineEdit_textEdited(const QString&) {
+	populate();
 }
-
-//==================================================================================================================================
 
 void BrowsePage::on_whatComboBox_currentIndexChanged(int index) {
 	switch(index) {
@@ -181,31 +147,20 @@ void BrowsePage::on_whatComboBox_currentIndexChanged(int index) {
 			break;
 	}
 
-	populate(ui->lineEdit->text());
+	populate();
 }
 
-//==================================================================================================================================
-
-void BrowsePage::on_statusComboBox_currentIndexChanged(int index) {
-	Q_UNUSED(index);
-	populate(ui->lineEdit->text());
+void BrowsePage::on_statusComboBox_currentIndexChanged(int) {
+	populate();
 }
 
-//==================================================================================================================================
-
-void BrowsePage::on_typeComboBox_currentIndexChanged(int index) {
-	Q_UNUSED(index);
-	populate(ui->lineEdit->text());
+void BrowsePage::on_typeComboBox_currentIndexChanged(int) {
+	populate();
 }
 
-//==================================================================================================================================
-
-void BrowsePage::on_byComboBox_currentIndexChanged(int index) {
-	Q_UNUSED(index);
-	populate(ui->lineEdit->text());
+void BrowsePage::on_byComboBox_currentIndexChanged(int) {
+	populate();
 }
-
-//==================================================================================================================================
 
 void BrowsePage::on_tableWidget_clicked(const QModelIndex& index) {
 	if (QVariant user_data = ui->tableWidget->item(index.row(), 0)->data(Qt::UserRole); user_data.isValid()) {
@@ -218,8 +173,6 @@ void BrowsePage::on_tableWidget_clicked(const QModelIndex& index) {
 	}
 }
 
-//==================================================================================================================================
-
 void BrowsePage::on_tableWidget_customContextMenuRequested(const QPoint& pos) {
 	if (QTableWidgetItem* item = ui->tableWidget->itemAt(pos); item) {
 		if (QVariant user_data = item->data(Qt::UserRole); user_data.isValid()) {
@@ -231,10 +184,10 @@ void BrowsePage::on_tableWidget_customContextMenuRequested(const QPoint& pos) {
 
 				if (result == QMessageBox::Yes) {
 					if (ui->whatComboBox->currentIndex() == 0) {
-						DatabaseManager::remove_work(user_data.toInt());
+						on_workRemoved(user_data.toInt());
 					}
 					else {
-						DatabaseManager::remove_creator(user_data.toInt());
+						on_creatorRemoved(user_data.toInt());
 					}
 
 					ui->tableWidget->removeRow(item->row());
@@ -244,9 +197,6 @@ void BrowsePage::on_tableWidget_customContextMenuRequested(const QPoint& pos) {
 		}
 	}
 }
-
-//==================================================================================================================================
-//==================================================================================================================================
 
 void BrowsePage::on_workClicked(const int id) {
 	int last = ui->stackedWidget->count() - 1;
@@ -269,8 +219,6 @@ void BrowsePage::on_workClicked(const int id) {
 	ui->stackedWidget->setCurrentIndex(ui->stackedWidget->count() - 1);
 }
 
-//==================================================================================================================================
-
 void BrowsePage::on_creatorClicked(const int id) {
 	int last = ui->stackedWidget->count() - 1;
 	int current = ui->stackedWidget->currentIndex();
@@ -292,29 +240,23 @@ void BrowsePage::on_creatorClicked(const int id) {
 	ui->stackedWidget->setCurrentIndex(ui->stackedWidget->count() - 1);
 }
 
-//==================================================================================================================================
-
 void BrowsePage::on_workAdded(const Work& work) {
 	if (DatabaseManager::add_work(work)) {
-		populate(ui->lineEdit->text());
+		populate();
 	}
 	else {
 		QMessageBox::warning(this, "Database Error", "Failed to add Work.");
 	}
 }
 
-//==================================================================================================================================
-
 void BrowsePage::on_creatorAdded(const Creator& creator) {
 	if (DatabaseManager::add_creator(creator)) {
-		populate(ui->lineEdit->text());
+		populate();
 	}
 	else {
 		QMessageBox::warning(this, "Database Error", "Failed to add Creator.");
 	}
 }
-
-//==================================================================================================================================
 
 void BrowsePage::on_workRemoved(const int id) {
 	if (DatabaseManager::remove_work(id)) {
@@ -331,8 +273,6 @@ void BrowsePage::on_workRemoved(const int id) {
 	}
 }
 
-//==================================================================================================================================
-
 void BrowsePage::on_creatorRemoved(const int id) {
 	if (DatabaseManager::remove_creator(id)) {
 		while (ui->stackedWidget->count() > 1) {
@@ -347,7 +287,3 @@ void BrowsePage::on_creatorRemoved(const int id) {
 		QMessageBox::warning(this, "Database Error", "Failed to remove Creator.");
 	}
 }
-
-//==================================================================================================================================
-//==================================================================================================================================
-//==================================================================================================================================

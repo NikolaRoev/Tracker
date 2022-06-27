@@ -1,5 +1,6 @@
 #pragma once
 #include "pch.h"
+#include "Page.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -7,7 +8,7 @@ namespace Ui {
 }
 QT_END_NAMESPACE
 
-class UpdatePage : public QWidget {
+class UpdatePage : public Page {
 	Q_OBJECT
 private:
 	Ui::UpdatePage* ui{ nullptr };
@@ -16,8 +17,8 @@ public:
 	UpdatePage(QWidget* parent = nullptr);
 	~UpdatePage();
 
-	void populate(const QString& search);
+	void populate() override;
 
 private slots:
-	void on_lineEdit_textEdited(const QString& text);
+	void on_lineEdit_textEdited(const QString&);
 };

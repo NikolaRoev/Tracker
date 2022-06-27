@@ -1,5 +1,6 @@
 #pragma once
 #include "pch.h"
+#include "Page.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -7,7 +8,7 @@ namespace Ui {
 }
 QT_END_NAMESPACE
 
-class CreatorPage : public QWidget {
+class CreatorPage : public Page {
 	Q_OBJECT
 private:
 	Ui::CreatorPage* ui{ nullptr };
@@ -16,6 +17,8 @@ private:
 public:
 	CreatorPage(const int id, QWidget* parent = nullptr);
 	~CreatorPage();
+
+	void populate() override;
 
 private slots:
 	void on_removeButton_clicked();

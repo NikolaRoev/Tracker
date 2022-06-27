@@ -40,7 +40,7 @@ MainWindow::~MainWindow() {
 
 void MainWindow::on_tabWidget_currentChanged(int index) {
 	switch (index) {
-		case 0: ui->updatePage->populate(""); break;
-		case 1: ui->browsePage->populate(""); break;
+		case 0: ui->updatePage->populate(); break;
+		case 1: ui->browsePage->populate(); break;
 	}
 }

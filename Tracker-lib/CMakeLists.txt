@@ -14,6 +14,7 @@ qt_add_library(Tracker-lib STATIC
 	"src/UI/MainWindow/MainWindow.cpp"
 	"src/UI/MainWindow/MainWindow.ui"
 
+	"src/UI/Page/Page.h"
 	"src/UI/Page/UpdatePage.h"
 	"src/UI/Page/UpdatePage.cpp"
 	"src/UI/Page/UpdatePage.ui"

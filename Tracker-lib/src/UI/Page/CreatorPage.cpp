@@ -1,15 +1,24 @@
 #include "pch.h"
 #include "CreatorPage.h"
 #include "./ui_CreatorPage.h"
+#include "Page.h"
 #include "DatabaseManager/DatabaseManager.h"
 #include "DatabaseManager/Work.h"
 #include "DatabaseManager/Creator.h"
 
-CreatorPage::CreatorPage(const int id, QWidget* parent) : QWidget(parent), ui(new Ui::CreatorPage), id(id) {
+CreatorPage::CreatorPage(const int id, QWidget* parent) : Page(parent), ui(new Ui::CreatorPage), id(id) {
 	ui->setupUi(this);
 	ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 	ui->tableWidget->horizontalHeader()->setDefaultAlignment(Qt::AlignLeft);
 	ui->tableWidget->verticalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+}
+
+CreatorPage::~CreatorPage() {
+	delete ui;
+}
+
+void CreatorPage::populate() {
+	ui->tableWidget->setRowCount(0);
 
 	Creator creator;
 	DatabaseManager::get_creator(creator, id);
@@ -30,10 +39,6 @@ CreatorPage::CreatorPage(const int id, QWidget* parent) : QWidget(parent), ui(ne
 		ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 4, new QTableWidgetItem(work.updated));
 		ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 5, new QTableWidgetItem(work.added));
 	}
-}
-
-CreatorPage::~CreatorPage() {
-	delete ui;
 }
 
 void CreatorPage::on_removeButton_clicked() {
