@@ -4,7 +4,7 @@
 #include "DatabaseManager/DatabaseManager.h"
 #include "DatabaseManager/Work.h"
 #include "DatabaseManager/AttachedCreator.h"
-#include "SearchCreatorDialog/SearchCreatorDialog.h"
+#include "SearchCreatorDialog.h"
 
 //==================================================================================================================================
 //==================================================================================================================================

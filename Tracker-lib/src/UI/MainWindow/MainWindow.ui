@@ -64,13 +64,13 @@
   <customwidget>
    <class>UpdatePage</class>
    <extends>QWidget</extends>
-   <header>UpdatePage/UpdatePage.h</header>
+   <header>UpdatePage.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>BrowsePage</class>
    <extends>QWidget</extends>
-   <header>BrowsePage/BrowsePage.h</header>
+   <header>BrowsePage.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

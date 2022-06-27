@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "UpdatePage.h"
 #include "./ui_UpdatePage.h"
-#include "UpdateEntry/UpdateEntry.h"
+#include "UpdateEntry.h"
 #include "DatabaseManager/DatabaseManager.h"
 #include "DatabaseManager/Work.h"
 

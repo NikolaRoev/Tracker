@@ -1,10 +1,8 @@
 qt_add_library(Tracker-lib STATIC
 	"src/pch.h"
 
-
 	"src/Core/Core.h"
 	"src/Core/Core.cpp"
-
 
 	"src/DatabaseManager/DatabaseManager.h"
 	"src/DatabaseManager/DatabaseManager.cpp"
@@ -12,43 +10,35 @@ qt_add_library(Tracker-lib STATIC
 	"src/DatabaseManager/Creator.h"
 	"src/DatabaseManager/AttachedCreator.h"
 
-
 	"src/UI/MainWindow/MainWindow.h"
 	"src/UI/MainWindow/MainWindow.cpp"
 	"src/UI/MainWindow/MainWindow.ui"
 
-	"src/UI/UpdatePage/UpdatePage.h"
-	"src/UI/UpdatePage/UpdatePage.cpp"
-	"src/UI/UpdatePage/UpdatePage.ui"
+	"src/UI/Page/UpdatePage.h"
+	"src/UI/Page/UpdatePage.cpp"
+	"src/UI/Page/UpdatePage.ui"
+	"src/UI/Page/UpdateEntry.h"
+	"src/UI/Page/UpdateEntry.cpp"
+	"src/UI/Page/UpdateEntry.ui"
+	"src/UI/Page/BrowsePage.h"
+	"src/UI/Page/BrowsePage.cpp"
+	"src/UI/Page/BrowsePage.ui"
+	"src/UI/Page/WorkPage.h"
+	"src/UI/Page/WorkPage.cpp"
+	"src/UI/Page/WorkPage.ui"
+	"src/UI/Page/CreatorPage.h"
+	"src/UI/Page/CreatorPage.cpp"
+	"src/UI/Page/CreatorPage.ui"
 
-	"src/UI/UpdateEntry/UpdateEntry.h"
-	"src/UI/UpdateEntry/UpdateEntry.cpp"
-	"src/UI/UpdateEntry/UpdateEntry.ui"
-
-	"src/UI/BrowsePage/BrowsePage.h"
-	"src/UI/BrowsePage/BrowsePage.cpp"
-	"src/UI/BrowsePage/BrowsePage.ui"
-
-	"src/UI/AddWorkDialog/AddWorkDialog.h"
-	"src/UI/AddWorkDialog/AddWorkDialog.cpp"
-	"src/UI/AddWorkDialog/AddWorkDialog.ui"
-
-	"src/UI/AddCreatorDialog/AddCreatorDialog.h"
-	"src/UI/AddCreatorDialog/AddCreatorDialog.cpp"
-	"src/UI/AddCreatorDialog/AddCreatorDialog.ui"
-
-	"src/UI/WorkPage/WorkPage.h"
-	"src/UI/WorkPage/WorkPage.cpp"
-	"src/UI/WorkPage/WorkPage.ui"
-
-	"src/UI/CreatorPage/CreatorPage.h"
-	"src/UI/CreatorPage/CreatorPage.cpp"
-	"src/UI/CreatorPage/CreatorPage.ui"
-
-	"src/UI/SearchCreatorDialog/SearchCreatorDialog.h"
-	"src/UI/SearchCreatorDialog/SearchCreatorDialog.cpp"
-	"src/UI/SearchCreatorDialog/SearchCreatorDialog.ui"
-
+	"src/UI/Dialog/AddWorkDialog.h"
+	"src/UI/Dialog/AddWorkDialog.cpp"
+	"src/UI/Dialog/AddWorkDialog.ui"
+	"src/UI/Dialog/AddCreatorDialog.h"
+	"src/UI/Dialog/AddCreatorDialog.cpp"
+	"src/UI/Dialog/AddCreatorDialog.ui"
+	"src/UI/Dialog/SearchCreatorDialog.h"
+	"src/UI/Dialog/SearchCreatorDialog.cpp"
+	"src/UI/Dialog/SearchCreatorDialog.ui"
 
 	"src/Utility/Utility.h"
 	"src/Utility/Utility.cpp"
@@ -65,7 +55,9 @@ target_link_libraries(Tracker-lib
 target_include_directories(Tracker-lib
 	PUBLIC
 	"src/"
-	"src/UI/"
+	"src/UI/MainWindow/"
+	"src/UI/Page/"
+	"src/UI/Dialog/"
 	"src/Utility/"
 
 	INTERFACE

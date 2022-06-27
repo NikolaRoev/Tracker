@@ -2,8 +2,8 @@
 #include "MainWindow.h"
 #include "./ui_MainWindow.h"
 #include "DatabaseManager/DatabaseManager.h"
-#include "UpdatePage/UpdatePage.h"
-#include "BrowsePage/BrowsePage.h"
+#include "UpdatePage.h"
+#include "BrowsePage.h"
 
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
 	DatabaseManager::init("database.db");

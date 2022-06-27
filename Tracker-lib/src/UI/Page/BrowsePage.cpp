@@ -4,10 +4,10 @@
 #include "DatabaseManager/DatabaseManager.h"
 #include "DatabaseManager/Work.h"
 #include "DatabaseManager/Creator.h"
-#include "WorkPage/WorkPage.h"
-#include "CreatorPage/CreatorPage.h"
-#include "AddWorkDialog/AddWorkDialog.h"
-#include "AddCreatorDialog/AddCreatorDialog.h"
+#include "WorkPage.h"
+#include "CreatorPage.h"
+#include "AddWorkDialog.h"
+#include "AddCreatorDialog.h"
 
 //==================================================================================================================================
 //==================================================================================================================================

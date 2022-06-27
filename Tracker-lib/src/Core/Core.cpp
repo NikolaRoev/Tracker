@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "Core.h"
-#include "MainWindow/MainWindow.h"
+#include "MainWindow.h"
 
 int Core::start(int& argc, char** argv) {
 	qSetMessagePattern(
