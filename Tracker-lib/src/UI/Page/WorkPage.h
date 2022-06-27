@@ -36,10 +36,4 @@ private slots:
 
 	void on_authorSelected(const int author_id, const QString& name);
 	void on_artistSelected(const int artist_id, const QString& name);
-
-signals:
-	void creatorClicked(const int id);
-	void workRemoved(const int id);
 };
-
-//==================================================================================================================================

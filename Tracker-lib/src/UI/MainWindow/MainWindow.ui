@@ -45,12 +45,12 @@
       <property name="currentIndex">
        <number>0</number>
       </property>
-      <widget class="UpdatePage" name="updatePage">
+      <widget class="UpdateTab" name="updateTab">
        <attribute name="title">
         <string>Update</string>
        </attribute>
       </widget>
-      <widget class="BrowsePage" name="browsePage">
+      <widget class="BrowseTab" name="browseTab">
        <attribute name="title">
         <string>Browse</string>
        </attribute>
@@ -62,15 +62,15 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>UpdatePage</class>
+   <class>UpdateTab</class>
    <extends>QWidget</extends>
-   <header>UpdatePage.h</header>
+   <header>UpdateTab/UpdateTab.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>BrowsePage</class>
+   <class>BrowseTab</class>
    <extends>QWidget</extends>
-   <header>BrowsePage.h</header>
+   <header>BrowseTab/BrowseTab.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

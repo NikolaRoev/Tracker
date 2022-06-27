@@ -5,7 +5,7 @@
 #include "DatabaseManager/DatabaseManager.h"
 #include "DatabaseManager/Work.h"
 #include "DatabaseManager/AttachedCreator.h"
-#include "SearchCreatorDialog.h"
+#include "Dialog/SearchCreatorDialog.h"
 
 WorkPage::WorkPage(const int id, QWidget* parent) : Page(parent), ui(new Ui::WorkPage), id(id) {
 	ui->setupUi(this);

@@ -14,16 +14,21 @@ qt_add_library(Tracker-lib STATIC
 	"src/UI/MainWindow/MainWindow.cpp"
 	"src/UI/MainWindow/MainWindow.ui"
 
+	"src/UI/UpdateTab/UpdateTab.h"
+	"src/UI/UpdateTab/UpdateTab.cpp"
+	"src/UI/UpdateTab/UpdateTab.ui"
+	"src/UI/UpdateTab/UpdateEntry.h"
+	"src/UI/UpdateTab/UpdateEntry.cpp"
+	"src/UI/UpdateTab/UpdateEntry.ui"
+
+	"src/UI/BrowseTab/BrowseTab.h"
+	"src/UI/BrowseTab/BrowseTab.cpp"
+	"src/UI/BrowseTab/BrowseTab.ui"
+
 	"src/UI/Page/Page.h"
-	"src/UI/Page/UpdatePage.h"
-	"src/UI/Page/UpdatePage.cpp"
-	"src/UI/Page/UpdatePage.ui"
-	"src/UI/Page/UpdateEntry.h"
-	"src/UI/Page/UpdateEntry.cpp"
-	"src/UI/Page/UpdateEntry.ui"
-	"src/UI/Page/BrowsePage.h"
-	"src/UI/Page/BrowsePage.cpp"
-	"src/UI/Page/BrowsePage.ui"
+	"src/UI/Page/HomePage.h"
+	"src/UI/Page/HomePage.cpp"
+	"src/UI/Page/HomePage.ui"
 	"src/UI/Page/WorkPage.h"
 	"src/UI/Page/WorkPage.cpp"
 	"src/UI/Page/WorkPage.ui"
@@ -56,9 +61,7 @@ target_link_libraries(Tracker-lib
 target_include_directories(Tracker-lib
 	PUBLIC
 	"src/"
-	"src/UI/MainWindow/"
-	"src/UI/Page/"
-	"src/UI/Dialog/"
+	"src/UI/"
 	"src/Utility/"
 
 	INTERFACE

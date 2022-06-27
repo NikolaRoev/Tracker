@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>UpdatePage</class>
- <widget class="QWidget" name="UpdatePage">
+ <class>UpdateTab</class>
+ <widget class="QWidget" name="UpdateTab">
   <property name="geometry">
    <rect>
     <x>0</x>

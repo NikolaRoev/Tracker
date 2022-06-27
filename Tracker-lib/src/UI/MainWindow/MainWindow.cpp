@@ -2,8 +2,8 @@
 #include "MainWindow.h"
 #include "./ui_MainWindow.h"
 #include "DatabaseManager/DatabaseManager.h"
-#include "UpdatePage.h"
-#include "BrowsePage.h"
+#include "UpdateTab/UpdateTab.h"
+#include "BrowseTab/BrowseTab.h"
 
 MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
 	DatabaseManager::init("database.db");
@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
 
 	//Set default focus to the Update Search Bar.
 	//As 'tabWidget' is first in the tab order it gets focused when the application starts.
-	ui->tabWidget->setFocusProxy(ui->updatePage);
+	ui->tabWidget->setFocusProxy(ui->updateTab);
 
 	//Populate the Update entries.
 	emit ui->tabWidget->currentChanged(0);
@@ -40,7 +40,7 @@ MainWindow::~MainWindow() {
 
 void MainWindow::on_tabWidget_currentChanged(int index) {
 	switch (index) {
-		case 0: ui->updatePage->populate(); break;
-		case 1: ui->browsePage->populate(); break;
+		case 0: ui->updateTab->populate(); break;
+		case 1: ui->browseTab->populate(); break;
 	}
 }

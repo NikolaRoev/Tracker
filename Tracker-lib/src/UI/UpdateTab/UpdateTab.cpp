@@ -1,12 +1,11 @@
 #include "pch.h"
-#include "UpdatePage.h"
-#include "./ui_UpdatePage.h"
-#include "Page.h"
+#include "UpdateTab.h"
+#include "./ui_UpdateTab.h"
 #include "UpdateEntry.h"
 #include "DatabaseManager/DatabaseManager.h"
 #include "DatabaseManager/Work.h"
 
-UpdatePage::UpdatePage(QWidget* parent) : Page(parent), ui(new Ui::UpdatePage) {
+UpdateTab::UpdateTab(QWidget* parent) : QWidget(parent), ui(new Ui::UpdateTab) {
 	ui->setupUi(this);
 
 	//Focus on the Search Line Edit.
@@ -17,11 +16,11 @@ UpdatePage::UpdatePage(QWidget* parent) : Page(parent), ui(new Ui::UpdatePage) {
 	connect(shortcut, &QShortcut::activated, ui->lineEdit, [&](){ ui->lineEdit->selectAll(); ui->lineEdit->setFocus(); });
 }
 
-UpdatePage::~UpdatePage() {
+UpdateTab::~UpdateTab() {
 	delete ui;
 }
 
-void UpdatePage::populate() {
+void UpdateTab::populate() {
 	ui->listWidget->clear();
 
 	QList<Work> found_works;
@@ -36,6 +35,6 @@ void UpdatePage::populate() {
 	}
 }
 
-void UpdatePage::on_lineEdit_textEdited(const QString&) {
+void UpdateTab::on_lineEdit_textEdited(const QString&) {
 	populate();
 }
