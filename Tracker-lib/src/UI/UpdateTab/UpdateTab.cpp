@@ -8,6 +8,9 @@
 UpdateTab::UpdateTab(QWidget* parent) : QWidget(parent), ui(new Ui::UpdateTab) {
 	ui->setupUi(this);
 
+	//Align the update list layout to top so the populated entries look nice.
+	ui->scrollAreaWidgetContents->layout()->setAlignment(Qt::AlignTop);
+
 	//Focus on the Search Line Edit.
 	setFocusProxy(ui->lineEdit);
 
@@ -21,17 +24,17 @@ UpdateTab::~UpdateTab() {
 }
 
 void UpdateTab::populate() {
-	ui->listWidget->clear();
+	//Clear the Scroll Area.
+	QLayoutItem* child{ nullptr };
+	while ((child = ui->scrollAreaWidgetContents->layout()->takeAt(0)) != nullptr) {
+		delete child->widget();
+		delete child;
+	}
 
 	QList<Work> found_works;
 	DatabaseManager::search_works(found_works, ui->lineEdit->text(), "name", "Reading", NULL);
 	for (const auto& found_work : found_works) {
-		UpdateEntry* widget = new UpdateEntry(found_work, ui->listWidget);
-		QListWidgetItem* item = new QListWidgetItem;
-		item->setSizeHint(widget->sizeHint());
-
-		ui->listWidget->addItem(item);
-		ui->listWidget->setItemWidget(item, widget);
+		ui->scrollAreaWidgetContents->layout()->addWidget(new UpdateEntry(found_work, ui->scrollArea));
 	}
 }
 
