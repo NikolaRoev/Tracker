@@ -1,13 +1,14 @@
 #pragma once
 #include "pch.h"
 #include "Work.h"
+#include "UpdateWork.h"
 #include "Creator.h"
 #include "AttachedCreator.h"
 
 //==================================================================================================================================
 //
 //	Uses SQLite and consists of 3 tables.
-//	Functions return `false` if query fails to execute.
+//	Functions return `false` if query fails.
 //
 //==================================================================================================================================
 //
@@ -66,8 +67,8 @@ namespace DatabaseManager {
 	bool add_work(const Work& work);
 	bool remove_work(const int id);
 	bool update_work(const QString& column, const int id, const QString& value);
-	//Also returns `false` if `id` was not found when quering the database.
 	bool get_work(Work& work, const int id);
+	bool get_update_works(QList<UpdateWork>& works);
 	bool get_work_creators(QList<AttachedCreator>& creators, const int id);
 	bool search_works(QList<Work>& works, const QString& search, const QString& by, const QString& status, const QString& type);
 

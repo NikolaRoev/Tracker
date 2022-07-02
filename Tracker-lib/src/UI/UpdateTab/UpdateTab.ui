@@ -53,25 +53,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QScrollArea" name="scrollArea">
-     <property name="widgetResizable">
-      <bool>true</bool>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-     </property>
-     <widget class="QWidget" name="scrollAreaWidgetContents">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>893</width>
-        <height>526</height>
-       </rect>
-      </property>
-      <layout class="QVBoxLayout" name="verticalLayout_3"/>
-     </widget>
-    </widget>
+    <widget class="QWidget" name="scrollArea" native="true"/>
    </item>
   </layout>
  </widget>

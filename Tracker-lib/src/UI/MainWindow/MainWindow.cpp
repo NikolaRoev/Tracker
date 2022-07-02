@@ -10,6 +10,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
 	ui->setupUi(this);
 
 
+
 	//Set default focus to the Update Search Bar.
 	//As 'tabWidget' is first in the tab order it gets focused when the application starts.
 	ui->tabWidget->setFocusProxy(ui->updateTab);

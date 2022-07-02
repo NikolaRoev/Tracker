@@ -19,5 +19,5 @@ public:
 	void populate();
 
 private slots:
-	void on_lineEdit_textEdited(const QString&);
+	void on_lineEdit_textEdited(const QString& text);
 };

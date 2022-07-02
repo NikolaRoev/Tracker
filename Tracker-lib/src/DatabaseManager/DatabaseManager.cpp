@@ -159,6 +159,31 @@ bool DatabaseManager::get_work(Work& work, const int id) {
 	return false;
 }
 
+bool DatabaseManager::get_update_works(QList<UpdateWork>& works) {
+	QSqlQuery query;
+	query.prepare(
+		"SELECT id, name, chapter "
+		"FROM works "
+		"WHERE status = 'Reading'"
+	);
+
+	if (query.exec()) {
+		while (query.next()) {
+			works.emplace_back(
+				query.value(0).toInt(),
+				query.value(1).toString(),
+				query.value(2).toString()
+			);
+		}
+
+		return true;
+	}
+	else {
+		qWarning() << query.lastError();
+		return false;
+	}
+}
+
 bool DatabaseManager::get_work_creators(QList<AttachedCreator>& creators, const int id) {
 	QSqlQuery query;
 	query.prepare(
@@ -431,3 +456,5 @@ bool DatabaseManager::detach_creator(const int work_id, const int creator_id, co
 		return false;
 	}
 }
+
+
