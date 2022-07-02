@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "HomePage.h"
 #include "ui_HomePage.h"
 #include "Page.h"
